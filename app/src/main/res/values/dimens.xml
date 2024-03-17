@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="base_card_corner_radius">28dp</dimen>
+    <dimen name="menu_corner_radius">36dp</dimen>
+    <dimen name="corner_radius_infinity">1000dp</dimen>
+
+    <dimen name="margin_half">8dp</dimen>
+    <dimen name="margin_base">16dp</dimen>
+    <dimen name="margin_double">32dp</dimen>
+
+    <dimen name="element_base_size">48dp</dimen>
+    <dimen name="button_inner_padding">10dp</dimen>
+    <dimen name="button_inner_padding_more">12dp</dimen>
+
+    <dimen name="text_large">28sp</dimen>
+    <dimen name="text_small">16sp</dimen>
+
+    <dimen name="action_bar_small_padding_neg">-280dp</dimen>
+    <dimen name="action_bar_small_padding">280dp</dimen>
+    <dimen name="action_bar_big_padding_neg">-50dp</dimen>
+    <dimen name="action_bar_big_padding">50dp</dimen>
+
+    <dimen name="avatar_size">200dp</dimen>
+
+    <dimen name="menu_height">72dp</dimen>
+    <dimen name="menu_icon_size">28dp</dimen>
+
+    <dimen name="base_elevation">6dp</dimen>
+
+</resources>

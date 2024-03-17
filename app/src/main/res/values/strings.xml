@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">OniGoing</string>
+    <string name="type_anime_title">Type anime title...</string>
+    <string name="header_status_currently_watching">Currently watching</string>
+    <string name="total_nepisodes">total\nepisodes</string>
+    <string name="total_ntitles">total\ntitles</string>
+    <string name="menu_title_search">Search</string>
+    <string name="menu_title_lists">Lists</string>
+    <string name="menu_title_profile">Profile</string>
 </resources>
