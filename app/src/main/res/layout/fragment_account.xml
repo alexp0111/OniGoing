@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/action_bar_small_padding_neg"
+        android:background="@drawable/top_background"
+        android:paddingTop="@dimen/action_bar_small_padding"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/element_base_size"
+            android:layout_margin="@dimen/margin_base"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/account"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_large"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_base"
+        android:backgroundTint="@color/dark"
+        app:cardCornerRadius="@dimen/base_card_corner_radius"
+        app:cardElevation="@dimen/base_elevation"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/element_base_size"
+                android:layout_margin="@dimen/margin_base"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/credentials"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_large"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/cv_img"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/line_1"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:layout_marginStart="-16dp"
+                android:background="@drawable/custom_divider"
+                android:scaleType="center" />
+
+            <LinearLayout
+                android:id="@+id/ll_email"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/element_base_size"
+                android:layout_margin="@dimen/margin_base"
+                android:background="@drawable/rounded"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/margin_base"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/email"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:textColor="@color/dark"
+                    android:textColorHint="@color/dark"
+                    android:textCursorDrawable="@drawable/cursor"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="@dimen/element_base_size"
+                    android:layout_height="@dimen/element_base_size"
+                    android:padding="@dimen/button_inner_padding_more"
+                    android:src="@drawable/hide" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/element_base_size"
+                android:layout_marginHorizontal="@dimen/margin_base"
+                android:background="@drawable/rounded"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/margin_base"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/password"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:textColor="@color/dark"
+                    android:textColorHint="@color/dark"
+                    android:textCursorDrawable="@drawable/cursor"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="@dimen/element_base_size"
+                    android:layout_height="@dimen/element_base_size"
+                    android:padding="@dimen/button_inner_padding_more"
+                    android:src="@drawable/hide" />
+
+            </LinearLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/element_base_size"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/margin_base"
+                android:layout_marginTop="@dimen/margin_double"
+                android:backgroundTint="@color/green"
+                app:cardCornerRadius="@dimen/corner_radius_infinity"
+                app:strokeWidth="0dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/margin_double"
+                    android:gravity="center"
+                    android:text="@string/log_in"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/element_base_size"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="@dimen/margin_base"
+                android:layout_marginVertical="@dimen/margin_base"
+                android:backgroundTint="@color/green"
+                app:cardCornerRadius="@dimen/corner_radius_infinity"
+                app:strokeWidth="0dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/margin_double"
+                    android:gravity="center"
+                    android:text="@string/create_account"
+                    android:textSize="@dimen/text_small"
+                    android:textStyle="bold" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

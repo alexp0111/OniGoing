@@ -7,4 +7,11 @@
     <string name="menu_title_search">Search</string>
     <string name="menu_title_lists">Lists</string>
     <string name="menu_title_profile">Profile</string>
+    <string name="on">On</string>
+    <string name="account">Account</string>
+    <string name="credentials">Credentials</string>
+    <string name="password">Password...</string>
+    <string name="email">Email...</string>
+    <string name="log_in">Log in</string>
+    <string name="create_account">Create account</string>
 </resources>
