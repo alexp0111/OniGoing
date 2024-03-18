@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardViewStandart"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/margin_base"
     android:layout_marginVertical="@dimen/margin_half"
-    android:backgroundTint="@color/dark"
-    app:cardCornerRadius="@dimen/base_card_corner_radius"
-    app:cardElevation="@dimen/base_elevation"
-    app:strokeWidth="0dp">
+    app:cardElevation="@dimen/base_elevation">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,13 +21,11 @@
 
             <TextView
                 android:id="@+id/txt_user_name"
+                style="@style/TextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Notifications"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_large"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_img"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -45,12 +41,10 @@
             android:scaleType="center" />
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/CardViewButton"
             android:layout_width="match_parent"
             android:layout_height="@dimen/element_base_size"
-            android:layout_margin="@dimen/margin_base"
-            android:backgroundTint="@color/green"
-            app:cardCornerRadius="@dimen/corner_radius_infinity"
-            app:strokeWidth="0dp">
+            android:layout_margin="@dimen/margin_base">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,14 +52,13 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/TextSmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/margin_base"
                     android:layout_weight="1"
                     android:gravity="center_vertical|start"
-                    android:text="@string/on"
-                    android:textSize="@dimen/text_small"
-                    android:textStyle="bold" />
+                    android:text="@string/on" />
 
                 <ImageView
                     android:layout_width="48dp"

@@ -30,11 +30,9 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.card.MaterialCardView
+                style="@style/CardViewButton"
                 android:layout_width="@dimen/element_base_size"
-                android:layout_height="@dimen/element_base_size"
-                android:backgroundTint="@color/green"
-                app:cardCornerRadius="@dimen/corner_radius_infinity"
-                app:strokeWidth="0dp">
+                android:layout_height="@dimen/element_base_size">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -46,21 +44,17 @@
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
+                style="@style/TextLarge"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Alexander"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_large"
-                android:textStyle="bold" />
+                android:text="Alexander" />
 
             <com.google.android.material.card.MaterialCardView
+                style="@style/CardViewButton"
                 android:layout_width="@dimen/element_base_size"
-                android:layout_height="@dimen/element_base_size"
-                android:backgroundTint="@color/green"
-                app:cardCornerRadius="@dimen/corner_radius_infinity"
-                app:strokeWidth="0dp">
+                android:layout_height="@dimen/element_base_size">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -125,26 +119,23 @@
                 app:strokeWidth="0dp">
 
                 <TextView
+                    style="@style/TextLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:layout_margin="@dimen/margin_half"
                     android:gravity="center"
-                    android:text="4957"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
+                    android:text="4957" />
 
                 <TextView
+                    style="@style/TextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_margin="@dimen/margin_half"
                     android:gravity="center"
                     android:text="@string/total_nepisodes"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_small"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white" />
 
 
             </com.google.android.material.card.MaterialCardView>
@@ -161,26 +152,23 @@
                 app:strokeWidth="0dp">
 
                 <TextView
+                    style="@style/TextLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:layout_margin="@dimen/margin_half"
                     android:gravity="center"
-                    android:text="53"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_large"
-                    android:textStyle="bold" />
+                    android:text="53" />
 
                 <TextView
+                    style="@style/TextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_margin="@dimen/margin_half"
                     android:gravity="center"
                     android:text="@string/total_ntitles"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_small"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white" />
 
 
             </com.google.android.material.card.MaterialCardView>

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardViewStandart"
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:layout_marginHorizontal="@dimen/margin_base"
     android:layout_marginVertical="@dimen/margin_half"
-    android:backgroundTint="@color/dark"
-    app:cardCornerRadius="@dimen/base_card_corner_radius"
-    app:cardElevation="@dimen/base_elevation"
-    app:strokeWidth="0dp">
+    app:cardElevation="@dimen/base_elevation">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -37,28 +35,25 @@
 
         <TextView
             android:id="@+id/txt_title_name"
+            style="@style/TextLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_base"
             android:layout_marginTop="@dimen/margin_base"
             android:text="One Piece"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_large"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cv_img"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txt_num_of_series"
+            style="@style/TextSmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_base"
             android:layout_marginTop="@dimen/margin_half"
             android:text="1085 series"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_small"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cv_img"
             app:layout_constraintTop_toBottomOf="@id/txt_title_name" />
@@ -79,13 +74,11 @@
 
             <TextView
                 android:id="@+id/txt_mark"
+                style="@style/TextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="4.7"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_large"
-                android:textStyle="bold" />
+                android:text="4.7" />
 
         </LinearLayout>
 

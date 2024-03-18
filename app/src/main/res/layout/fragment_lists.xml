@@ -26,14 +26,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                style="@style/TextLarge"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/header_status_currently_watching"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_large"
-                android:textStyle="bold" />
+                android:text="@string/header_status_currently_watching" />
 
         </LinearLayout>
 

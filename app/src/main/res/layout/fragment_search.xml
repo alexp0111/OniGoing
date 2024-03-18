@@ -26,6 +26,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
+                style="@style/TextSmall"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="@dimen/margin_base"
@@ -36,11 +37,8 @@
                 android:inputType="text"
                 android:maxLines="1"
                 android:scrollHorizontally="true"
-                android:textColor="@color/dark"
                 android:textColorHint="@color/dark"
-                android:textCursorDrawable="@drawable/cursor"
-                android:textSize="@dimen/text_small"
-                android:textStyle="bold" />
+                android:textCursorDrawable="@drawable/cursor" />
 
             <ImageView
                 android:layout_width="@dimen/element_base_size"
