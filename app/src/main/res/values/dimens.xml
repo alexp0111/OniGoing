@@ -26,5 +26,6 @@
     <dimen name="menu_icon_size">28dp</dimen>
 
     <dimen name="base_elevation">6dp</dimen>
+    <dimen name="toolbar_height">80dp</dimen>
 
 </resources>

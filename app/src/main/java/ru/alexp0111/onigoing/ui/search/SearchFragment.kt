@@ -1,20 +1,28 @@
 package ru.alexp0111.onigoing.ui.search
 
+import android.app.Activity
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import ru.alexp0111.onigoing.databinding.FragmentSearchBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import javax.inject.Inject
 
-class SearchFragment : Fragment() {
+private const val KEY_SEARCH_TEXT = "search_text"
 
-    private lateinit var binding: FragmentSearchBinding
+
+class SearchFragment : Fragment() {
 
     @Inject
     lateinit var viewModel: SearchViewModel
+
+    private lateinit var binding: FragmentSearchBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectSelf()
@@ -27,7 +35,54 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
+        savedInstanceState?.apply {
+            binding.etSearch.setText(getString(KEY_SEARCH_TEXT))
+            handleSearchButtonVisibility(binding.etSearch.text)
+        }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+            etSearch.addTextChangedListener {
+                handleSearchButtonVisibility(it)
+            }
+            ivSearchClear.setOnClickListener {
+                etSearch.text.clear()
+                etSearch.clearFocus()
+                hideKeyboard(it)
+            }
+        }
+    }
+
+    private fun hideKeyboard(view: View) {
+        val inputMethodManager = requireActivity().getSystemService(
+            Activity.INPUT_METHOD_SERVICE,
+        ) as? InputMethodManager ?: return
+
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun handleSearchButtonVisibility(searchText: Editable?) {
+        binding.apply {
+            if (searchText.isNullOrEmpty()) {
+                ivSearch.isVisible = true
+                ivSearchClear.isVisible = false
+            } else {
+                ivSearch.isVisible = false
+                ivSearchClear.isVisible = true
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        binding.etSearch.text?.toString()?.let {
+            if (it.isNotEmpty()) {
+                outState.putString(KEY_SEARCH_TEXT, it)
+            }
+        }
     }
 
     private fun injectSelf() {
