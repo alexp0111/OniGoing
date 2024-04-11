@@ -5,6 +5,7 @@ import dagger.Component
 import ru.alexp0111.onigoing.OniGoingApplication
 import ru.alexp0111.onigoing.di.modules.AppModule
 import ru.alexp0111.onigoing.di.modules.NavigationModule
+import ru.alexp0111.onigoing.di.modules.NetworkModule
 import javax.inject.Singleton
 
 @Singleton
@@ -12,6 +13,7 @@ import javax.inject.Singleton
     modules = [
         AppModule::class,
         NavigationModule::class,
+        NetworkModule::class,
     ]
 )
 interface AppComponent :

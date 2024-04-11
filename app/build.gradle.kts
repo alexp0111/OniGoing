@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.apollographql.apollo3")
     id("kotlin-kapt")
 }
 
@@ -39,6 +40,12 @@ android {
     }
 }
 
+apollo {
+    service("service") {
+        packageName.set("ru.alexp0111.onigoing.anilist")
+    }
+}
+
 dependencies {
     /** Base core libraries */
     implementation(localDeps.kotlin)
@@ -61,6 +68,9 @@ dependencies {
 
     /** Gson */
     implementation(localDeps.gson)
+
+    /** Apollo */
+    implementation(localDeps.apollo)
 
     /** Unit testing */
     testImplementation(unitTestDeps.jUnit)

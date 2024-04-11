@@ -13,11 +13,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="TextMid" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">@dimen/text_mid</item>
+        <item name="android:fontFamily">@font/inter_semi_bold</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="TextSmall" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">@dimen/text_small</item>
         <item name="android:fontFamily">@font/inter_semi_bold</item>
         <item name="android:textColor">@color/dark</item>
-
     </style>
 
     <style name="CardViewStandart" parent="Widget.MaterialComponents.CardView">

@@ -14,4 +14,14 @@
     <string name="email">Email...</string>
     <string name="log_in">Log in</string>
     <string name="create_account">Create account</string>
+
+    <plurals name="plural_episodes">
+        <item quantity="zero">%1$d episodes</item>
+        <item quantity="one">%1$d episode</item>
+        <item quantity="two">%1$d episodes</item>
+        <item quantity="few">%1$d episodes</item>
+        <item quantity="many">%1$d episodes</item>
+        <item quantity="other">%1$d episodes</item>
+    </plurals>
+
 </resources>

@@ -13,6 +13,7 @@
     <dimen name="button_inner_padding_more">12dp</dimen>
 
     <dimen name="text_large">28sp</dimen>
+    <dimen name="text_mid">22sp</dimen>
     <dimen name="text_small">16sp</dimen>
 
     <dimen name="action_bar_small_padding_neg">-280dp</dimen>

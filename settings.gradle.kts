@@ -30,6 +30,7 @@ dependencyResolutionManagement {
 
             library("glide", "com.github.bumptech.glide:glide:3.7.0")
             library("gson", "com.google.code.gson:gson:2.10.1")
+            library("apollo", "com.apollographql.apollo3:apollo-runtime:3.8.3")
             library("cicerone", "com.github.terrakok:cicerone:7.1")
         }
         create("unitTestDeps") {

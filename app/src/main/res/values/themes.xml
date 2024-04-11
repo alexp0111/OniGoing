@@ -4,5 +4,6 @@
 
     <style name="Theme.OniGoing" parent="Base.Theme.OniGoing">
         <item name="android:statusBarColor">@color/dark</item>
+        <item name="android:navigationBarColor">@color/dark</item>
     </style>
 </resources>
