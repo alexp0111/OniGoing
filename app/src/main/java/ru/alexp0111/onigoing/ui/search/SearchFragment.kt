@@ -2,8 +2,6 @@ package ru.alexp0111.onigoing.ui.search
 
 import android.app.Activity
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,13 +15,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
+import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentSearchBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import javax.inject.Inject
 
 private const val KEY_SEARCH_TEXT = "search_text"
 
-// TODO: Loading animation in search button place
 // TODO: Goto Anime Screen & load anime info
 
 class SearchFragment : Fragment() {
@@ -52,7 +50,9 @@ class SearchFragment : Fragment() {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         savedInstanceState?.apply {
             binding.etSearch.setText(getString(KEY_SEARCH_TEXT))
-            handleSearchButtonVisibility(binding.etSearch.text)
+            if (binding.etSearch.text.isNullOrEmpty()) {
+                viewModel.resetSearchIcon()
+            }
         }
         return binding.root
     }
@@ -62,13 +62,20 @@ class SearchFragment : Fragment() {
         subscribeUI()
         binding.apply {
             etSearch.addTextChangedListener {
-                handleSearchButtonVisibility(it)
-                viewModel.fetchResultsByString(it.toString())
+                if (it.isNullOrEmpty()) {
+                    viewModel.resetToDefaults()
+                } else {
+                    viewModel.fetchResultsByString(it.toString())
+                }
             }
             ivSearchClear.setOnClickListener {
+                viewModel.resetToDefaults()
                 etSearch.text.clear()
                 etSearch.clearFocus()
                 hideKeyboard(it)
+            }
+            ivRefresh.setOnClickListener {
+                viewModel.fetchResultsByString(etSearch.text.toString())
             }
 
             rvSearchItems.adapter = searchAnimeAdapter
@@ -84,10 +91,37 @@ class SearchFragment : Fragment() {
                 launch {
                     viewModel.state.collect { state: UiState ->
                         searchAnimeAdapter.updateList(state.listOfResults)
+                        binding.apply {
+                            handleSearchBarIcon(state)
+                            handleResponseInfoMessage(state)
+                        }
                     }
                 }
             }
         }
+    }
+
+    private fun handleResponseInfoMessage(state: UiState) = binding.apply {
+        val shouldShow = state.isContainErrors || state.isEmptyResult
+        ivResponseInfo.isVisible = shouldShow
+        txtResponseInfo.isVisible = shouldShow
+        rvSearchItems.isVisible = !shouldShow
+        if (!shouldShow) return@apply
+
+        if (state.isContainErrors) {
+            ivResponseInfo.setImageResource(R.drawable.server_error)
+            txtResponseInfo.text = getString(R.string.something_went_wrong)
+        } else {
+            ivResponseInfo.setImageResource(R.drawable.nothing_found)
+            txtResponseInfo.text = getString(R.string.no_results)
+        }
+    }
+
+    private fun handleSearchBarIcon(state: UiState) = binding.apply {
+        ivSearch.isVisible = state.isDefaultEditTextState
+        ivSearchClear.isVisible = state.isClearEditTextState
+        ivRefresh.isVisible = state.isContainErrors
+        pbSearch.isVisible = state.isLoading
     }
 
     private fun hideKeyboard(view: View) {
@@ -96,18 +130,6 @@ class SearchFragment : Fragment() {
         ) as? InputMethodManager ?: return
 
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    private fun handleSearchButtonVisibility(searchText: Editable?) {
-        binding.apply {
-            if (searchText.isNullOrEmpty()) {
-                ivSearch.isVisible = true
-                ivSearchClear.isVisible = false
-            } else {
-                ivSearch.isVisible = false
-                ivSearchClear.isVisible = true
-            }
-        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
