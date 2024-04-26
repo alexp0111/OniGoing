@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.view.isVisible
@@ -18,6 +19,7 @@ import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentSearchBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
+import ru.alexp0111.onigoing.utils.SharedPreferenceController
 import javax.inject.Inject
 
 private const val KEY_SEARCH_TEXT = "search_text"
@@ -27,11 +29,28 @@ private const val KEY_SEARCH_TEXT = "search_text"
 class SearchFragment : Fragment() {
 
     @Inject
+    lateinit var sharedPreferenceController: SharedPreferenceController
+
+    @Inject
+    lateinit var searchHistoryAdapterFactory: SearchHistoryAdapterFactory
+
+    @Inject
     lateinit var viewModel: SearchViewModel
 
     private val searchAnimeAdapter by lazy {
         SearchAnimeAdapter(requireActivity()) {
             Toast.makeText(requireContext(), it.title, Toast.LENGTH_SHORT).show()
+            it.title?.let { title ->
+                sharedPreferenceController.insertNewHistoryElement(title)
+                searchHistoryAdapter.updateList()
+            }
+        }
+    }
+
+    private val searchHistoryAdapter by lazy {
+        val historyAsList = sharedPreferenceController.getSearchHistory().historyList
+        searchHistoryAdapterFactory.create(historyAsList) {
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -68,6 +87,17 @@ class SearchFragment : Fragment() {
                     viewModel.fetchResultsByString(it.toString())
                 }
             }
+            etSearch.setOnFocusChangeListener { view, isInFocus ->
+                rvSearchHistory.isVisible = isInFocus
+                viewModel.updateFocusValue(isInFocus)
+            }
+            etSearch.setOnEditorActionListener { _, act, _ ->
+                if (act == EditorInfo.IME_ACTION_DONE) {
+                    etSearch.clearFocus()
+                    viewModel.updateFocusValue(false)
+                }
+                return@setOnEditorActionListener false
+            }
             ivSearchClear.setOnClickListener {
                 viewModel.resetToDefaults()
                 etSearch.text.clear()
@@ -82,6 +112,11 @@ class SearchFragment : Fragment() {
             rvSearchItems.layoutManager = LinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.VERTICAL
             }
+
+            rvSearchHistory.adapter = searchHistoryAdapter
+            rvSearchHistory.layoutManager = LinearLayoutManager(context).apply {
+                orientation = LinearLayoutManager.VERTICAL
+            }
         }
     }
 
@@ -92,6 +127,7 @@ class SearchFragment : Fragment() {
                     viewModel.state.collect { state: UiState ->
                         searchAnimeAdapter.updateList(state.listOfResults)
                         binding.apply {
+                            if (state.shouldClearFocus) etSearch.clearFocus()
                             handleSearchBarIcon(state)
                             handleResponseInfoMessage(state)
                         }

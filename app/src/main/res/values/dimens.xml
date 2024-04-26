@@ -28,5 +28,7 @@
 
     <dimen name="base_elevation">6dp</dimen>
     <dimen name="toolbar_height">80dp</dimen>
+    <dimen name="icon_small_size">32dp</dimen>
+    <dimen name="icon_small_size_padding">6dp</dimen>
 
 </resources>

@@ -1,6 +1,5 @@
 package ru.alexp0111.onigoing.ui.search
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -61,13 +60,13 @@ class SearchViewModel @Inject constructor(
                                 isContainErrors = true,
                                 isDefaultEditTextState = false,
                                 isClearEditTextState = false,
+                                shouldClearFocus = true
                             )
                         }
                     }
 
                     incomingResults.isSuccess -> {
                         val results = incomingResults.getOrThrow()
-                        Log.d("SUS", results.size.toString())
                         _uiState.update {
                             it.copy(
                                 listOfResults = results,
@@ -76,6 +75,7 @@ class SearchViewModel @Inject constructor(
                                 isContainErrors = false,
                                 isClearEditTextState = true,
                                 isDefaultEditTextState = false,
+                                shouldClearFocus = true,
                             )
                         }
                     }
@@ -98,12 +98,17 @@ class SearchViewModel @Inject constructor(
                 isEmptyResult = false,
                 isLoading = false,
                 isContainErrors = false,
+                shouldClearFocus = true,
             )
         }
     }
 
     private fun resetList() {
         _uiState.update { it.copy(listOfResults = emptyList()) }
+    }
+
+    fun updateFocusValue(isFocus: Boolean) {
+        _uiState.update { it.copy(shouldClearFocus = !isFocus) }
     }
 
     fun onNextButtonClicked() = router.routeToAnimeFragment()
@@ -116,4 +121,5 @@ data class UiState(
     var isEmptyResult: Boolean = false,
     var isLoading: Boolean = false,
     var isContainErrors: Boolean = false,
+    var shouldClearFocus: Boolean = false,
 )
