@@ -1,6 +1,7 @@
 package ru.alexp0111.onigoing.navigation
 
 import com.github.terrakok.cicerone.androidx.FragmentScreen
+import ru.alexp0111.onigoing.ui.anime.AnimeFragment
 import ru.alexp0111.onigoing.ui.lists.ListsFragment
 import ru.alexp0111.onigoing.ui.lists.root.ListsRootFragment
 import ru.alexp0111.onigoing.ui.profile.ProfileFragment
@@ -35,5 +36,7 @@ object Screens {
 
     fun NotificationsScreen() = FragmentScreen { ProfileFragment() }
 
-    fun AnimeScreen() = FragmentScreen { ProfileFragment() }
+    fun AnimeScreen(animeId: Int) = FragmentScreen("AnimeScreen_$animeId") {
+        AnimeFragment.newInstance(animeId)
+    }
 }

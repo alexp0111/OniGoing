@@ -111,7 +111,9 @@ class SearchViewModel @Inject constructor(
         _uiState.update { it.copy(shouldClearFocus = !isFocus) }
     }
 
-    fun onNextButtonClicked() = router.routeToAnimeFragment()
+    fun openAnimeWithId(animeId: Int) {
+        router.routeToAnimeFragment(animeId)
+    }
 }
 
 data class UiState(

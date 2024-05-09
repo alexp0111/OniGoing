@@ -3,7 +3,9 @@ package ru.alexp0111.onigoing.anilist.api
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
 import kotlinx.coroutines.flow.Flow
+import ru.alexp0111.onigoing.anilist.AnimeMediaQuery
 import ru.alexp0111.onigoing.anilist.SearchQuery
+import ru.alexp0111.onigoing.anilist.data.AnimeMedia
 import ru.alexp0111.onigoing.anilist.data.Search
 import ru.alexp0111.onigoing.anilist.type.MediaType
 import ru.alexp0111.onigoing.anilist.utils.asResult
@@ -27,5 +29,18 @@ class AnilistRepository @Inject constructor(
             )
             .toFlow()
             .asResult { it.page!!.media.orEmpty().filterNotNull().map { query -> Search(query) } }
+    }
+
+    fun fetchAnimeMedia(
+        animeId: Int,
+    ): Flow<Result<AnimeMedia>> {
+        return apolloClient
+            .query(
+                AnimeMediaQuery(
+                    id = Optional.presentIfNotNull(animeId),
+                )
+            )
+            .toFlow()
+            .asResult { AnimeMedia(it.page!!.media.orEmpty().filterNotNull().first()) }
     }
 }

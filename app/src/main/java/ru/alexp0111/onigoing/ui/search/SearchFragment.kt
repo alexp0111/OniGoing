@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -19,17 +18,14 @@ import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentSearchBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
-import ru.alexp0111.onigoing.utils.SharedPreferenceController
 import javax.inject.Inject
 
 private const val KEY_SEARCH_TEXT = "search_text"
 
-// TODO: Goto Anime Screen & load anime info
-
 class SearchFragment : Fragment() {
 
     @Inject
-    lateinit var sharedPreferenceController: SharedPreferenceController
+    lateinit var searchAnimeAdapterFactory: SearchAnimeAdapterFactory
 
     @Inject
     lateinit var searchHistoryAdapterFactory: SearchHistoryAdapterFactory
@@ -38,19 +34,18 @@ class SearchFragment : Fragment() {
     lateinit var viewModel: SearchViewModel
 
     private val searchAnimeAdapter by lazy {
-        SearchAnimeAdapter(requireActivity()) {
-            Toast.makeText(requireContext(), it.title, Toast.LENGTH_SHORT).show()
-            it.title?.let { title ->
-                sharedPreferenceController.insertNewHistoryElement(title)
-                searchHistoryAdapter.updateList()
-            }
+        searchAnimeAdapterFactory.create(requireActivity()) {
+            searchHistoryAdapter.updateList()
+            viewModel.openAnimeWithId(it.id)
         }
     }
 
     private val searchHistoryAdapter by lazy {
-        val historyAsList = sharedPreferenceController.getSearchHistory().historyList
-        searchHistoryAdapterFactory.create(historyAsList) {
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+        searchHistoryAdapterFactory {
+            binding.etSearch.apply {
+                setText(it)
+                setSelection(it.length)
+            }
         }
     }
 
@@ -68,9 +63,11 @@ class SearchFragment : Fragment() {
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         savedInstanceState?.apply {
-            binding.etSearch.setText(getString(KEY_SEARCH_TEXT))
-            if (binding.etSearch.text.isNullOrEmpty()) {
-                viewModel.resetSearchIcon()
+            binding.etSearch.apply {
+                setText(getString(KEY_SEARCH_TEXT))
+                if (text.isNullOrEmpty()) {
+                    viewModel.resetSearchIcon()
+                }
             }
         }
         return binding.root
@@ -80,24 +77,6 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         subscribeUI()
         binding.apply {
-            etSearch.addTextChangedListener {
-                if (it.isNullOrEmpty()) {
-                    viewModel.resetToDefaults()
-                } else {
-                    viewModel.fetchResultsByString(it.toString())
-                }
-            }
-            etSearch.setOnFocusChangeListener { view, isInFocus ->
-                rvSearchHistory.isVisible = isInFocus
-                viewModel.updateFocusValue(isInFocus)
-            }
-            etSearch.setOnEditorActionListener { _, act, _ ->
-                if (act == EditorInfo.IME_ACTION_DONE) {
-                    etSearch.clearFocus()
-                    viewModel.updateFocusValue(false)
-                }
-                return@setOnEditorActionListener false
-            }
             ivSearchClear.setOnClickListener {
                 viewModel.resetToDefaults()
                 etSearch.text.clear()
@@ -133,6 +112,33 @@ class SearchFragment : Fragment() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.etSearch.apply {
+            addTextChangedListener {
+                if (it.isNullOrEmpty()) {
+                    viewModel.resetToDefaults()
+                } else {
+                    viewModel.fetchResultsByString(it.toString())
+                }
+            }
+            setOnFocusChangeListener { view, isInFocus ->
+                binding.rvSearchHistory.isVisible = isInFocus
+                if (!isInFocus) {
+                    hideKeyboard(view)
+                }
+                viewModel.updateFocusValue(isInFocus)
+            }
+            setOnEditorActionListener { _, act, _ ->
+                if (act == EditorInfo.IME_ACTION_DONE) {
+                    clearFocus()
+                    viewModel.updateFocusValue(false)
+                }
+                return@setOnEditorActionListener false
             }
         }
     }

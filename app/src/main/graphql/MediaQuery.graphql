@@ -1,16 +1,12 @@
-query Search(
-    $type: MediaType,
-    $perPage: Int,
-    $search: String
+query AnimeMedia(
+    $id: Int,
 ) {
     page: Page (
         page: 0,
-        perPage: $perPage
+        perPage: 1
     ) {
         media(
-            type: $type,
-            sort: [POPULARITY_DESC],
-            search: $search
+            id: $id
         ) {
             id
             coverImage {
@@ -21,6 +17,10 @@ query Search(
             }
             episodes
             averageScore
+            description
+            nextAiringEpisode {
+                timeUntilAiring
+            }
         }
     }
 }

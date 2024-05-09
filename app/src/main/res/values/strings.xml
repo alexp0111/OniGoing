@@ -16,6 +16,7 @@
     <string name="create_account">Create account</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="no_results">No results...</string>
+    <string name="settings_header">Settings</string>
 
     <plurals name="plural_episodes">
         <item quantity="zero">%1$d episodes</item>

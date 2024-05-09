@@ -12,15 +12,18 @@ import ru.alexp0111.onigoing.utils.SharedPreferenceController
 
 
 @AssistedFactory
-interface SearchHistoryAdapterFactory {
-    fun create(list: MutableList<String>, onItemClicked: (String) -> Unit): SearchHistoryAdapter
+fun interface SearchHistoryAdapterFactory {
+    operator fun invoke(onItemClicked: (String) -> Unit): SearchHistoryAdapter
 }
 
 class SearchHistoryAdapter @AssistedInject constructor(
-    @Assisted private var list: MutableList<String>,
-    @Assisted private val onItemClicked: (String) -> Unit,
     private val controller: SharedPreferenceController,
+    @Assisted private val onItemClicked: (String) -> Unit,
 ) : RecyclerView.Adapter<SearchHistoryAdapter.SearchHistoryViewHolder>() {
+
+    private val list: MutableList<String> by lazy {
+        controller.getSearchHistory().historyList
+    }
 
     inner class SearchHistoryViewHolder(
         private val binding: ItemSearchHistoryBinding,
@@ -61,7 +64,10 @@ class SearchHistoryAdapter @AssistedInject constructor(
         val diffUtilCallback = HistoryDiffUtilCallback(list, newList)
         val diffResult = DiffUtil.calculateDiff(diffUtilCallback)
         diffResult.dispatchUpdatesTo(this)
-        list = newList
+        list.apply {
+            clear()
+            addAll(newList)
+        }
     }
 }
 

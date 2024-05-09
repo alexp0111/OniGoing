@@ -12,7 +12,7 @@ class SearchRouter @Inject constructor(
 
     override fun routeBack() = router.exit()
 
-    fun routeToAnimeFragment() = router.navigateTo(Screens.AnimeScreen())
+    fun routeToAnimeFragment(animeId: Int) = router.navigateTo(Screens.AnimeScreen(animeId))
 
     fun routeToCommentsFragment() = router.navigateTo(Screens.CommentsScreen())
 

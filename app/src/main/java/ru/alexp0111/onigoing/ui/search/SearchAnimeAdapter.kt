@@ -7,13 +7,23 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.anilist.data.Search
 import ru.alexp0111.onigoing.databinding.ItemAnimeSearchBinding
+import ru.alexp0111.onigoing.utils.SharedPreferenceController
 
-class SearchAnimeAdapter(
-    private val activity: FragmentActivity,
-    private val onItemClicked: (Search) -> Unit,
+@AssistedFactory
+interface SearchAnimeAdapterFactory {
+    fun create(activity: FragmentActivity, onItemClicked: (Search) -> Unit): SearchAnimeAdapter
+}
+
+class SearchAnimeAdapter @AssistedInject constructor(
+    @Assisted private val activity: FragmentActivity,
+    @Assisted private val onItemClicked: (Search) -> Unit,
+    private val sharedPreferenceController: SharedPreferenceController,
 ) : RecyclerView.Adapter<SearchAnimeAdapter.SearchAnimeViewHolder>() {
 
     private var list: MutableList<Search> = mutableListOf()
@@ -23,7 +33,7 @@ class SearchAnimeAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Search) {
             binding.apply {
-                txtTitleName.text = item.title.toString()
+                txtTitleName.text = item.title ?: "No data"
                 txtNumOfSeries.text = if (item.episodes == null) {
                     "Ongoing"
                 } else {
@@ -37,10 +47,13 @@ class SearchAnimeAdapter(
                     ivStar.isVisible = true
                     txtMark.text = it.toString()
                 }
-                Glide.with(activity).load(item.coverImage?.toUri()).into(ivPreview)
+                item.coverImage?.toUri()?.let {
+                    Glide.with(activity).load(it).into(ivPreview)
+                }
             }
 
             binding.root.setOnClickListener {
+                item.title?.let { sharedPreferenceController.insertNewHistoryElement(it) }
                 onItemClicked.invoke(item)
             }
         }
