@@ -7,6 +7,7 @@ import ru.alexp0111.onigoing.ui.profile.ProfileFragment
 import ru.alexp0111.onigoing.ui.profile.root.ProfileRootFragment
 import ru.alexp0111.onigoing.ui.search.SearchFragment
 import ru.alexp0111.onigoing.ui.search.root.SearchRootFragment
+import ru.alexp0111.onigoing.ui.settings.SettingsFragment
 
 object Screens {
 
@@ -28,7 +29,7 @@ object Screens {
 
     fun RegistrationScreen() = FragmentScreen { ProfileFragment() }
 
-    fun SettingsScreen() = FragmentScreen { ProfileFragment() }
+    fun SettingsScreen() = FragmentScreen { SettingsFragment() }
 
     fun CommentsScreen() = FragmentScreen { ProfileFragment() }
 

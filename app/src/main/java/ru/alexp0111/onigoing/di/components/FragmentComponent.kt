@@ -7,6 +7,7 @@ import ru.alexp0111.onigoing.ui.profile.ProfileFragment
 import ru.alexp0111.onigoing.ui.profile.root.ProfileRootFragment
 import ru.alexp0111.onigoing.ui.search.root.SearchRootFragment
 import ru.alexp0111.onigoing.ui.search.SearchFragment
+import ru.alexp0111.onigoing.ui.settings.SettingsFragment
 
 interface FragmentComponent {
 
@@ -18,6 +19,8 @@ interface FragmentComponent {
 
     fun inject(fragment: ListsRootFragment)
     fun inject(fragment: ListsFragment)
+
+    fun inject(fragment: SettingsFragment)
 
     companion object {
         fun from(fragment: Fragment) : FragmentComponent {

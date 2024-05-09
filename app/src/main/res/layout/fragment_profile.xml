@@ -48,6 +48,7 @@
                 android:text="Alexander" />
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_settings"
                 style="@style/CardViewButton"
                 android:layout_width="@dimen/element_base_size"
                 android:layout_height="@dimen/element_base_size">

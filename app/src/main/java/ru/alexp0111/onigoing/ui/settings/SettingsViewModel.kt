@@ -1,14 +1,14 @@
-package ru.alexp0111.onigoing.ui.profile
+package ru.alexp0111.onigoing.ui.settings
 
 import androidx.lifecycle.ViewModel
 import ru.alexp0111.onigoing.navigation.routers.ProfileRouter
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(
+class SettingsViewModel @Inject constructor(
     private val router: ProfileRouter,
 ) : ViewModel() {
 
-    fun goToSettingsFragment() {
-        router.routeToSettingsFragment()
+    fun onBackPressed() {
+        router.routeBack()
     }
 }

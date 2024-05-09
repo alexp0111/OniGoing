@@ -1,20 +1,21 @@
-package ru.alexp0111.onigoing.ui.profile
+package ru.alexp0111.onigoing.ui.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ru.alexp0111.onigoing.databinding.FragmentProfileBinding
+import ru.alexp0111.onigoing.databinding.FragmentSettingsBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
+import ru.alexp0111.onigoing.ui.base.BackPressable
 import javax.inject.Inject
 
-class ProfileFragment : Fragment() {
+class SettingsFragment : Fragment(), BackPressable {
 
-    private lateinit var binding: FragmentProfileBinding
+    private lateinit var binding: FragmentSettingsBinding
 
     @Inject
-    lateinit var viewModel: ProfileViewModel
+    lateinit var settingsViewModel: SettingsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectSelf()
@@ -26,17 +27,22 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProfileBinding.inflate(inflater, container, false)
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            cvSettings.setOnClickListener {
-                viewModel.goToSettingsFragment()
+            cvBack.setOnClickListener {
+                settingsViewModel.onBackPressed()
             }
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+        settingsViewModel.onBackPressed()
+        return true
     }
 
     private fun injectSelf() {
