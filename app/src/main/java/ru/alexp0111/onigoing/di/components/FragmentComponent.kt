@@ -3,6 +3,7 @@ package ru.alexp0111.onigoing.di.components
 import androidx.fragment.app.Fragment
 import ru.alexp0111.onigoing.ui.anime.AnimeFragment
 import ru.alexp0111.onigoing.ui.lists.ListsFragment
+import ru.alexp0111.onigoing.ui.lists.page.ListPageFragment
 import ru.alexp0111.onigoing.ui.lists.root.ListsRootFragment
 import ru.alexp0111.onigoing.ui.profile.ProfileFragment
 import ru.alexp0111.onigoing.ui.profile.root.ProfileRootFragment
@@ -24,6 +25,8 @@ interface FragmentComponent {
     fun inject(fragment: SettingsFragment)
 
     fun inject(fragment: AnimeFragment)
+
+    fun inject(fragment: ListPageFragment)
 
     companion object {
         fun from(fragment: Fragment) : FragmentComponent {

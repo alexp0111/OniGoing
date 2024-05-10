@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.databinding.FragmentAnimeBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.base.BackPressable
+import ru.alexp0111.onigoing.ui.lists.page.Pages
 import javax.inject.Inject
 
 private const val TAG = "AnimeFragment"
@@ -31,10 +33,24 @@ class AnimeFragment : Fragment(), BackPressable {
 
     private lateinit var binding: FragmentAnimeBinding
 
+    private val viewPagerCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            val animeId = arguments?.getInt(ANIME_ID_KEY) ?: return
+            if (animeViewModel.state.value.isUserDBResponseSuccess) {
+                animeViewModel.updateStatusForAnime(
+                    animeId = animeId,
+                    status = Pages.from(position).ordinal,
+                )
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         injectSelf()
         arguments?.getInt(ANIME_ID_KEY)?.let {
             animeViewModel.loadInfoById(it)
+            animeViewModel.getUserStateByAnimeId(it)
         }
         super.onCreate(savedInstanceState)
     }
@@ -45,6 +61,11 @@ class AnimeFragment : Fragment(), BackPressable {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAnimeBinding.inflate(inflater, container, false)
+        binding.apply {
+            vpStatus.adapter = WatchingStatusAdapter()
+            vpStatus.setCurrentItem(Pages.NOT_IN_LIST.ordinal, false)
+            vpStatus.registerOnPageChangeCallback(viewPagerCallback)
+        }
         return binding.root
     }
 
@@ -76,6 +97,13 @@ class AnimeFragment : Fragment(), BackPressable {
             txtTitleName.text = state.animeTitle
             txtMark.text = (state.averageScore ?: "?").toString()
             txtTimeToNewEpisode.text = (state.timeToNewEpisode ?: "No info")
+
+            state.userWatchingStatus?.let {
+                vpStatus.post {
+                    vpStatus.setCurrentItem(it, true)
+                }
+            }
+            txtCurrentEpisode.text = state.userCurrentSeries.toString()
 
             state.amountOfSeries?.let {
                 txtAmountOfSeries.text = it.toString()

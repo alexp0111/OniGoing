@@ -26,12 +26,14 @@ dependencyResolutionManagement {
             library("swipeRefreshLayout", "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
             library("dagger", "com.google.dagger:dagger:2.51")
-            library("compiler", "com.google.dagger:dagger-compiler:2.51")
+            library("daggerCompiler", "com.google.dagger:dagger-compiler:2.51")
 
             library("glide", "com.github.bumptech.glide:glide:3.7.0")
             library("gson", "com.google.code.gson:gson:2.10.1")
             library("apollo", "com.apollographql.apollo3:apollo-runtime:3.8.3")
             library("cicerone", "com.github.terrakok:cicerone:7.1")
+            library("room", "androidx.room:room-ktx:2.6.1")
+            library("roomCompiler", "androidx.room:room-compiler:2.6.1")
         }
         create("unitTestDeps") {
             library("jUnit", "junit:junit:4.13.2")

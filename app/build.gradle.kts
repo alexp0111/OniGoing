@@ -58,7 +58,7 @@ dependencies {
 
     /** Dagger2 */
     implementation(localDeps.dagger)
-    kapt(localDeps.compiler)
+    kapt(localDeps.daggerCompiler)
 
     /** Glide */
     implementation(localDeps.glide)
@@ -71,6 +71,10 @@ dependencies {
 
     /** Apollo */
     implementation(localDeps.apollo)
+
+    /** Room */
+    implementation(localDeps.room)
+    kapt(localDeps.roomCompiler)
 
     /** Unit testing */
     testImplementation(unitTestDeps.jUnit)

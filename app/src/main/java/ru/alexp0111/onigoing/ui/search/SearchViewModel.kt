@@ -17,7 +17,7 @@ import ru.alexp0111.onigoing.navigation.routers.SearchRouter
 import javax.inject.Inject
 
 private const val INTER_FETCH_DELAY = 1000L
-private const val RESULTS_PER_PAGE = 10
+private const val RESULTS_PER_PAGE = 20
 
 class SearchViewModel @Inject constructor(
     private val router: SearchRouter,
