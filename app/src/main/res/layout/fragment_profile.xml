@@ -127,13 +127,13 @@
                 app:strokeWidth="0dp">
 
                 <TextView
+                    android:id="@+id/txt_total_episodes"
                     style="@style/TextLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:layout_margin="@dimen/margin_half"
-                    android:gravity="center"
-                    android:text="4957" />
+                    android:gravity="center" />
 
                 <TextView
                     style="@style/TextSmall"
@@ -160,13 +160,13 @@
                 app:strokeWidth="0dp">
 
                 <TextView
+                    android:id="@+id/txt_total_titles"
                     style="@style/TextLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:layout_margin="@dimen/margin_half"
-                    android:gravity="center"
-                    android:text="53" />
+                    android:gravity="center" />
 
                 <TextView
                     style="@style/TextSmall"
@@ -198,11 +198,171 @@
             app:layout_constraintTop_toBottomOf="@id/ll_cards"
             app:strokeWidth="0dp">
 
-            <ImageView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_base"
-                android:src="@drawable/stat_test" />
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_base"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/pie_chart_statistics"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/button_inner_padding">
+
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/CardViewStandart"
+                            android:layout_width="@dimen/statistics_dot"
+                            android:layout_height="@dimen/statistics_dot"
+                            android:padding="@dimen/button_inner_padding_more"
+                            app:cardCornerRadius="@dimen/corner_radius_infinity">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@color/green" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            style="@style/TextSmall"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_base"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Watched"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/button_inner_padding">
+
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/CardViewStandart"
+                            android:layout_width="@dimen/statistics_dot"
+                            android:layout_height="@dimen/statistics_dot"
+                            android:padding="@dimen/button_inner_padding_more"
+                            app:cardCornerRadius="@dimen/corner_radius_infinity">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@color/orange" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            style="@style/TextSmall"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_base"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="Currently watching"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/button_inner_padding">
+
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/CardViewStandart"
+                            android:layout_width="@dimen/statistics_dot"
+                            android:layout_height="@dimen/statistics_dot"
+                            android:padding="@dimen/button_inner_padding_more"
+                            app:cardCornerRadius="@dimen/corner_radius_infinity">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@color/blue" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            style="@style/TextSmall"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_base"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Planned"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/button_inner_padding">
+
+                        <com.google.android.material.card.MaterialCardView
+                            style="@style/CardViewStandart"
+                            android:layout_width="@dimen/statistics_dot"
+                            android:layout_height="@dimen/statistics_dot"
+                            android:padding="@dimen/button_inner_padding_more"
+                            app:cardCornerRadius="@dimen/corner_radius_infinity">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@color/red" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            style="@style/TextSmall"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_base"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="Stopped"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pie_chart_statistics"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="end"
+                    android:layout_marginVertical="@dimen/margin_double"
+                    android:layout_marginEnd="@dimen/margin_base"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="H, 1:1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </com.google.android.material.card.MaterialCardView>

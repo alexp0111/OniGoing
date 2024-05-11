@@ -4,4 +4,15 @@
     <color name="white">#FFFFFFFF</color>
     <color name="dark">#FF212121</color>
     <color name="green">#FFBDD787</color>
+
+    <color name="blue">#6CA9C3</color>
+    <color name="red">#D97D7D</color>
+    <color name="orange">#E6BD7F</color>
+
+    <integer-array name="chart_colors">
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/blue</item>
+        <item>@color/red</item>
+    </integer-array>
 </resources>

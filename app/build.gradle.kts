@@ -76,6 +76,9 @@ dependencies {
     implementation(localDeps.room)
     kapt(localDeps.roomCompiler)
 
+    /** Round chart lib */
+    implementation(localDeps.roundChart)
+
     /** Unit testing */
     testImplementation(unitTestDeps.jUnit)
     testImplementation(unitTestDeps.robolectric)

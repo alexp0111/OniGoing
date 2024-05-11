@@ -67,6 +67,8 @@ class ListPageAdapter(
         }
     }
 
+    // fixme: If we change state of anime, we can have bugs with it's type, if ir were first for example
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListPageBaseViewHolder {
         return if (viewType == list.lastIndex) {
             ListPageBottomViewHolder(

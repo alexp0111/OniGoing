@@ -34,6 +34,7 @@ dependencyResolutionManagement {
             library("cicerone", "com.github.terrakok:cicerone:7.1")
             library("room", "androidx.room:room-ktx:2.6.1")
             library("roomCompiler", "androidx.room:room-compiler:2.6.1")
+            library("roundChart", "com.github.PhilJay:MPAndroidChart:v3.1.0")
         }
         create("unitTestDeps") {
             library("jUnit", "junit:junit:4.13.2")

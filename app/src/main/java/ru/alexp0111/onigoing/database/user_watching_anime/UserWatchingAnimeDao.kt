@@ -27,6 +27,9 @@ interface UserWatchingAnimeDao {
     @Delete
     suspend fun deleteAnime(userWatchingAnime: UserWatchingAnime): Int
 
+    @Query("SELECT * FROM user_lists")
+    fun getAllInfo(): Flow<List<UserWatchingAnime>>
+
     @Query("SELECT * FROM user_lists WHERE watchingState=:watchingState")
     fun getAllAnimeWithState(watchingState: Int): Flow<List<UserWatchingAnime>>
 

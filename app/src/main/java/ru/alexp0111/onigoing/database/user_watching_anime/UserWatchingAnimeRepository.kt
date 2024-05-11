@@ -9,6 +9,10 @@ class UserWatchingAnimeRepository @Inject constructor(
 ) {
     private val userWatchingAnimeDao = databaseUserWatchingAnime.userWatchingAnimeDao()
 
+    fun getAllInfo(): Flow<List<UserWatchingAnime>> {
+        return userWatchingAnimeDao.getAllInfo()
+    }
+
     fun getAllAnimeWithStatus(animeWatchingStatus: Int): Flow<List<UserWatchingAnime>> {
         return userWatchingAnimeDao.getAllAnimeWithState(animeWatchingStatus)
     }
