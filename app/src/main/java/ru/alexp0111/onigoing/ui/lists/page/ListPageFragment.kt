@@ -50,9 +50,6 @@ class ListPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         subscribeUI()
         binding.apply {
-            val pageOrder = arguments?.getInt(Pages.PAGE_TAG, Pages.ACTUAL.ordinal) ?: 0
-            txtHeader.text = Pages.from(pageOrder).description
-
             rvLists.adapter = listsAdapter
             rvLists.layoutManager = LinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.VERTICAL
