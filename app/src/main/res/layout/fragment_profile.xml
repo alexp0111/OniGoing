@@ -241,7 +241,7 @@
                             android:layout_marginStart="@dimen/margin_base"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="Watched"
+                            android:text="@string/status_watched"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -276,7 +276,7 @@
                             android:ellipsize="end"
                             android:gravity="center_vertical"
                             android:maxLines="1"
-                            android:text="Currently watching"
+                            android:text="@string/status_actual"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -309,7 +309,7 @@
                             android:layout_marginStart="@dimen/margin_base"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="Planned"
+                            android:text="@string/status_planned"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -342,7 +342,7 @@
                             android:layout_marginStart="@dimen/margin_base"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:text="Stopped"
+                            android:text="@string/status_stopped"
                             android:textColor="@color/white" />
 
                     </LinearLayout>

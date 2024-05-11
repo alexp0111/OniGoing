@@ -17,6 +17,10 @@
     <string name="something_went_wrong">Something went wrong</string>
     <string name="no_results">No results...</string>
     <string name="settings_header">Settings</string>
+    <string name="status_watched">Watched</string>
+    <string name="status_actual">Currently watching</string>
+    <string name="status_planned">Planned</string>
+    <string name="status_stopped">Stopped</string>
 
     <plurals name="plural_episodes">
         <item quantity="zero">%1$d episodes</item>
