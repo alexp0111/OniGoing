@@ -39,6 +39,12 @@ class ListPageViewModel @Inject constructor(
             }
         }
     }
+
+    fun updateUsersAnime(anime: UserWatchingAnime) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userWatchingAnimeRepository.updateAnimeState(anime)
+        }
+    }
 }
 
 data class UiState(

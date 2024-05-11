@@ -21,7 +21,7 @@
                 motion:motionTarget="@+id/ll_filter" />
             <KeyAttribute
                 android:alpha="0.0"
-                motion:framePosition="30"
+                motion:framePosition="40"
                 motion:motionTarget="@+id/ll_filter" />
             <KeyAttribute
                 android:alpha="0.0"

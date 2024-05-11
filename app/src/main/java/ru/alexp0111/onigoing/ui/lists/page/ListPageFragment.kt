@@ -20,9 +20,16 @@ class ListPageFragment : Fragment() {
     lateinit var viewModel: ListPageViewModel
 
     private val listsAdapter by lazy {
-        ListPageAdapter(requireActivity()) {
+        ListPageAdapter(requireActivity(), { onRootResult ->
             // react to click
-        }
+        }, { onMinusResult ->
+            val newCurrentSeries = maxOf(onMinusResult.currentSeries - 1, 0)
+            viewModel.updateUsersAnime(onMinusResult.copy(currentSeries = newCurrentSeries))
+        }, { onPlusResult ->
+            val newCurrentSeries = onPlusResult.currentSeries + 1
+            viewModel.updateUsersAnime(onPlusResult.copy(currentSeries = newCurrentSeries))
+
+        })
     }
 
     private lateinit var binding: FragmentListPageBinding
