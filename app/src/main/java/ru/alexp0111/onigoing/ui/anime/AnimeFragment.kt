@@ -76,6 +76,14 @@ class AnimeFragment : Fragment(), BackPressable {
             cvBack.setOnClickListener {
                 animeViewModel.onBackPressed()
             }
+            ivMinus.setOnClickListener {
+                val animeId = arguments?.getInt(ANIME_ID_KEY) ?: return@setOnClickListener
+                animeViewModel.updateCurrentSeriesForAnime(animeId, -1)
+            }
+            ivPlus.setOnClickListener {
+                val animeId = arguments?.getInt(ANIME_ID_KEY) ?: return@setOnClickListener
+                animeViewModel.updateCurrentSeriesForAnime(animeId, +1)
+            }
         }
     }
 

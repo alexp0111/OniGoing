@@ -25,6 +25,10 @@ class UserWatchingAnimeRepository @Inject constructor(
         userWatchingAnimeDao.updateAnimeState(userWatchingAnime)
     }
 
+    suspend fun updateAnimeSeriesById(animeId: Int, curSeries: Int) {
+        userWatchingAnimeDao.updateAnimeSeriesById(animeId, curSeries)
+    }
+
     suspend fun updateAnimeStateById(animeId: Int, status: Int) {
         userWatchingAnimeDao.updateAnimeStateById(animeId, status)
     }
@@ -36,5 +40,4 @@ class UserWatchingAnimeRepository @Inject constructor(
     suspend fun deleteAllAnime() {
         userWatchingAnimeDao.deleteAllAnime()
     }
-
 }

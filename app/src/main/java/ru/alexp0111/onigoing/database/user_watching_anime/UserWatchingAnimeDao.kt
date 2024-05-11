@@ -18,6 +18,9 @@ interface UserWatchingAnimeDao {
     @Update
     suspend fun updateAnimeState(userWatchingAnime: UserWatchingAnime)
 
+    @Query("UPDATE user_lists SET currentSeries = :curSeries WHERE id = :animeId")
+    suspend fun updateAnimeSeriesById(animeId: Int, curSeries: Int)
+
     @Query("UPDATE user_lists SET watchingState = :status WHERE id = :animeId")
     suspend fun updateAnimeStateById(animeId: Int, status: Int)
 

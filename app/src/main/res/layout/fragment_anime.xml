@@ -128,13 +128,12 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cv_status">
 
-                    <TextView
-                        style="@style/TextLarge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="-"
-                        android:textColor="@color/green"
-                        android:textStyle="normal" />
+                    <ImageView
+                        android:id="@+id/iv_minus"
+                        android:layout_width="@dimen/element_base_size"
+                        android:layout_height="@dimen/element_base_size"
+                        android:padding="@dimen/button_inner_padding_more"
+                        android:src="@drawable/minus" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cv_current_episode"
@@ -149,17 +148,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginHorizontal="@dimen/margin_base"
-                            android:gravity="center_vertical|start"/>
+                            android:gravity="center_vertical|start" />
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        style="@style/TextLarge"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="+"
-                        android:textColor="@color/green"
-                        android:textStyle="normal" />
+                    <ImageView
+                        android:id="@+id/iv_plus"
+                        android:layout_width="@dimen/element_base_size"
+                        android:layout_height="@dimen/element_base_size"
+                        android:padding="@dimen/button_inner_padding_more"
+                        android:src="@drawable/plus" />
 
 
                 </LinearLayout>

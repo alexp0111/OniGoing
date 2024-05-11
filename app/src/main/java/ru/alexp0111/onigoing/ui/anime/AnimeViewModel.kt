@@ -15,6 +15,7 @@ import ru.alexp0111.onigoing.anilist.api.AnilistRepository
 import ru.alexp0111.onigoing.database.user_watching_anime.UserWatchingAnimeRepository
 import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.navigation.routers.SearchRouter
+import ru.alexp0111.onigoing.ui.lists.page.Pages
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -80,6 +81,35 @@ class AnimeViewModel @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    fun updateCurrentSeriesForAnime(animeId: Int, deltaSeries: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val animeIfExists = userWatchingAnimeRepository.getAnimeByID(animeId)
+            if (animeIfExists != null) {
+                val newAmountOfSeries = maxOf(animeIfExists.currentSeries + deltaSeries, 0)
+                userWatchingAnimeRepository.updateAnimeSeriesById(animeId, newAmountOfSeries)
+            } else if (!state.value.isLoading && state.value.isResponseSuccess) {
+                val newAmountOfSeries = maxOf(deltaSeries, 0)
+                val imageUri = if (state.value.animeImages.isNotEmpty()) {
+                    state.value.animeImages.first().toString()
+                } else {
+                    Uri.EMPTY.toString()
+                }
+                userWatchingAnimeRepository.insertNewAnime(
+                    UserWatchingAnime(
+                        id = animeId,
+                        title = state.value.animeTitle,
+                        imageUriString = imageUri,
+                        mark = 0,
+                        currentSeries = newAmountOfSeries,
+                        watchingState = Pages.NOT_IN_LIST.ordinal,
+                        addingDate = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
+                    )
+                )
+            }
+            getUserStateByAnimeId(animeId)
         }
     }
 
