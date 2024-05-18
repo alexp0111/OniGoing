@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">OniGoing</string>
-    <string name="type_anime_title">Type anime title...</string>
+    <string name="type_anime_title">Type anime title…</string>
     <string name="header_status_currently_watching">Currently watching</string>
     <string name="total_nepisodes">total\nepisodes</string>
     <string name="total_ntitles">total\ntitles</string>
@@ -10,17 +10,17 @@
     <string name="on">On</string>
     <string name="account">Account</string>
     <string name="credentials">Credentials</string>
-    <string name="password">Password...</string>
-    <string name="email">Email...</string>
+    <string name="password">Password…</string>
+    <string name="email">Email…</string>
     <string name="log_in">Log in</string>
     <string name="create_account">Create account</string>
     <string name="something_went_wrong">Something went wrong</string>
-    <string name="no_results">No results...</string>
+    <string name="no_results">No results…</string>
     <string name="settings_header">Settings</string>
-    <string name="status_watched">Watched</string>
-    <string name="status_actual">Currently watching</string>
-    <string name="status_planned">Planned</string>
-    <string name="status_stopped">Stopped</string>
+    <string name="status_watched">Watched: %1$s</string>
+    <string name="status_actual">In progress: %1$s</string>
+    <string name="status_planned">Planned: %1$s</string>
+    <string name="status_stopped">Stopped: %1$s</string>
 
     <plurals name="plural_episodes">
         <item quantity="zero">%1$d episodes</item>

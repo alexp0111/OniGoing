@@ -1,13 +1,11 @@
 package ru.alexp0111.onigoing.ui.profile
 
 import android.content.Context
-import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.ValueFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -83,13 +81,7 @@ class ProfileViewModel @Inject constructor(
 
         val pieDataSet = PieDataSet(pieEntries, "User title statistics").apply {
             colors = context.resources.getIntArray(R.array.chart_colors).toList()
-            valueTypeface = ResourcesCompat.getFont(context, R.font.inter_extra_bold)
-            valueTextColor = context.resources.getColor(R.color.dark, context.resources.newTheme())
-            valueFormatter = object : ValueFormatter() {
-                override fun getPieLabel(value: Float, pieEntry: PieEntry?): String {
-                    return value.toInt().toString()
-                }
-            }
+            setDrawValues(false)
         }
         return PieData(pieDataSet)
     }
