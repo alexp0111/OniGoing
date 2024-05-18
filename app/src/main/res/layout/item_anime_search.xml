@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_search_root"
     style="@style/CardViewStandart"
     android:layout_width="match_parent"
     android:layout_height="180dp"
@@ -29,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/dark"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
 
 
         </com.google.android.material.card.MaterialCardView>
@@ -72,15 +73,15 @@
                 android:layout_width="@dimen/element_base_size"
                 android:layout_height="@dimen/element_base_size"
                 android:padding="@dimen/button_inner_padding"
-                android:visibility="gone"
-                android:src="@drawable/star" />
+                android:src="@drawable/star"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/txt_mark"
                 style="@style/TextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
 

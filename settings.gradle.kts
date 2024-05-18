@@ -40,6 +40,7 @@ dependencyResolutionManagement {
             library("jUnit", "junit:junit:4.13.2")
             library("robolectric", "org.robolectric:robolectric:4.4")
             library("mockito", "org.mockito:mockito-core:5.1.1")
+            library("core", "androidx.test:core-ktx:1.5.0")
         }
         create("uiTestDeps") {
             library("extJUnit", "androidx.test.ext:junit:1.1.5")

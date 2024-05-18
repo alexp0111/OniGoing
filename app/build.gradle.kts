@@ -83,6 +83,7 @@ dependencies {
     testImplementation(unitTestDeps.jUnit)
     testImplementation(unitTestDeps.robolectric)
     testImplementation(unitTestDeps.mockito)
+    testImplementation(unitTestDeps.core)
 
     /** Instrumented testing */
     androidTestImplementation(uiTestDeps.extJUnit)
