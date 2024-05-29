@@ -33,5 +33,6 @@
     <dimen name="header_height">80dp</dimen>
     <dimen name="menu_height_and_base_margin">88dp</dimen>
     <dimen name="statistics_dot">16dp</dimen>
+    <dimen name="spinner_stroke">4dp</dimen>
 
 </resources>
