@@ -37,8 +37,10 @@
     </plurals>
 
     <string-array name="sorting_filters">
-        <item>Sorted by mark</item>
         <item>Sorted by series</item>
+        <item>Sorted by name</item>
+        <item>Sorted by mark</item>
+        <item>Sorted by date</item>
     </string-array>
 
 </resources>

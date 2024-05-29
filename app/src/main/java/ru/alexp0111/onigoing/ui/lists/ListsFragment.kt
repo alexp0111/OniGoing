@@ -25,6 +25,8 @@ interface SortOrderHandler {
 enum class SortingCharacteristics {
     MARK,
     SERIES,
+    NAME,
+    DATE,
 }
 
 enum class SortingWay {
@@ -60,8 +62,10 @@ class ListsFragment : Fragment(), SortOrderHandler {
     private val spinnerItemSelectedListener = object : OnItemSelectedListener {
         override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
             currentSortingFilter = when (p2) {
-                0 -> currentSortingFilter.copy(first = SortingCharacteristics.MARK)
-                else -> currentSortingFilter.copy(first = SortingCharacteristics.SERIES)
+                0 -> currentSortingFilter.copy(first = SortingCharacteristics.SERIES)
+                1 -> currentSortingFilter.copy(first = SortingCharacteristics.NAME)
+                2 -> currentSortingFilter.copy(first = SortingCharacteristics.MARK)
+                else -> currentSortingFilter.copy(first = SortingCharacteristics.DATE)
             }
             notifyChildrenAboutSortingChange()
         }

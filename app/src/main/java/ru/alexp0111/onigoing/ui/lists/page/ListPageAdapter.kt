@@ -123,11 +123,15 @@ class ListPageAdapter(
             when (sortingCharacteristics) {
                 SortingCharacteristics.MARK -> list.sortBy { it.mark }
                 SortingCharacteristics.SERIES -> list.sortBy { it.currentSeries }
+                SortingCharacteristics.NAME -> list.sortBy { it.title }
+                SortingCharacteristics.DATE -> list.sortBy { it.addingDate }
             }
         } else {
             when (sortingCharacteristics) {
                 SortingCharacteristics.MARK -> list.sortByDescending { it.mark }
                 SortingCharacteristics.SERIES -> list.sortByDescending { it.currentSeries }
+                SortingCharacteristics.NAME -> list.sortByDescending { it.title }
+                SortingCharacteristics.DATE -> list.sortByDescending { it.addingDate }
             }
         }
         updateSortingState(sortingCharacteristics, sortingWay)
