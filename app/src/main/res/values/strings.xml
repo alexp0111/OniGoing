@@ -21,6 +21,10 @@
     <string name="status_actual">In progress: %1$s</string>
     <string name="status_planned">Planned: %1$s</string>
     <string name="status_stopped">Stopped: %1$s</string>
+    <string name="ongoing">Ongoing</string>
+    <string name="completed">Completed</string>
+    <string name="done">Done</string>
+    <string name="series">series</string>
 
     <plurals name="plural_episodes">
         <item quantity="zero">%1$d episodes</item>

@@ -189,25 +189,35 @@
                 app:layout_constraintTop_toBottomOf="@id/iv_custom_divider"
                 app:strokeWidth="0dp">
 
-                <TextView
-                    android:id="@+id/txt_amount_of_series"
-                    style="@style/TextLarge"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginHorizontal="@dimen/margin_half"
-                    android:layout_marginBottom="@dimen/margin_base"
-                    android:gravity="center" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingVertical="@dimen/margin_half">
 
-                <TextView
-                    style="@style/TextSmall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="@dimen/margin_base"
-                    android:gravity="center"
-                    android:text="series"
-                    android:textColor="@color/white" />
+                    <TextView
+                        android:id="@+id/txt_amount_of_series"
+                        style="@style/TextLarge"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/margin_half"
+                        android:layout_weight="2"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/txt_amount_of_series_postfix"
+                        style="@style/TextSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/series"
+                        android:textColor="@color/white"
+                        android:visibility="gone" />
+
+                </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -301,7 +311,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="wrap_content"
                 android:background="@color/dark"
                 app:layout_constraintTop_toBottomOf="@id/iv_custom_divider_2">
 
@@ -310,8 +320,9 @@
                     style="@style/TextMid"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/margin_double"
-                    android:justificationMode="inter_word" />
+                    android:layout_marginVertical="@dimen/margin_double"
+                    android:layout_marginHorizontal="@dimen/margin_base"
+                    android:paddingHorizontal="@dimen/margin_base" />
 
             </LinearLayout>
 

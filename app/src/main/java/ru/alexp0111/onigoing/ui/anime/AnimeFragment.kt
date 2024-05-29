@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +13,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
+import net.nightwhistler.htmlspanner.HtmlSpanner
+import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentAnimeBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.base.BackPressable
@@ -104,7 +107,7 @@ class AnimeFragment : Fragment(), BackPressable {
         binding.apply {
             txtTitleName.text = state.animeTitle
             txtMark.text = (state.averageScore ?: "?").toString()
-            txtTimeToNewEpisode.text = (state.timeToNewEpisode ?: "No info")
+            txtTimeToNewEpisode.text = (state.timeToNewEpisode ?: getString(R.string.done))
 
             state.userWatchingStatus?.let {
                 vpStatus.post {
@@ -113,10 +116,15 @@ class AnimeFragment : Fragment(), BackPressable {
             }
             txtCurrentEpisode.text = state.userCurrentSeries.toString()
 
-            state.amountOfSeries?.let {
-                txtAmountOfSeries.text = it.toString()
-            } // fixme: Incorrect data
-            state.description?.let { txtDescription.text = it }
+            if (state.amountOfSeries == null) {
+                txtAmountOfSeries.text = getString(R.string.ongoing)
+                txtAmountOfSeriesPostfix.isVisible = false
+            } else {
+                txtAmountOfSeries.text = state.amountOfSeries.toString()
+                txtAmountOfSeriesPostfix.isVisible = true
+            }
+
+            state.description?.let { txtDescription.text = HtmlSpanner().fromHtml(it) }
             if (state.animeImages.isNotEmpty()) {
                 Glide.with(requireActivity()).load(state.animeImages.first()).into(ivAnimePreview)
             }

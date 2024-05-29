@@ -79,6 +79,9 @@ dependencies {
     /** Round chart lib */
     implementation(localDeps.roundChart)
 
+    /** HTML Processor */
+    implementation(localDeps.htmlParser)
+
     /** Unit testing */
     testImplementation(unitTestDeps.jUnit)
     testImplementation(unitTestDeps.robolectric)

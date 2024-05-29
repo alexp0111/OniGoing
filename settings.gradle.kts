@@ -35,6 +35,7 @@ dependencyResolutionManagement {
             library("room", "androidx.room:room-ktx:2.6.1")
             library("roomCompiler", "androidx.room:room-compiler:2.6.1")
             library("roundChart", "com.github.PhilJay:MPAndroidChart:v3.1.0")
+            library("htmlParser", "com.github.NightWhistler:HtmlSpanner:0.4")
         }
         create("unitTestDeps") {
             library("jUnit", "junit:junit:4.13.2")

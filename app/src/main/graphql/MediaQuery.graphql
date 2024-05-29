@@ -17,7 +17,9 @@ query AnimeMedia(
             }
             episodes
             averageScore
-            description
+            description(
+                asHtml: true
+            )
             nextAiringEpisode {
                 timeUntilAiring
             }
