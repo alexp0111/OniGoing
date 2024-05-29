@@ -4,16 +4,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentListsBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.lists.page.ListHeaderAdapter
 import ru.alexp0111.onigoing.ui.lists.page.Pages
+import ru.alexp0111.onigoing.ui.lists.page.SortableFragment
 import javax.inject.Inject
 
-class ListsFragment : Fragment() {
+interface SortOrderHandler {
+    fun getCurrentSortingFilter(): Pair<SortingCharacteristics, SortingWay>
+}
 
+enum class SortingCharacteristics {
+    MARK,
+    SERIES,
+}
+
+enum class SortingWay {
+    ASC,
+    DESC,
+}
+
+class ListsFragment : Fragment(), SortOrderHandler {
 
     @Inject
     lateinit var viewModel: ListsViewModel
@@ -25,6 +44,29 @@ class ListsFragment : Fragment() {
                 vpHeaders.setCurrentItem(Pages.from(position).ordinal, true)
             }
         }
+    }
+
+    private val spinnerAdapter by lazy {
+        ArrayAdapter(
+            requireContext(),
+            R.layout.item_spinner_filter_item,
+            R.id.txt_sorting_option,
+            resources.getStringArray(R.array.sorting_filters)
+        )
+    }
+
+    private var currentSortingFilter = Pair(SortingCharacteristics.MARK, SortingWay.ASC)
+
+    private val spinnerItemSelectedListener = object : OnItemSelectedListener {
+        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+            currentSortingFilter = when (p2) {
+                0 -> currentSortingFilter.copy(first = SortingCharacteristics.MARK)
+                else -> currentSortingFilter.copy(first = SortingCharacteristics.SERIES)
+            }
+            notifyChildrenAboutSortingChange()
+        }
+
+        override fun onNothingSelected(p0: AdapterView<*>?) = Unit
     }
 
     private lateinit var binding: FragmentListsBinding
@@ -53,10 +95,39 @@ class ListsFragment : Fragment() {
             vpHeaders.setCurrentItem(Pages.ACTUAL.ordinal, false)
 
             vpLists.registerOnPageChangeCallback(headerViewPagerCallback)
+
+            spinnerSortingOrder.adapter = spinnerAdapter
+            spinnerSortingOrder.onItemSelectedListener = spinnerItemSelectedListener
+
+            ivSortAscending.setOnClickListener { handleSortingWayAction() }
+            ivSortDescending.setOnClickListener { handleSortingWayAction() }
+        }
+    }
+
+    private fun handleSortingWayAction() {
+        binding.apply {
+            ivSortAscending.isVisible = !ivSortAscending.isVisible
+            ivSortDescending.isVisible = !ivSortDescending.isVisible
+            currentSortingFilter = if (ivSortAscending.isVisible) {
+                currentSortingFilter.copy(second = SortingWay.ASC)
+            } else {
+                currentSortingFilter.copy(second = SortingWay.DESC)
+            }
+        }
+        notifyChildrenAboutSortingChange()
+    }
+
+    private fun notifyChildrenAboutSortingChange() {
+        childFragmentManager.fragments.forEach {
+            (it as? SortableFragment)?.notifySortingFilterChanged()
         }
     }
 
     private fun injectSelf() {
         FragmentComponent.from(this).inject(this)
+    }
+
+    override fun getCurrentSortingFilter(): Pair<SortingCharacteristics, SortingWay> {
+        return currentSortingFilter
     }
 }

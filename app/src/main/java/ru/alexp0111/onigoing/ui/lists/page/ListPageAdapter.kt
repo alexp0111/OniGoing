@@ -11,6 +11,8 @@ import com.bumptech.glide.Glide
 import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.databinding.ItemListAnimeBinding
 import ru.alexp0111.onigoing.databinding.ItemListAnimeBottomBinding
+import ru.alexp0111.onigoing.ui.lists.SortingCharacteristics
+import ru.alexp0111.onigoing.ui.lists.SortingWay
 
 abstract class ListPageBaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     abstract fun bind(item: UserWatchingAnime)
@@ -24,6 +26,8 @@ class ListPageAdapter(
 ) : RecyclerView.Adapter<ListPageBaseViewHolder>() {
 
     private val list: MutableList<UserWatchingAnime> = mutableListOf()
+    private var sortingCharacteristics = SortingCharacteristics.MARK
+    private var sortingWay = SortingWay.ASC
 
     inner class ListPageViewHolder(
         private val binding: ItemListAnimeBinding,
@@ -109,7 +113,37 @@ class ListPageAdapter(
             clear()
             addAll(newList)
         }
+        sortList(sortingCharacteristics, sortingWay)
         diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun sortList(sortingCharacteristics: SortingCharacteristics, sortingWay: SortingWay) {
+        if (sortingNotChanged(sortingCharacteristics, sortingWay)) return
+        if (sortingWay == SortingWay.ASC) {
+            when (sortingCharacteristics) {
+                SortingCharacteristics.MARK -> list.sortBy { it.mark }
+                SortingCharacteristics.SERIES -> list.sortBy { it.currentSeries }
+            }
+        } else {
+            when (sortingCharacteristics) {
+                SortingCharacteristics.MARK -> list.sortByDescending { it.mark }
+                SortingCharacteristics.SERIES -> list.sortByDescending { it.currentSeries }
+            }
+        }
+        updateSortingState(sortingCharacteristics, sortingWay)
+    }
+
+    private fun sortingNotChanged(
+        characteristics: SortingCharacteristics,
+        way: SortingWay,
+    ): Boolean {
+        return sortingCharacteristics == characteristics && sortingWay == way
+    }
+
+    private fun updateSortingState(characteristics: SortingCharacteristics, way: SortingWay) {
+        sortingCharacteristics = characteristics
+        sortingWay = way
+        notifyItemRangeChanged(0, list.size)
     }
 }
 

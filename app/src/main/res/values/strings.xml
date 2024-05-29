@@ -25,6 +25,7 @@
     <string name="completed">Completed</string>
     <string name="done">Done</string>
     <string name="series">series</string>
+    <string name="sorted_by_mark">Sorted by mark</string>
 
     <plurals name="plural_episodes">
         <item quantity="zero">%1$d episodes</item>
@@ -34,5 +35,10 @@
         <item quantity="many">%1$d episodes</item>
         <item quantity="other">%1$d episodes</item>
     </plurals>
+
+    <string-array name="sorting_filters">
+        <item>Sorted by mark</item>
+        <item>Sorted by series</item>
+    </string-array>
 
 </resources>

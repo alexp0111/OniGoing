@@ -5,6 +5,47 @@
     android:layout_height="match_parent"
     app:layoutDescription="@xml/fragment_lists_scene">
 
+    <LinearLayout
+        android:id="@+id/ll_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_half"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_custom_divider">
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinner_sorting_order"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:spinnerMode="dropdown"
+            android:background="@null"
+            android:popupBackground="@drawable/bg_spinner" />
+
+        <ImageView
+            android:id="@+id/iv_sort_ascending"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:padding="@dimen/button_inner_padding"
+            android:rotation="-90"
+            android:src="@drawable/back_arrow" />
+
+        <ImageView
+            android:id="@+id/iv_sort_descending"
+            android:visibility="gone"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:padding="@dimen/button_inner_padding"
+            android:rotation="90"
+            android:src="@drawable/back_arrow" />
+
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/iv_custom_divider"
         android:layout_width="match_parent"
@@ -14,34 +55,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fl_header" />
-
-    <LinearLayout
-        android:id="@+id/ll_filter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/margin_base"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_custom_divider">
-
-        <TextView
-            style="@style/TextLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|start"
-            android:text="Sorted by mark"
-            android:textColor="@color/dark" />
-
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end"
-            android:padding="@dimen/button_inner_padding"
-            android:rotation="-90"
-            android:src="@drawable/back_arrow" />
-
-    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fl_header"

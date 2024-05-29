@@ -1,6 +1,7 @@
 package ru.alexp0111.onigoing.ui.lists.page
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.databinding.FragmentListPageBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
+import ru.alexp0111.onigoing.ui.lists.SortOrderHandler
 import javax.inject.Inject
 
-class ListPageFragment : Fragment() {
+interface SortableFragment {
+    fun notifySortingFilterChanged()
+}
+
+class ListPageFragment : Fragment(), SortableFragment {
 
     @Inject
     lateinit var viewModel: ListPageViewModel
@@ -62,6 +68,23 @@ class ListPageFragment : Fragment() {
                 orientation = LinearLayoutManager.VERTICAL
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        handleSortingUpdate()
+    }
+
+    override fun notifySortingFilterChanged() {
+        handleSortingUpdate()
+    }
+
+    private fun handleSortingUpdate() {
+        val filter = (parentFragment as SortOrderHandler).getCurrentSortingFilter()
+        listsAdapter.sortList(
+            sortingCharacteristics = filter.first,
+            sortingWay = filter.second,
+        )
     }
 
     private fun subscribeUI() {
