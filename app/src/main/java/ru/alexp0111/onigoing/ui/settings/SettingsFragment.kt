@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Snackbar
-import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentSettingsBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.base.BackPressable
@@ -49,19 +47,19 @@ class SettingsFragment : Fragment(), BackPressable {
 
             cvThemeGreen.setOnClickListener {
                 updateThemeValue(ColorThemes.GREEN)
-                showRecreateMessage()
+                requireActivity().recreate()
             }
             cvThemeOrange.setOnClickListener {
                 updateThemeValue(ColorThemes.ORANGE)
-                showRecreateMessage()
+                requireActivity().recreate()
             }
             cvThemeBlue.setOnClickListener {
                 updateThemeValue(ColorThemes.BLUE)
-                showRecreateMessage()
+                requireActivity().recreate()
             }
             cvThemeRed.setOnClickListener {
                 updateThemeValue(ColorThemes.RED)
-                showRecreateMessage()
+                requireActivity().recreate()
             }
         }
     }
@@ -78,16 +76,6 @@ class SettingsFragment : Fragment(), BackPressable {
             ivBlueThemeDone.isVisible = theme == ColorThemes.BLUE
             ivRedThemeDone.isVisible = theme == ColorThemes.RED
         }
-    }
-
-    private fun showRecreateMessage() {
-        Snackbar.make(
-            requireView(),
-            getString(R.string.restart_app_for_theme_snack_bar),
-            Snackbar.LENGTH_LONG,
-        ).setBackgroundTint(resources.getColor(R.color.dark, requireActivity().theme))
-            .setTextColor(resources.getColor(R.color.white, requireActivity().theme))
-            .show()
     }
 
     override fun onBackPressed(): Boolean {
