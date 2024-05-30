@@ -1,9 +1,25 @@
 <resources>
+    <attr name="main_accent_color" format="reference|color" />
 
     <style name="Base.Theme.OniGoing" parent="Theme.Material3.DayNight.NoActionBar" />
 
     <style name="Theme.OniGoing" parent="Base.Theme.OniGoing">
         <item name="android:statusBarColor">@color/dark</item>
         <item name="android:navigationBarColor">@color/dark</item>
+    </style>
+
+    <style name="BaseActivity" parent="@style/Theme.OniGoing">
+    </style>
+    <style name="GreenActivity" parent="@style/BaseActivity">
+        <item name="main_accent_color">@color/green</item>
+    </style>
+    <style name="RedActivity" parent="@style/BaseActivity">
+        <item name="main_accent_color">@color/red</item>
+    </style>
+    <style name="OrangeActivity" parent="@style/BaseActivity">
+        <item name="main_accent_color">@color/orange</item>
+    </style>
+    <style name="BlueActivity" parent="@style/BaseActivity">
+        <item name="main_accent_color">@color/blue</item>
     </style>
 </resources>

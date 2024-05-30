@@ -69,35 +69,39 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_weight="1"
-                        android:src="@drawable/start2" />
+                        android:src="@drawable/start2"
+                        app:tint="?main_accent_color"/>
 
                     <ImageView
                         android:id="@+id/iv_star_2"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_weight="1"
-                        android:src="@drawable/start2" />
+                        android:src="@drawable/start2"
+                        app:tint="?main_accent_color"/>
 
                     <ImageView
                         android:id="@+id/iv_star_3"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_weight="1"
-                        android:src="@drawable/start2" />
+                        android:src="@drawable/start2"
+                        app:tint="?main_accent_color"/>
 
                     <ImageView
                         android:id="@+id/iv_star_4"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_weight="1"
-                        android:src="@drawable/start2" />
+                        android:src="@drawable/start2"
+                        app:tint="?main_accent_color"/>
 
                     <ImageView
                         android:id="@+id/iv_star_5"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_weight="1"
-                        android:src="@drawable/star" />
+                        android:src="@drawable/star"/>
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -123,7 +127,8 @@
                     android:layout_height="@dimen/element_base_size"
                     android:layout_weight="1"
                     android:padding="@dimen/button_inner_padding_more"
-                    android:src="@drawable/minus" />
+                    android:src="@drawable/minus"
+                    app:tint="?main_accent_color" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/cv_current_episode"
@@ -149,7 +154,8 @@
                     android:layout_height="@dimen/element_base_size"
                     android:layout_weight="1"
                     android:padding="@dimen/button_inner_padding_more"
-                    android:src="@drawable/plus" />
+                    android:src="@drawable/plus"
+                    app:tint="?main_accent_color" />
 
 
             </LinearLayout>

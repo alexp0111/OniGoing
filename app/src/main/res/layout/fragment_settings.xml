@@ -61,13 +61,119 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraintLayout" />
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        style="@style/CardViewStandart"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="@dimen/margin_base"
+        android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/star"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_custom_divider" />
+        app:layout_constraintTop_toBottomOf="@id/iv_custom_divider">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_app_theme_header"
+                style="@style/TextLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/margin_base"
+                android:text="App theme" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_base">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_theme_green"
+                    style="@style/CardViewButton"
+                    android:layout_width="@dimen/element_base_size"
+                    android:layout_height="@dimen/element_base_size"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/green">
+
+                    <ImageView
+                        android:id="@+id/iv_green_theme_done"
+                        android:layout_width="@dimen/element_base_size"
+                        android:layout_height="@dimen/element_base_size"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/button_inner_padding"
+                        android:src="@drawable/done"
+                        android:visibility="gone" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_theme_orange"
+                    style="@style/CardViewButton"
+                    android:layout_width="@dimen/element_base_size"
+                    android:layout_height="@dimen/element_base_size"
+                    android:layout_marginStart="@dimen/margin_base"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/orange">
+
+                    <ImageView
+                        android:id="@+id/iv_orange_theme_done"
+                        android:layout_width="@dimen/element_base_size"
+                        android:layout_height="@dimen/element_base_size"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/button_inner_padding"
+                        android:src="@drawable/done"
+                        android:visibility="gone" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_theme_blue"
+                    style="@style/CardViewButton"
+                    android:layout_width="@dimen/element_base_size"
+                    android:layout_height="@dimen/element_base_size"
+                    android:layout_marginStart="@dimen/margin_base"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/blue">
+
+                    <ImageView
+                        android:id="@+id/iv_blue_theme_done"
+                        android:layout_width="@dimen/element_base_size"
+                        android:layout_height="@dimen/element_base_size"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/button_inner_padding"
+                        android:src="@drawable/done"
+                        android:visibility="gone" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_theme_red"
+                    style="@style/CardViewButton"
+                    android:layout_width="@dimen/element_base_size"
+                    android:layout_height="@dimen/element_base_size"
+                    android:layout_marginStart="@dimen/margin_base"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/red">
+
+                    <ImageView
+                        android:id="@+id/iv_red_theme_done"
+                        android:layout_width="@dimen/element_base_size"
+                        android:layout_height="@dimen/element_base_size"
+                        android:layout_gravity="center"
+                        android:padding="@dimen/button_inner_padding"
+                        android:src="@drawable/done"
+                        android:visibility="gone" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

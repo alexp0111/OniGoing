@@ -11,6 +11,7 @@ import ru.alexp0111.onigoing.navigation.Screens
 import ru.alexp0111.onigoing.ui.base.BackPressable
 import ru.alexp0111.onigoing.ui.base.RootFragment
 import ru.alexp0111.onigoing.ui.utils.collectOnLifecycle
+import ru.alexp0111.onigoing.utils.ColorThemes
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -26,11 +27,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         injectSelf()
         super.onCreate(savedInstanceState)
+        resolveColorTheme()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpBottomNavigation()
         subscribeOnViewModel()
+    }
+
+    private fun resolveColorTheme() {
+        val theme = when(viewModel.getColorTheme()) {
+            ColorThemes.GREEN -> R.style.GreenActivity
+            ColorThemes.ORANGE -> R.style.OrangeActivity
+            ColorThemes.BLUE -> R.style.BlueActivity
+            ColorThemes.RED -> R.style.RedActivity
+        }
+        setTheme(theme)
     }
 
     override fun onBackPressed() {

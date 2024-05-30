@@ -5,5 +5,5 @@
     <stroke
         android:width="@dimen/spinner_stroke"
         android:color="@color/dark" />
-    <solid android:color="@color/green"/>
+    <solid android:color="?main_accent_color"/>
 </shape>

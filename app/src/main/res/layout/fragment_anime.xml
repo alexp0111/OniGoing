@@ -133,7 +133,8 @@
                         android:layout_width="@dimen/element_base_size"
                         android:layout_height="@dimen/element_base_size"
                         android:padding="@dimen/button_inner_padding_more"
-                        android:src="@drawable/minus" />
+                        android:src="@drawable/minus"
+                        app:tint="?main_accent_color" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cv_current_episode"
@@ -157,7 +158,8 @@
                         android:layout_width="@dimen/element_base_size"
                         android:layout_height="@dimen/element_base_size"
                         android:padding="@dimen/button_inner_padding_more"
-                        android:src="@drawable/plus" />
+                        android:src="@drawable/plus"
+                        app:tint="?main_accent_color" />
 
 
                 </LinearLayout>
@@ -320,8 +322,8 @@
                     style="@style/TextMid"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginVertical="@dimen/margin_double"
                     android:layout_marginHorizontal="@dimen/margin_base"
+                    android:layout_marginVertical="@dimen/margin_double"
                     android:paddingHorizontal="@dimen/margin_base" />
 
             </LinearLayout>

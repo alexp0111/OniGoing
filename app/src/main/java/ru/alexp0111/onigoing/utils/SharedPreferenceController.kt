@@ -8,6 +8,21 @@ import javax.inject.Singleton
 private const val KEY_SEARCH_HISTORY = "SEARCH_HISTORY"
 private const val SEARCH_HISTORY_MAX_SIZE = 5
 
+private const val KEY_COLOR_THEME = "COLOR_THEME"
+
+enum class ColorThemes {
+    GREEN,
+    ORANGE,
+    BLUE,
+    RED;
+
+    companion object {
+        fun from(ord: Int): ColorThemes {
+            return entries[ord]
+        }
+    }
+}
+
 @Singleton
 class SharedPreferenceController @Inject constructor(
     private val preferences: SharedPreferences,
@@ -40,5 +55,14 @@ class SharedPreferenceController @Inject constructor(
             ),
             SearchHistory::class.java,
         )
+    }
+
+    fun setColorTheme(theme: ColorThemes) {
+        preferences.edit().putInt(KEY_COLOR_THEME, theme.ordinal).apply()
+    }
+
+    fun getColorTheme(): ColorThemes {
+        val ord = preferences.getInt(KEY_COLOR_THEME, 0)
+        return ColorThemes.from(ord)
     }
 }
