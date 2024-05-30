@@ -16,6 +16,7 @@ import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.lists.page.ListHeaderAdapter
 import ru.alexp0111.onigoing.ui.lists.page.Pages
 import ru.alexp0111.onigoing.ui.lists.page.SortableFragment
+import ru.alexp0111.onigoing.utils.ColorThemes
 import javax.inject.Inject
 
 interface SortOrderHandler {
@@ -23,15 +24,27 @@ interface SortOrderHandler {
 }
 
 enum class SortingCharacteristics {
-    MARK,
     SERIES,
     NAME,
-    DATE,
+    MARK,
+    DATE;
+
+    companion object {
+        fun from(ord: Int): SortingCharacteristics {
+            return SortingCharacteristics.entries[ord]
+        }
+    }
 }
 
 enum class SortingWay {
     ASC,
-    DESC,
+    DESC;
+
+    companion object {
+        fun from(ord: Int): SortingWay {
+            return SortingWay.entries[ord]
+        }
+    }
 }
 
 class ListsFragment : Fragment(), SortOrderHandler {
@@ -67,6 +80,7 @@ class ListsFragment : Fragment(), SortOrderHandler {
                 2 -> currentSortingFilter.copy(first = SortingCharacteristics.MARK)
                 else -> currentSortingFilter.copy(first = SortingCharacteristics.DATE)
             }
+            updateSortingSetting()
             notifyChildrenAboutSortingChange()
         }
 
@@ -106,6 +120,16 @@ class ListsFragment : Fragment(), SortOrderHandler {
             ivSortAscending.setOnClickListener { handleSortingWayAction() }
             ivSortDescending.setOnClickListener { handleSortingWayAction() }
         }
+        setSortingSettings()
+    }
+
+    private fun setSortingSettings() {
+        currentSortingFilter = viewModel.getSortingSettings()
+        binding.apply {
+            spinnerSortingOrder.post { spinnerSortingOrder.setSelection(currentSortingFilter.first.ordinal) }
+            ivSortAscending.isVisible = currentSortingFilter.second == SortingWay.ASC
+            ivSortDescending.isVisible = currentSortingFilter.second == SortingWay.DESC
+        }
     }
 
     private fun handleSortingWayAction() {
@@ -118,7 +142,12 @@ class ListsFragment : Fragment(), SortOrderHandler {
                 currentSortingFilter.copy(second = SortingWay.DESC)
             }
         }
+        updateSortingSetting()
         notifyChildrenAboutSortingChange()
+    }
+
+    private fun updateSortingSetting() {
+        viewModel.updateSortingSettings(currentSortingFilter)
     }
 
     private fun notifyChildrenAboutSortingChange() {

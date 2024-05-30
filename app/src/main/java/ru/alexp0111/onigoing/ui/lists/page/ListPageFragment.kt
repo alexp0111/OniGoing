@@ -1,7 +1,6 @@
 package ru.alexp0111.onigoing.ui.lists.page
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
+import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.databinding.FragmentListPageBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.lists.SortOrderHandler
@@ -70,18 +70,14 @@ class ListPageFragment : Fragment(), SortableFragment {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        handleSortingUpdate()
-    }
-
     override fun notifySortingFilterChanged() {
-        handleSortingUpdate()
+        updateListWithSorting()
     }
 
-    private fun handleSortingUpdate() {
+    private fun updateListWithSorting(list: List<UserWatchingAnime>? = null) {
         val filter = (parentFragment as SortOrderHandler).getCurrentSortingFilter()
         listsAdapter.sortList(
+            incomingList = list,
             sortingCharacteristics = filter.first,
             sortingWay = filter.second,
         )
@@ -101,7 +97,7 @@ class ListPageFragment : Fragment(), SortableFragment {
 
     private fun handleState(state: UiState) {
         binding.apply {
-            listsAdapter.updateList(state.listOfTitles)
+            updateListWithSorting(state.listOfTitles)
         }
     }
 
