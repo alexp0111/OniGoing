@@ -72,8 +72,9 @@
                 android:id="@+id/line_1"
                 android:layout_width="match_parent"
                 android:layout_height="16dp"
-                android:layout_marginStart="-16dp"
-                android:background="@drawable/custom_divider"
+                android:layout_marginStart="-2dp"
+                android:layout_marginEnd="-2dp"
+                android:background="@drawable/custom_wave_divider"
                 android:scaleType="center" />
 
             <LinearLayout
@@ -86,6 +87,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <EditText
+                    android:id="@+id/et_email"
                     style="@style/TextSmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -99,13 +101,6 @@
                     android:scrollHorizontally="true"
                     android:textColorHint="@color/dark"
                     android:textCursorDrawable="@drawable/cursor" />
-
-                <ImageView
-                    android:layout_width="@dimen/element_base_size"
-                    android:layout_height="@dimen/element_base_size"
-                    android:padding="@dimen/button_inner_padding_more"
-                    android:src="@drawable/hide" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -118,6 +113,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <EditText
+                    android:id="@+id/et_password"
                     style="@style/TextSmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -126,21 +122,31 @@
                     android:background="@null"
                     android:hint="@string/password"
                     android:imeOptions="actionDone"
-                    android:inputType="text"
+                    android:inputType="textPassword"
                     android:maxLines="1"
                     android:scrollHorizontally="true"
                     android:textColorHint="@color/dark"
                     android:textCursorDrawable="@drawable/cursor" />
 
                 <ImageView
+                    android:id="@+id/iv_hide"
                     android:layout_width="@dimen/element_base_size"
                     android:layout_height="@dimen/element_base_size"
                     android:padding="@dimen/button_inner_padding_more"
                     android:src="@drawable/hide" />
 
+                <ImageView
+                    android:id="@+id/iv_show"
+                    android:layout_width="@dimen/element_base_size"
+                    android:layout_height="@dimen/element_base_size"
+                    android:padding="@dimen/button_inner_padding_more"
+                    android:src="@drawable/show"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_log_in"
                 style="@style/CardViewButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/element_base_size"
@@ -159,6 +165,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_registration"
                 style="@style/CardViewButton"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/element_base_size"

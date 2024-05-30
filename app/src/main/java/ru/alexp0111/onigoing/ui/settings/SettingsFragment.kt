@@ -42,6 +42,10 @@ class SettingsFragment : Fragment(), BackPressable {
             cvBack.setOnClickListener {
                 settingsViewModel.onBackPressed()
             }
+            cvLogOut.setOnClickListener {
+                settingsViewModel.logOut()
+                requireActivity().finish()
+            }
 
             cvThemeGreen.setOnClickListener {
                 updateThemeValue(ColorThemes.GREEN)

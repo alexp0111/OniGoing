@@ -14,7 +14,11 @@ import ru.alexp0111.onigoing.ui.utils.collectOnLifecycle
 import ru.alexp0111.onigoing.utils.ColorThemes
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+interface MenuConfigurator {
+    fun updateMenuStateIfNeeded()
+}
+
+class MainActivity : AppCompatActivity(), MenuConfigurator {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -36,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resolveColorTheme() {
-        val theme = when(viewModel.getColorTheme()) {
+        val theme = when (viewModel.getColorTheme()) {
             ColorThemes.GREEN -> R.style.GreenActivity
             ColorThemes.ORANGE -> R.style.OrangeActivity
             ColorThemes.BLUE -> R.style.BlueActivity
@@ -63,17 +67,30 @@ class MainActivity : AppCompatActivity() {
             true
         }
         setOnItemReselectedListener { (currentFragment as? RootFragment)?.setFirstScreen() }
-        selectedItemId = R.id.menu_item_search
-        this@MainActivity.selectTab(NavigationTabTags.TAG_SEARCH)
     }
 
-    private fun subscribeOnViewModel() = collectOnLifecycle(viewModel.loggedIn) { loggedIn ->
-        binding.navigationView.apply {
-            menu.findItem(R.id.menu_item_profile).isVisible = loggedIn
-            if ((selectedItemId == R.id.menu_item_profile).and(!loggedIn)) {
-                this@MainActivity.deleteTab(NavigationTabTags.TAG_PROFILE)
-                this@MainActivity.selectTab(NavigationTabTags.TAG_SEARCH)
-                selectedItemId = R.id.menu_item_search
+    private fun subscribeOnViewModel() {
+        updateMenuStateIfNeeded()
+    }
+
+    override fun updateMenuStateIfNeeded() {
+        collectOnLifecycle(viewModel.loggedIn) { loggedIn ->
+            binding.navigationView.apply {
+                menu.findItem(R.id.menu_item_lists).isVisible = loggedIn
+                menu.findItem(R.id.menu_item_search).isVisible = loggedIn
+                if (!loggedIn) {
+                    if (selectedItemId == R.id.menu_item_search) {
+                        this@MainActivity.deleteTab(NavigationTabTags.TAG_SEARCH)
+                    }
+                    this@MainActivity.selectTab(NavigationTabTags.TAG_PROFILE)
+                    selectedItemId = R.id.menu_item_profile
+                } else {
+                    if (selectedItemId == R.id.menu_item_profile) {
+                        this@MainActivity.deleteTab(NavigationTabTags.TAG_PROFILE)
+                    }
+                    this@MainActivity.selectTab(NavigationTabTags.TAG_SEARCH)
+                    selectedItemId = R.id.menu_item_search
+                }
             }
         }
     }

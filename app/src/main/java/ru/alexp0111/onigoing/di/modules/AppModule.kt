@@ -8,6 +8,7 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import ru.alexp0111.onigoing.database.user_watching_anime.UserWatchingAnimeDatabase
+import ru.alexp0111.onigoing.utils.account.ProfileManager
 import javax.inject.Singleton
 
 private const val SHARED_PREFS_FILE_NAME = "onigoing_shared_prefs"
@@ -25,6 +26,12 @@ class AppModule(
     @Singleton
     fun provideSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(SHARED_PREFS_FILE_NAME, MODE_PRIVATE)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProfileManager(sharedPreferences: SharedPreferences): ProfileManager {
+        return ProfileManager(sharedPreferences)
     }
 
     @Provides

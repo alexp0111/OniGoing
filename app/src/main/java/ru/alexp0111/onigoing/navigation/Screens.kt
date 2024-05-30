@@ -5,6 +5,7 @@ import ru.alexp0111.onigoing.ui.anime.AnimeFragment
 import ru.alexp0111.onigoing.ui.lists.ListsFragment
 import ru.alexp0111.onigoing.ui.lists.root.ListsRootFragment
 import ru.alexp0111.onigoing.ui.profile.ProfileFragment
+import ru.alexp0111.onigoing.ui.profile.login.LogInFragment
 import ru.alexp0111.onigoing.ui.profile.root.ProfileRootFragment
 import ru.alexp0111.onigoing.ui.search.SearchFragment
 import ru.alexp0111.onigoing.ui.search.root.SearchRootFragment
@@ -28,7 +29,7 @@ object Screens {
 
     // todo:
 
-    fun RegistrationScreen() = FragmentScreen { ProfileFragment() }
+    fun LogInScreen() = FragmentScreen { LogInFragment() }
 
     fun SettingsScreen() = FragmentScreen { SettingsFragment() }
 

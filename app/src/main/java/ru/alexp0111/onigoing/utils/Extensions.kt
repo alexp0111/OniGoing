@@ -1,5 +1,7 @@
 package ru.alexp0111.onigoing.utils
 
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import java.util.concurrent.TimeUnit
 
 fun Long.asFormattedTimeString(): String {
@@ -19,4 +21,8 @@ fun Long.asFormattedTimeString(): String {
         minutes != 0L -> "$minutes minutes"
         else -> "$seconds seconds"
     }
+}
+
+fun Fragment.toast(message: String) {
+    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 }

@@ -10,6 +10,7 @@ import ru.alexp0111.onigoing.navigation.routers.ILocalRouter
 import ru.alexp0111.onigoing.navigation.routers.ListsRouter
 import ru.alexp0111.onigoing.navigation.routers.ProfileRouter
 import ru.alexp0111.onigoing.navigation.routers.SearchRouter
+import ru.alexp0111.onigoing.utils.account.ProfileManager
 import javax.inject.Singleton
 
 @Module
@@ -47,8 +48,8 @@ class NavigationModule {
 
     @Singleton
     @Provides
-    fun provideProfileRouter(@ProfileCicerone cicerone: Cicerone<Router>): ProfileRouter =
-        ProfileRouter(cicerone.router)
+    fun provideProfileRouter(@ProfileCicerone cicerone: Cicerone<Router>, profileManager: ProfileManager): ProfileRouter =
+        ProfileRouter(cicerone.router, profileManager)
 
     @Singleton
     @Provides
