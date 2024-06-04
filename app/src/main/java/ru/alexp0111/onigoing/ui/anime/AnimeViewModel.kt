@@ -94,7 +94,7 @@ class AnimeViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateCurrentSeriesForAnime(animeId: Int, deltaSeries: Int) {
+    fun updateCurrentSeriesForAnimeByDelta(animeId: Int, deltaSeries: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val animeIfExists = userWatchingAnimeRepository.getAnimeByID(animeId)
             if (animeIfExists != null) {
@@ -114,6 +114,34 @@ class AnimeViewModel @AssistedInject constructor(
                         imageUriString = imageUri,
                         mark = 0,
                         currentSeries = newAmountOfSeries,
+                        watchingState = Pages.NOT_IN_LIST.ordinal,
+                        addingDate = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
+                    )
+                )
+            }
+            getUserStateByAnimeId(animeId)
+        }
+    }
+
+    fun updateCurrentSeriesForAnime(animeId: Int, amountOfSeries: Int) {
+        // todo: unify (method above) and simplify
+        viewModelScope.launch(Dispatchers.IO) {
+            val animeIfExists = userWatchingAnimeRepository.getAnimeByID(animeId)
+            if (animeIfExists != null) {
+                userWatchingAnimeRepository.updateAnimeSeriesById(animeId, amountOfSeries)
+            } else if (!state.value.isLoading && state.value.isResponseSuccess) {
+                val imageUri = if (state.value.animeImages.isNotEmpty()) {
+                    state.value.animeImages.first().toString()
+                } else {
+                    Uri.EMPTY.toString()
+                }
+                userWatchingAnimeRepository.insertNewAnime(
+                    UserWatchingAnime(
+                        id = animeId,
+                        title = state.value.animeTitle,
+                        imageUriString = imageUri,
+                        mark = 0,
+                        currentSeries = amountOfSeries,
                         watchingState = Pages.NOT_IN_LIST.ordinal,
                         addingDate = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME),
                     )

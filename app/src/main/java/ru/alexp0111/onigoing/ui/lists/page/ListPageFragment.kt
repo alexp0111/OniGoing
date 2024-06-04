@@ -10,10 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
+import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.databinding.FragmentListPageBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.lists.SortOrderHandler
+import ru.alexp0111.onigoing.utils.snack
 import javax.inject.Inject
 
 interface SortableFragment {
@@ -26,16 +28,21 @@ class ListPageFragment : Fragment(), SortableFragment {
     lateinit var viewModel: ListPageViewModel
 
     private val listsAdapter by lazy {
-        ListPageAdapter(requireActivity(), { onRootResult ->
-            viewModel.openAnimeWithId(onRootResult.id)
-        }, { onMinusResult ->
-            val newCurrentSeries = maxOf(onMinusResult.currentSeries - 1, 0)
-            viewModel.updateUsersAnime(onMinusResult.copy(currentSeries = newCurrentSeries))
-        }, { onPlusResult ->
-            val newCurrentSeries = onPlusResult.currentSeries + 1
-            viewModel.updateUsersAnime(onPlusResult.copy(currentSeries = newCurrentSeries))
-
-        }, { item, newMark ->
+        ListPageAdapter(requireActivity(), { item ->
+            viewModel.openAnimeWithId(item.id)
+        }, { item ->
+            val newCurrentSeries = maxOf(item.currentSeries - 1, 0)
+            viewModel.updateUsersAnime(item.copy(currentSeries = newCurrentSeries))
+        }, { item ->
+            val newCurrentSeries = item.currentSeries + 1
+            viewModel.updateUsersAnime(item.copy(currentSeries = newCurrentSeries))
+        }, { item, newAmountOfSeries ->
+           if (newAmountOfSeries != INCORRECT_SERIES_ET_INPUT_CODE) {
+               viewModel.updateUsersAnime(item.copy(currentSeries = newAmountOfSeries))
+           } else {
+               snack(requireContext().getString(R.string.incorrect_input))
+           }
+        },{ item, newMark ->
             viewModel.updateUsersAnime(item.copy(mark = newMark))
         })
     }

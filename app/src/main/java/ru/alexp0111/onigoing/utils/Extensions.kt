@@ -2,6 +2,8 @@ package ru.alexp0111.onigoing.utils
 
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
+import ru.alexp0111.onigoing.R
 import java.util.concurrent.TimeUnit
 
 fun Long.asFormattedTimeString(): String {
@@ -25,4 +27,14 @@ fun Long.asFormattedTimeString(): String {
 
 fun Fragment.toast(message: String) {
     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+}
+
+fun Fragment.snack(message: String) {
+    Snackbar.make(
+        requireView(),
+        message,
+        Snackbar.LENGTH_LONG,
+    ).setBackgroundTint(resources.getColor(R.color.dark, requireActivity().theme))
+        .setTextColor(resources.getColor(R.color.white, requireActivity().theme))
+        .show()
 }

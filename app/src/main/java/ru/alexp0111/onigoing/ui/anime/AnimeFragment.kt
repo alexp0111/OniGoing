@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
@@ -19,7 +21,9 @@ import ru.alexp0111.onigoing.databinding.FragmentAnimeBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.navigation.routers.SearchRouter
 import ru.alexp0111.onigoing.ui.base.BackPressable
+import ru.alexp0111.onigoing.ui.lists.page.INCORRECT_SERIES_ET_INPUT_CODE
 import ru.alexp0111.onigoing.ui.lists.page.Pages
+import ru.alexp0111.onigoing.utils.snack
 import javax.inject.Inject
 
 private const val TAG = "AnimeFragment"
@@ -94,12 +98,42 @@ class AnimeFragment : Fragment(), BackPressable {
             }
             ivMinus.setOnClickListener {
                 val animeId = arguments?.getInt(ANIME_ID_KEY) ?: return@setOnClickListener
-                animeViewModel.updateCurrentSeriesForAnime(animeId, -1)
+                animeViewModel.updateCurrentSeriesForAnimeByDelta(animeId, -1)
             }
             ivPlus.setOnClickListener {
                 val animeId = arguments?.getInt(ANIME_ID_KEY) ?: return@setOnClickListener
-                animeViewModel.updateCurrentSeriesForAnime(animeId, +1)
+                animeViewModel.updateCurrentSeriesForAnimeByDelta(animeId, +1)
             }
+            etCurrentEpisode.apply {
+                setOnEditorActionListener { _, act, _ ->
+                    if (act == EditorInfo.IME_ACTION_DONE) {
+                        val newAmountOfSeries = verifyInput(text.toString())
+                        clearFocus()
+                        if (newAmountOfSeries == INCORRECT_SERIES_ET_INPUT_CODE) {
+                            snack(requireContext().getString(R.string.incorrect_input))
+                            setText(animeViewModel.state.value.userCurrentSeries.toString())
+                        } else {
+                            val animeId = arguments?.getInt(ANIME_ID_KEY)
+                            if (animeId != null) {
+                                animeViewModel.updateCurrentSeriesForAnime(
+                                    animeId,
+                                    newAmountOfSeries,
+                                )
+                            }
+                        }
+                    }
+                    return@setOnEditorActionListener false
+                }
+            }
+        }
+    }
+
+    private fun verifyInput(input: String): Int {
+        // todo: Extract to usecase with logic in lists
+        return if (input.isNotEmpty() && input.length <= 8 && input.isDigitsOnly() && !input.startsWith('0')) {
+            input.toInt()
+        } else {
+            INCORRECT_SERIES_ET_INPUT_CODE
         }
     }
 
@@ -127,7 +161,7 @@ class AnimeFragment : Fragment(), BackPressable {
                     vpStatus.setCurrentItem(it, true)
                 }
             }
-            txtCurrentEpisode.text = state.userCurrentSeries.toString()
+            etCurrentEpisode.setText(state.userCurrentSeries.toString())
 
             if (state.amountOfSeries == null) {
                 txtAmountOfSeries.text = getString(R.string.ongoing)

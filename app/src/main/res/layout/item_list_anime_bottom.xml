@@ -125,14 +125,14 @@
                     android:layout_height="@dimen/element_base_size"
                     android:layout_weight="4">
 
-                    <TextView
-                        android:id="@+id/txt_current_episode"
-                        style="@style/TextSmall"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/et_current_episode"
+                        style="@style/BaseEditText"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center"
                         android:layout_marginHorizontal="@dimen/margin_base"
-                        android:gravity="center_vertical|start" />
+                        android:gravity="center"
+                        android:inputType="numberDecimal" />
 
                 </com.google.android.material.card.MaterialCardView>
 

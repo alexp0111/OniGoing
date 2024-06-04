@@ -25,6 +25,17 @@
         <item name="android:textColor">@color/dark</item>
     </style>
 
+    <style name="BaseEditText" parent="TextSmall">
+        <item name="android:background">@null</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:textColorHint">@color/dark</item>
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+        <item name="android:textSelectHandleLeft">@drawable/zero_pixels_transparent</item>
+        <item name="android:textSelectHandleRight">@drawable/zero_pixels_transparent</item>
+        <item name="android:textSelectHandle">@drawable/zero_pixels_transparent</item>
+    </style>
+
     <style name="CardViewStandart" parent="Widget.MaterialComponents.CardView">
         <item name="cardCornerRadius">@dimen/base_card_corner_radius</item>
         <item name="cardElevation">0dp</item>

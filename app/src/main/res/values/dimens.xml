@@ -35,4 +35,7 @@
     <dimen name="statistics_dot">16dp</dimen>
     <dimen name="spinner_stroke">4dp</dimen>
 
+    <dimen name="et_min_width">48dp</dimen>
+    <dimen name="et_max_width">128dp</dimen>
+
 </resources>

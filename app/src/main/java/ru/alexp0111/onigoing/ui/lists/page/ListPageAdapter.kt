@@ -4,8 +4,10 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import androidx.core.net.toUri
+import androidx.core.text.isDigitsOnly
 import androidx.core.view.children
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +18,8 @@ import ru.alexp0111.onigoing.databinding.ItemListAnimeBinding
 import ru.alexp0111.onigoing.databinding.ItemListAnimeBottomBinding
 import ru.alexp0111.onigoing.ui.lists.SortingCharacteristics
 import ru.alexp0111.onigoing.ui.lists.SortingWay
+
+const val INCORRECT_SERIES_ET_INPUT_CODE = -1
 
 abstract class ListPageBaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     abstract fun bind(item: UserWatchingAnime)
@@ -31,6 +35,7 @@ class ListPageAdapter(
     private val onItemClicked: (UserWatchingAnime) -> Unit,
     private val onMinusClicked: (UserWatchingAnime) -> Unit,
     private val onPlusClicked: (UserWatchingAnime) -> Unit,
+    private val onSeriesChanged: (UserWatchingAnime, Int) -> Unit,
     private val onMarkSelected: (UserWatchingAnime, Int) -> Unit,
 ) : RecyclerView.Adapter<ListPageBaseViewHolder>() {
 
@@ -44,11 +49,24 @@ class ListPageAdapter(
         override fun bind(item: UserWatchingAnime) {
             binding.apply {
                 txtAnimeTitle.text = item.title
-                txtCurrentEpisode.text = item.currentSeries.toString()
+                etCurrentEpisode.setText(item.currentSeries.toString())
 
                 Glide.with(fragmentActivity)
                     .load(item.imageUriString.toUri())
                     .into(ivAnimePreview)
+            }
+
+            binding.etCurrentEpisode.apply {
+                setOnEditorActionListener { _, act, _ ->
+                    if (act == EditorInfo.IME_ACTION_DONE) {
+                        val isCorrectInput = notifySeriesChanged(item, text.toString())
+                        clearFocus()
+                        if (!isCorrectInput) {
+                            setText(item.currentSeries.toString())
+                        }
+                    }
+                    return@setOnEditorActionListener false
+                }
             }
 
             binding.apply {
@@ -65,17 +83,41 @@ class ListPageAdapter(
         }
     }
 
+    private fun notifySeriesChanged(item: UserWatchingAnime, input: String): Boolean {
+        // todo: Extract to usecase with logic in lists (+ remove magic number)
+        return if (input.isNotEmpty() && input.length <= 8 && input.isDigitsOnly() && !input.startsWith('0')) {
+            onSeriesChanged.invoke(item, input.toInt())
+            true
+        } else {
+            onSeriesChanged.invoke(item, INCORRECT_SERIES_ET_INPUT_CODE)
+            false
+        }
+    }
+
     inner class ListPageBottomViewHolder(
         private val binding: ItemListAnimeBottomBinding,
     ) : ListPageBaseViewHolder(binding.root) {
         override fun bind(item: UserWatchingAnime) {
             binding.apply {
                 txtAnimeTitle.text = item.title
-                txtCurrentEpisode.text = item.currentSeries.toString()
+                etCurrentEpisode.setText(item.currentSeries.toString())
 
                 Glide.with(fragmentActivity)
                     .load(item.imageUriString.toUri())
                     .into(ivAnimePreview)
+            }
+
+            binding.etCurrentEpisode.apply {
+                setOnEditorActionListener { _, act, _ ->
+                    if (act == EditorInfo.IME_ACTION_DONE) {
+                        val isCorrectInput = notifySeriesChanged(item, text.toString())
+                        clearFocus()
+                        if (!isCorrectInput) {
+                            setText(item.currentSeries.toString())
+                        }
+                    }
+                    return@setOnEditorActionListener false
+                }
             }
 
             binding.apply {

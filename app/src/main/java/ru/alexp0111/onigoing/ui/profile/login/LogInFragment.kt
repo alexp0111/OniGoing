@@ -11,7 +11,7 @@ import ru.alexp0111.onigoing.databinding.FragmentAccountBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.MenuConfigurator
 import ru.alexp0111.onigoing.utils.account.ProfileManager
-import ru.alexp0111.onigoing.utils.toast
+import ru.alexp0111.onigoing.utils.snack
 import javax.inject.Inject
 
 class LogInFragment : Fragment() {
@@ -40,7 +40,7 @@ class LogInFragment : Fragment() {
         binding.apply {
             cvLogIn.setOnClickListener {
                 if (!inputIsCorrect()) {
-                    toast("Input is incorrect")
+                    snack("Input is incorrect")
                     return@setOnClickListener
                 }
                 val isLoggedInSuccessfully = viewModel.tryToLogIn(
@@ -49,11 +49,11 @@ class LogInFragment : Fragment() {
                 )
                 (requireActivity() as MenuConfigurator).updateMenuStateIfNeeded()
                 if (!isLoggedInSuccessfully) {
-                    toast("Email or password is incorrect")
+                    snack("Email or password is incorrect")
                 }
             }
             cvRegistration.setOnClickListener {
-                toast("In dev..")
+                snack("In dev..")
             }
             ivHide.setOnClickListener { hidePasswordIfNeeded(false) }
             ivShow.setOnClickListener { hidePasswordIfNeeded(true) }
