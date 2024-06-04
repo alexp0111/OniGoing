@@ -11,9 +11,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.database.user_watching_anime.UserWatchingAnimeRepository
 import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
+import ru.alexp0111.onigoing.navigation.routers.ListsRouter
 import javax.inject.Inject
 
 class ListPageViewModel @Inject constructor(
+    private val router: ListsRouter,
     private val userWatchingAnimeRepository: UserWatchingAnimeRepository,
 ) : ViewModel() {
 
@@ -44,6 +46,10 @@ class ListPageViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             userWatchingAnimeRepository.updateAnimeState(anime)
         }
+    }
+
+    fun openAnimeWithId(animeId: Int) {
+        router.routeToAnimeFragment(animeId)
     }
 }
 

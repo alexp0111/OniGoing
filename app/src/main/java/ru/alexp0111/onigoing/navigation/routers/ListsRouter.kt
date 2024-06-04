@@ -11,4 +11,11 @@ class ListsRouter @Inject constructor(
     override fun setFirstScreen() = router.newRootScreen(Screens.ListsScreen())
 
     override fun routeBack() = router.exit()
+
+    fun routeToAnimeFragment(animeId: Int) = router.navigateTo(Screens.AnimeScreen(animeId, TAG))
+
+    companion object {
+        const val TAG = "TAG_LISTS"
+    }
+
 }

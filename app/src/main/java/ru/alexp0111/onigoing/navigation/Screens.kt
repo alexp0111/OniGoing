@@ -31,11 +31,13 @@ object Screens {
 
     fun SettingsScreen() = FragmentScreen { SettingsFragment() }
 
-    fun AnimeScreen(animeId: Int) = FragmentScreen("AnimeScreen_$animeId") {
-        AnimeFragment.newInstance(animeId)
-    }
+    fun AnimeScreen(animeId: Int, routerTag: String) =
+        FragmentScreen("AnimeScreen-$routerTag-$animeId") {
+            AnimeFragment.newInstance(animeId, routerTag)
+        }
 
     // todo:
+
     fun CommentsScreen() = FragmentScreen { ProfileFragment() }
 
     fun NotificationsScreen() = FragmentScreen { ProfileFragment() }

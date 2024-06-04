@@ -12,9 +12,13 @@ class SearchRouter @Inject constructor(
 
     override fun routeBack() = router.exit()
 
-    fun routeToAnimeFragment(animeId: Int) = router.navigateTo(Screens.AnimeScreen(animeId))
+    fun routeToAnimeFragment(animeId: Int) = router.navigateTo(Screens.AnimeScreen(animeId, TAG))
 
     fun routeToCommentsFragment() = router.navigateTo(Screens.CommentsScreen())
 
     fun routeToNotificationsFragment() = router.navigateTo(Screens.NotificationsScreen())
+
+    companion object {
+        const val TAG = "TAG_SEARCH"
+    }
 }

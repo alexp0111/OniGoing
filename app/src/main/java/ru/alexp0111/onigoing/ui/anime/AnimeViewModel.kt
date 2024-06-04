@@ -4,6 +4,9 @@ import android.net.Uri
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,14 +17,21 @@ import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.anilist.api.AnilistRepository
 import ru.alexp0111.onigoing.database.user_watching_anime.UserWatchingAnimeRepository
 import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
+import ru.alexp0111.onigoing.navigation.routers.ListsRouter
 import ru.alexp0111.onigoing.navigation.routers.SearchRouter
 import ru.alexp0111.onigoing.ui.lists.page.Pages
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import javax.inject.Inject
 
-class AnimeViewModel @Inject constructor(
-    private val router: SearchRouter,
+@AssistedFactory
+interface AnimeViewModelFactory {
+    fun create(routerTag: String): AnimeViewModel
+}
+
+class AnimeViewModel @AssistedInject constructor(
+    @Assisted private val routerTag: String,
+    private val searchRouter: SearchRouter,
+    private val listsRouter: ListsRouter,
     private val repository: AnilistRepository,
     private val userWatchingAnimeRepository: UserWatchingAnimeRepository,
 ) : ViewModel() {
@@ -114,7 +124,12 @@ class AnimeViewModel @Inject constructor(
     }
 
     fun onBackPressed() {
-        router.routeBack()
+        val currentRouter = when (routerTag) {
+            SearchRouter.TAG -> searchRouter
+            ListsRouter.TAG -> listsRouter
+            else -> null
+        }
+        currentRouter?.routeBack()
     }
 
     fun updateStatusForAnime(animeId: Int, status: Int) {

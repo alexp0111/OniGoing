@@ -27,7 +27,7 @@ class ListPageFragment : Fragment(), SortableFragment {
 
     private val listsAdapter by lazy {
         ListPageAdapter(requireActivity(), { onRootResult ->
-            // react to click
+            viewModel.openAnimeWithId(onRootResult.id)
         }, { onMinusResult ->
             val newCurrentSeries = maxOf(onMinusResult.currentSeries - 1, 0)
             viewModel.updateUsersAnime(onMinusResult.copy(currentSeries = newCurrentSeries))

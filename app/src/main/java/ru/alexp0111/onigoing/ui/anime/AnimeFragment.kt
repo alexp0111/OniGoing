@@ -17,12 +17,14 @@ import net.nightwhistler.htmlspanner.HtmlSpanner
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentAnimeBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
+import ru.alexp0111.onigoing.navigation.routers.SearchRouter
 import ru.alexp0111.onigoing.ui.base.BackPressable
 import ru.alexp0111.onigoing.ui.lists.page.Pages
 import javax.inject.Inject
 
 private const val TAG = "AnimeFragment"
 private const val ANIME_ID_KEY = "ANIME_ID_KEY"
+private const val ROUTER_TAG = "ROUTER_TAG_KEY"
 
 // todo: 1. loading
 //       2. Few images in preview
@@ -32,6 +34,7 @@ private const val ANIME_ID_KEY = "ANIME_ID_KEY"
 class AnimeFragment : Fragment(), BackPressable {
 
     @Inject
+    lateinit var animeViewModelFactory: AnimeViewModelFactory
     lateinit var animeViewModel: AnimeViewModel
 
     private lateinit var binding: FragmentAnimeBinding
@@ -51,11 +54,21 @@ class AnimeFragment : Fragment(), BackPressable {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injectSelf()
+        super.onCreate(savedInstanceState)
+        initViewModel()
+        loadInfo()
+    }
+
+    private fun initViewModel() {
+        val routerTag = arguments?.getString(ROUTER_TAG)
+        animeViewModel = animeViewModelFactory.create(routerTag ?: SearchRouter.TAG)
+    }
+
+    private fun loadInfo() {
         arguments?.getInt(ANIME_ID_KEY)?.let {
             animeViewModel.loadInfoById(it)
             animeViewModel.getUserStateByAnimeId(it)
         }
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(
@@ -64,10 +77,10 @@ class AnimeFragment : Fragment(), BackPressable {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAnimeBinding.inflate(inflater, container, false)
-        binding.apply {
-            vpStatus.adapter = WatchingStatusAdapter()
-            vpStatus.setCurrentItem(Pages.NOT_IN_LIST.ordinal, false)
-            vpStatus.registerOnPageChangeCallback(viewPagerCallback)
+        binding.vpStatus.apply {
+            adapter = WatchingStatusAdapter()
+            setCurrentItem(Pages.NOT_IN_LIST.ordinal, false)
+            registerOnPageChangeCallback(viewPagerCallback)
         }
         return binding.root
     }
@@ -141,10 +154,11 @@ class AnimeFragment : Fragment(), BackPressable {
     }
 
     companion object {
-        fun newInstance(animeId: Int): AnimeFragment {
+        fun newInstance(animeId: Int, routerTag: String): AnimeFragment {
             return AnimeFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ANIME_ID_KEY, animeId)
+                    putString(ROUTER_TAG, routerTag)
                 }
             }
         }

@@ -25,4 +25,8 @@ class ProfileRouter @Inject constructor(
     fun replaceWithProfile() {
         router.newRootScreen(Screens.ProfileScreen())
     }
+
+    companion object {
+        const val TAG = "TAG_PROFILE"
+    }
 }
