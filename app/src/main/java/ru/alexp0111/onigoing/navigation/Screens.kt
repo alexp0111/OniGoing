@@ -27,17 +27,16 @@ object Screens {
 
     fun ProfileScreen() = FragmentScreen { ProfileFragment() }
 
-    // todo:
-
     fun LogInScreen() = FragmentScreen { LogInFragment() }
 
     fun SettingsScreen() = FragmentScreen { SettingsFragment() }
 
-    fun CommentsScreen() = FragmentScreen { ProfileFragment() }
-
-    fun NotificationsScreen() = FragmentScreen { ProfileFragment() }
-
     fun AnimeScreen(animeId: Int) = FragmentScreen("AnimeScreen_$animeId") {
         AnimeFragment.newInstance(animeId)
     }
+
+    // todo:
+    fun CommentsScreen() = FragmentScreen { ProfileFragment() }
+
+    fun NotificationsScreen() = FragmentScreen { ProfileFragment() }
 }

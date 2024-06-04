@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), MenuConfigurator {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         setUpBottomNavigation()
         subscribeOnViewModel()
     }
@@ -53,10 +54,10 @@ class MainActivity : AppCompatActivity(), MenuConfigurator {
         val currentFragmentBackPressedResult = (currentFragment as? BackPressable)?.onBackPressed()
         when {
             currentFragmentBackPressedResult == true -> return
-            currentFragment?.tag == NavigationTabTags.TAG_SEARCH -> super.onBackPressed()
+            currentFragment?.tag == NavigationTabTags.TAG_LISTS -> super.onBackPressed()
             else -> {
-                selectTab(NavigationTabTags.TAG_SEARCH)
-                binding.navigationView.selectedItemId = R.id.menu_item_search
+                selectTab(NavigationTabTags.TAG_LISTS)
+                binding.navigationView.selectedItemId = R.id.menu_item_lists
             }
         }
     }
@@ -79,8 +80,8 @@ class MainActivity : AppCompatActivity(), MenuConfigurator {
                 menu.findItem(R.id.menu_item_lists).isVisible = loggedIn
                 menu.findItem(R.id.menu_item_search).isVisible = loggedIn
                 if (!loggedIn) {
-                    if (selectedItemId == R.id.menu_item_search) {
-                        this@MainActivity.deleteTab(NavigationTabTags.TAG_SEARCH)
+                    if (selectedItemId == R.id.menu_item_lists) {
+                        this@MainActivity.deleteTab(NavigationTabTags.TAG_LISTS)
                     }
                     this@MainActivity.selectTab(NavigationTabTags.TAG_PROFILE)
                     selectedItemId = R.id.menu_item_profile
@@ -88,8 +89,8 @@ class MainActivity : AppCompatActivity(), MenuConfigurator {
                     if (selectedItemId == R.id.menu_item_profile) {
                         this@MainActivity.deleteTab(NavigationTabTags.TAG_PROFILE)
                     }
-                    this@MainActivity.selectTab(NavigationTabTags.TAG_SEARCH)
-                    selectedItemId = R.id.menu_item_search
+                    this@MainActivity.selectTab(NavigationTabTags.TAG_LISTS)
+                    selectedItemId = R.id.menu_item_lists
                 }
             }
         }
