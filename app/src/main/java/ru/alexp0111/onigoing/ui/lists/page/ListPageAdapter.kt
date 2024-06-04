@@ -1,13 +1,16 @@
 package ru.alexp0111.onigoing.ui.lists.page
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.net.toUri
+import androidx.core.view.children
 import androidx.fragment.app.FragmentActivity
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.databinding.ItemListAnimeBinding
 import ru.alexp0111.onigoing.databinding.ItemListAnimeBottomBinding
@@ -18,11 +21,17 @@ abstract class ListPageBaseViewHolder(itemView: View) : RecyclerView.ViewHolder(
     abstract fun bind(item: UserWatchingAnime)
 }
 
+enum class StarColors {
+    MAIN_ACCENT,
+    WHITE,
+}
+
 class ListPageAdapter(
     private val fragmentActivity: FragmentActivity,
     private val onItemClicked: (UserWatchingAnime) -> Unit,
     private val onMinusClicked: (UserWatchingAnime) -> Unit,
     private val onPlusClicked: (UserWatchingAnime) -> Unit,
+    private val onMarkSelected: (UserWatchingAnime, Int) -> Unit,
 ) : RecyclerView.Adapter<ListPageBaseViewHolder>() {
 
     private val list: MutableList<UserWatchingAnime> = mutableListOf()
@@ -46,6 +55,12 @@ class ListPageAdapter(
                 root.setOnClickListener { onItemClicked.invoke(item) }
                 ivMinus.setOnClickListener { onMinusClicked.invoke(item) }
                 ivPlus.setOnClickListener { onPlusClicked.invoke(item) }
+                glMark.children.apply {
+                    forEachIndexed { index, view ->
+                        paintView(view, resolveColor(index, item))
+                        setUpListener(view, index, item)
+                    }
+                }
             }
         }
     }
@@ -67,8 +82,43 @@ class ListPageAdapter(
                 root.setOnClickListener { onItemClicked.invoke(item) }
                 ivMinus.setOnClickListener { onMinusClicked.invoke(item) }
                 ivPlus.setOnClickListener { onPlusClicked.invoke(item) }
+                glMark.children.apply {
+                    forEachIndexed { index, view ->
+                        paintView(view, resolveColor(index, item))
+                        setUpListener(view, index, item)
+                    }
+                }
             }
         }
+    }
+
+    private fun resolveColor(index: Int, item: UserWatchingAnime): StarColors {
+        return if (index + 1 <= item.mark) {
+            StarColors.MAIN_ACCENT
+        } else {
+            StarColors.WHITE
+        }
+    }
+
+    private fun setUpListener(view: View, viewIndex: Int, item: UserWatchingAnime) {
+        view.setOnClickListener {
+            onMarkSelected.invoke(item, viewIndex + 1)
+        }
+    }
+
+    private fun paintView(view: View, starColor: StarColors) {
+        val typedValue = TypedValue().apply {
+            fragmentActivity.theme.resolveAttribute(
+                R.attr.main_accent_color,
+                this,
+                true,
+            )
+        }
+        val color = when (starColor) {
+            StarColors.MAIN_ACCENT -> typedValue.data
+            StarColors.WHITE -> fragmentActivity.getColor(R.color.white)
+        }
+        (view as ImageView).setColorFilter(color)
     }
 
     // fixme: If we change state of anime, we can have bugs with it's type, if ir were first for example
@@ -106,7 +156,11 @@ class ListPageAdapter(
         holder.bind(item)
     }
 
-    fun sortList(incomingList: List<UserWatchingAnime>? = null, sortingCharacteristics: SortingCharacteristics, sortingWay: SortingWay) {
+    fun sortList(
+        incomingList: List<UserWatchingAnime>? = null,
+        sortingCharacteristics: SortingCharacteristics,
+        sortingWay: SortingWay
+    ) {
         if (incomingList != null) {
             list.apply {
                 clear()

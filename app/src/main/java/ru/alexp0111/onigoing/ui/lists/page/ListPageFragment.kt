@@ -35,6 +35,8 @@ class ListPageFragment : Fragment(), SortableFragment {
             val newCurrentSeries = onPlusResult.currentSeries + 1
             viewModel.updateUsersAnime(onPlusResult.copy(currentSeries = newCurrentSeries))
 
+        }, { item, newMark ->
+            viewModel.updateUsersAnime(item.copy(mark = newMark))
         })
     }
 
