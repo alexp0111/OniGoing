@@ -38,4 +38,12 @@
     <dimen name="et_min_width">48dp</dimen>
     <dimen name="et_max_width">128dp</dimen>
 
+    <dimen name="item_list_height">200dp</dimen>
+    <dimen name="item_list_top_height">104dp</dimen>
+    <dimen name="item_list_image_size">72dp</dimen>
+    <dimen name="item_list_star_size">24dp</dimen>
+    <dimen name="custom_divider_height">16dp</dimen>
+    <dimen name="item_list_button_width">96dp</dimen>
+    <dimen name="item_list_et_width">180dp</dimen>
+
 </resources>
