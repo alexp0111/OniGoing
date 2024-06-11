@@ -93,7 +93,7 @@
             android:background="@drawable/custom_wave_divider"
             android:scaleType="center" />
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -101,6 +101,7 @@
 
             <ImageView
                 android:id="@+id/iv_minus"
+                android:layout_gravity="center_vertical|start"
                 android:layout_width="@dimen/item_list_button_width"
                 android:layout_height="@dimen/element_base_size"
                 android:padding="@dimen/button_inner_padding_more"
@@ -109,6 +110,7 @@
 
             <FrameLayout
                 android:id="@+id/cv_current_episode"
+                android:layout_gravity="center"
                 android:layout_width="@dimen/item_list_et_width"
                 android:layout_height="@dimen/element_base_size"
                 android:background="@drawable/bg_rounded">
@@ -128,10 +130,11 @@
                 android:layout_width="@dimen/item_list_button_width"
                 android:layout_height="@dimen/element_base_size"
                 android:padding="@dimen/button_inner_padding_more"
+                android:layout_gravity="center_vertical|end"
                 android:src="@drawable/plus"
                 app:tint="?main_accent_color" />
 
-        </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
 
