@@ -54,29 +54,20 @@
                     android:layout_height="@dimen/item_list_star_size"
                     android:layout_marginTop="@dimen/margin_half">
 
-                    <ImageView
-                        android:layout_width="@dimen/item_list_star_size"
-                        android:layout_marginEnd="@dimen/margin_half"
-                        android:src="@drawable/star" />
+                    <ImageView style="@style/MarkStarFirstHalf" />
+                    <ImageView style="@style/MarkStarSecondHalf" />
 
-                    <ImageView
-                        android:layout_width="@dimen/item_list_star_size"
-                        android:layout_marginEnd="@dimen/margin_half"
-                        android:src="@drawable/star" />
+                    <ImageView style="@style/MarkStarFirstHalf" />
+                    <ImageView style="@style/MarkStarSecondHalf" />
 
-                    <ImageView
-                        android:layout_width="@dimen/item_list_star_size"
-                        android:layout_marginEnd="@dimen/margin_half"
-                        android:src="@drawable/star" />
+                    <ImageView style="@style/MarkStarFirstHalf" />
+                    <ImageView style="@style/MarkStarSecondHalf" />
 
-                    <ImageView
-                        android:layout_width="@dimen/item_list_star_size"
-                        android:layout_marginEnd="@dimen/margin_half"
-                        android:src="@drawable/star" />
+                    <ImageView style="@style/MarkStarFirstHalf" />
+                    <ImageView style="@style/MarkStarSecondHalf" />
 
-                    <ImageView
-                        android:layout_width="@dimen/item_list_star_size"
-                        android:src="@drawable/star" />
+                    <ImageView style="@style/MarkStarFirstHalf" />
+                    <ImageView style="@style/MarkStarSecondHalf" />
 
                 </GridLayout>
 

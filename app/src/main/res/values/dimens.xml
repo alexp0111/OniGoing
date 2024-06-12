@@ -42,6 +42,7 @@
     <dimen name="item_list_top_height">104dp</dimen>
     <dimen name="item_list_image_size">72dp</dimen>
     <dimen name="item_list_star_size">24dp</dimen>
+    <dimen name="item_list_star_size_half">12dp</dimen>
     <dimen name="custom_divider_height">16dp</dimen>
     <dimen name="item_list_button_width">96dp</dimen>
     <dimen name="item_list_et_width">180dp</dimen>

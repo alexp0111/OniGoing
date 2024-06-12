@@ -57,4 +57,18 @@
         <item name="itemIconTint">@color/nav_color</item>
         <item name="labelVisibilityMode">unlabeled</item>
     </style>
+
+    <style name="MarkStar">
+        <item name="android:layout_width">@dimen/item_list_star_size_half</item>
+        <item name="android:src">@drawable/star_half</item>
+    </style>
+
+    <style name="MarkStarFirstHalf" parent="MarkStar" />
+
+    <style name="MarkStarSecondHalf" parent="MarkStar">
+        <item name="android:layout_width">@dimen/item_list_star_size_half</item>
+        <item name="android:rotationY">180</item>
+        <item name="android:src">@drawable/star_half</item>
+        <item name="android:layout_marginEnd">@dimen/margin_half</item>
+    </style>
 </resources>
