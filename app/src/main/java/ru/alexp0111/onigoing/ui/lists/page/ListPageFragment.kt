@@ -11,9 +11,9 @@ import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.databinding.FragmentListPageBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.lists.SortOrderHandler
-import ru.alexp0111.onigoing.ui.lists.page.adapters.INCORRECT_SERIES_ET_INPUT_CODE
 import ru.alexp0111.onigoing.ui.lists.page.adapters.ListPageAdapter
 import ru.alexp0111.onigoing.ui.lists.page.mark.MarkDialogFragment
+import ru.alexp0111.onigoing.ui.utils.SeriesInputVerifier
 import ru.alexp0111.onigoing.ui.utils.subscribe
 import ru.alexp0111.onigoing.utils.snack
 import javax.inject.Inject
@@ -42,7 +42,7 @@ class ListPageFragment : Fragment(), SortableFragment {
     }
 
     private fun handleIncomingAmountOfSeries(item: UserWatchingAnime, newAmountOfSeries: Int) {
-        if (newAmountOfSeries == INCORRECT_SERIES_ET_INPUT_CODE) {
+        if (newAmountOfSeries == SeriesInputVerifier.INCORRECT_SERIES_ET_INPUT_CODE) {
             return snack(requireContext().getString(R.string.incorrect_input))
         }
         viewModel.updateUsersAnime(item.copy(currentSeries = newAmountOfSeries))

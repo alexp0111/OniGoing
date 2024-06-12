@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.net.toUri
-import androidx.core.text.isDigitsOnly
 import androidx.core.view.children
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -16,8 +15,7 @@ import ru.alexp0111.onigoing.databinding.ItemListAnimeBottomBinding
 import ru.alexp0111.onigoing.ui.lists.SortingCharacteristics
 import ru.alexp0111.onigoing.ui.lists.SortingWay
 import ru.alexp0111.onigoing.ui.lists.page.utils.MarkPainter
-
-const val INCORRECT_SERIES_ET_INPUT_CODE = -1
+import ru.alexp0111.onigoing.ui.utils.SeriesInputVerifier
 
 abstract class ListPageBaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     abstract fun bind(item: UserWatchingAnime)
@@ -55,12 +53,11 @@ class ListPageAdapter(
 
             binding.etCurrentEpisode.apply {
                 setOnEditorActionListener { _, act, _ ->
-                    if (act == EditorInfo.IME_ACTION_DONE) {
-                        val isCorrectInput = notifySeriesChanged(item, text.toString())
-                        clearFocus()
-                        if (!isCorrectInput) {
-                            setText(item.currentSeries.toString())
-                        }
+                    if (act != EditorInfo.IME_ACTION_DONE) return@setOnEditorActionListener false
+                    clearFocus()
+                    val isCorrectInput = processAmountOfSeriesInput(item, text.toString())
+                    if (!isCorrectInput) {
+                        setText(item.currentSeries.toString())
                     }
                     return@setOnEditorActionListener false
                 }
@@ -80,24 +77,6 @@ class ListPageAdapter(
                     }
                 }
             }
-        }
-    }
-
-    private fun updateAmountOfSeriesByDelta(item: UserWatchingAnime, delta: Int) {
-        onSeriesChanged.invoke(item, maxOf(item.currentSeries + delta, 0))
-    }
-
-    private fun notifySeriesChanged(item: UserWatchingAnime, input: String): Boolean {
-        // todo: Extract to usecase with logic in lists (+ remove magic number)
-        return if (input.isNotEmpty() && input.length <= 8 && input.isDigitsOnly() && !input.startsWith(
-                '0'
-            )
-        ) {
-            onSeriesChanged.invoke(item, input.toInt())
-            true
-        } else {
-            onSeriesChanged.invoke(item, INCORRECT_SERIES_ET_INPUT_CODE)
-            false
         }
     }
 
@@ -116,12 +95,11 @@ class ListPageAdapter(
 
             binding.etCurrentEpisode.apply {
                 setOnEditorActionListener { _, act, _ ->
-                    if (act == EditorInfo.IME_ACTION_DONE) {
-                        val isCorrectInput = notifySeriesChanged(item, text.toString())
-                        clearFocus()
-                        if (!isCorrectInput) {
-                            setText(item.currentSeries.toString())
-                        }
+                    if (act != EditorInfo.IME_ACTION_DONE) return@setOnEditorActionListener false
+                    clearFocus()
+                    val isCorrectInput = processAmountOfSeriesInput(item, text.toString())
+                    if (!isCorrectInput) {
+                        setText(item.currentSeries.toString())
                     }
                     return@setOnEditorActionListener false
                 }
@@ -142,6 +120,16 @@ class ListPageAdapter(
                 }
             }
         }
+    }
+
+    private fun processAmountOfSeriesInput(item: UserWatchingAnime, input: String): Boolean {
+        val newAmountOfSeries = SeriesInputVerifier.verifiedInput(input)
+        onSeriesChanged.invoke(item, newAmountOfSeries)
+        return newAmountOfSeries != SeriesInputVerifier.INCORRECT_SERIES_ET_INPUT_CODE
+    }
+
+    private fun updateAmountOfSeriesByDelta(item: UserWatchingAnime, delta: Int) {
+        onSeriesChanged.invoke(item, maxOf(item.currentSeries + delta, 0))
     }
 
     // fixme: If we change state of anime, we can have bugs with it's type, if it were first for example

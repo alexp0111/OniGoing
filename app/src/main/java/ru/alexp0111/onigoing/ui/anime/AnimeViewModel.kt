@@ -147,6 +147,10 @@ class AnimeViewModel @AssistedInject constructor(
         )
     }
 
+    fun getUserCurrentSeriesAsString(): String {
+        return (state.value.userWatchingAnime?.currentSeries ?: 0).toString()
+    }
+
     fun onBackPressed() {
         val currentRouter = when (routerTag) {
             SearchRouter.TAG -> searchRouter

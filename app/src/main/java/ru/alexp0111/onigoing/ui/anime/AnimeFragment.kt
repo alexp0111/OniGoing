@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
@@ -18,7 +17,7 @@ import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.navigation.routers.SearchRouter
 import ru.alexp0111.onigoing.ui.base.BackPressable
 import ru.alexp0111.onigoing.ui.lists.page.Pages
-import ru.alexp0111.onigoing.ui.lists.page.adapters.INCORRECT_SERIES_ET_INPUT_CODE
+import ru.alexp0111.onigoing.ui.utils.SeriesInputVerifier
 import ru.alexp0111.onigoing.ui.utils.subscribe
 import ru.alexp0111.onigoing.utils.snack
 import javax.inject.Inject
@@ -101,39 +100,25 @@ class AnimeFragment : Fragment(), BackPressable {
                 val animeId = arguments?.getInt(ANIME_ID_KEY) ?: return@setOnClickListener
                 animeViewModel.updateCurrentSeriesForAnimeByDelta(animeId, +1)
             }
-            etCurrentEpisode.apply {
-                setOnEditorActionListener { _, act, _ ->
-                    if (act == EditorInfo.IME_ACTION_DONE) {
-                        val newAmountOfSeries = verifyInput(text.toString())
-                        clearFocus()
-                        if (newAmountOfSeries == INCORRECT_SERIES_ET_INPUT_CODE) {
-                            snack(requireContext().getString(R.string.incorrect_input))
-                            setText((animeViewModel.state.value.userWatchingAnime?.currentSeries ?: 0).toString())
-                        } else {
-                            val animeId = arguments?.getInt(ANIME_ID_KEY)
-                            if (animeId != null) {
-                                animeViewModel.updateCurrentSeriesForAnime(
-                                    animeId,
-                                    newAmountOfSeries,
-                                )
-                            }
-                        }
-                    }
-                    return@setOnEditorActionListener false
-                }
+            etCurrentEpisode.setOnEditorActionListener { _, act, _ ->
+                if (act != EditorInfo.IME_ACTION_DONE) return@setOnEditorActionListener false
+                etCurrentEpisode.clearFocus()
+                processAmountOfSeriesInput()
+                return@setOnEditorActionListener false
             }
         }
     }
 
-    private fun verifyInput(input: String): Int {
-        // todo: Extract to usecase with logic in lists
-        return if (input.isNotEmpty() && input.length <= 8 && input.isDigitsOnly() && !input.startsWith(
-                '0'
-            )
-        ) {
-            input.toInt()
-        } else {
-            INCORRECT_SERIES_ET_INPUT_CODE
+    private fun processAmountOfSeriesInput() {
+        val etInput = binding.etCurrentEpisode.text.toString()
+        val newAmountOfSeries = SeriesInputVerifier.verifiedInput(etInput)
+        if (newAmountOfSeries == SeriesInputVerifier.INCORRECT_SERIES_ET_INPUT_CODE) {
+            snack(requireContext().getString(R.string.incorrect_input))
+            binding.etCurrentEpisode.setText(animeViewModel.getUserCurrentSeriesAsString())
+            return
+        }
+        arguments?.getInt(ANIME_ID_KEY)?.let {
+            animeViewModel.updateCurrentSeriesForAnime(it, newAmountOfSeries)
         }
     }
 
