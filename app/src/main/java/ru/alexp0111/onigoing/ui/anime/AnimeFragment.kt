@@ -108,7 +108,7 @@ class AnimeFragment : Fragment(), BackPressable {
                         clearFocus()
                         if (newAmountOfSeries == INCORRECT_SERIES_ET_INPUT_CODE) {
                             snack(requireContext().getString(R.string.incorrect_input))
-                            setText(animeViewModel.state.value.userCurrentSeries.toString())
+                            setText((animeViewModel.state.value.userWatchingAnime?.currentSeries ?: 0).toString())
                         } else {
                             val animeId = arguments?.getInt(ANIME_ID_KEY)
                             if (animeId != null) {
@@ -150,12 +150,12 @@ class AnimeFragment : Fragment(), BackPressable {
             txtMark.text = (state.averageScore ?: "?").toString()
             txtTimeToNewEpisode.text = (state.timeToNewEpisode ?: getString(R.string.done))
 
-            state.userWatchingStatus?.let {
+            state.userWatchingAnime?.let {
                 vpStatus.post {
-                    vpStatus.setCurrentItem(it, true)
+                    vpStatus.setCurrentItem(it.watchingState, true)
                 }
             }
-            etCurrentEpisode.setText(state.userCurrentSeries.toString())
+            etCurrentEpisode.setText((state.userWatchingAnime?.currentSeries ?: 0).toString())
 
             if (state.amountOfSeries == null) {
                 txtAmountOfSeries.text = getString(R.string.ongoing)
