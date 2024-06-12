@@ -86,32 +86,33 @@ class AnimeViewModel @AssistedInject constructor(
     }
 
     fun updateCurrentSeriesForAnime(animeId: Int, amountOfSeries: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            state.value.userWatchingAnime?.let {
-                userWatchingAnimeRepository.updateAnimeState(it.copy(currentSeries = amountOfSeries))
-                return@launch getUserStateByAnimeId(animeId)
-            }
-
-            if (state.value.isLoading || !state.value.isResponseSuccess) return@launch
-
-            userWatchingAnimeRepository.insertNewAnime(
-                makeNewUserWatchingAnimeItem(animeId).copy(currentSeries = amountOfSeries)
-            )
-            getUserStateByAnimeId(animeId)
-        }
+        updateAnimeField(animeId, amountOfSeries = amountOfSeries)
     }
 
     fun updateStatusForAnime(animeId: Int, status: Int) {
+        updateAnimeField(animeId, status = status)
+    }
+
+    private fun updateAnimeField(animeId: Int, amountOfSeries: Int? = null, status: Int? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             state.value.userWatchingAnime?.let {
-                userWatchingAnimeRepository.updateAnimeState(it.copy(watchingState = status))
+                userWatchingAnimeRepository.updateAnimeState(
+                    it.copy(
+                        watchingState = status ?: it.watchingState,
+                        currentSeries = amountOfSeries ?: it.currentSeries,
+                    )
+                )
                 return@launch getUserStateByAnimeId(animeId)
             }
 
             if (state.value.isLoading || !state.value.isResponseSuccess) return@launch
 
+            val newItem = makeNewUserWatchingAnimeItem(animeId)
             userWatchingAnimeRepository.insertNewAnime(
-                makeNewUserWatchingAnimeItem(animeId).copy(watchingState = status)
+                newItem.copy(
+                    watchingState = status ?: newItem.watchingState,
+                    currentSeries = amountOfSeries ?: newItem.currentSeries,
+                )
             )
             getUserStateByAnimeId(animeId)
         }
