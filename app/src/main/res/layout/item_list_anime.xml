@@ -50,7 +50,7 @@
 
                 <GridLayout
                     android:id="@+id/gl_mark"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/item_list_star_size"
                     android:layout_marginTop="@dimen/margin_half">
 

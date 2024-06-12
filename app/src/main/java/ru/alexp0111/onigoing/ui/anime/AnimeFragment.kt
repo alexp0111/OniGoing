@@ -21,8 +21,8 @@ import ru.alexp0111.onigoing.databinding.FragmentAnimeBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.navigation.routers.SearchRouter
 import ru.alexp0111.onigoing.ui.base.BackPressable
-import ru.alexp0111.onigoing.ui.lists.page.INCORRECT_SERIES_ET_INPUT_CODE
 import ru.alexp0111.onigoing.ui.lists.page.Pages
+import ru.alexp0111.onigoing.ui.lists.page.adapters.INCORRECT_SERIES_ET_INPUT_CODE
 import ru.alexp0111.onigoing.utils.snack
 import javax.inject.Inject
 
@@ -130,7 +130,10 @@ class AnimeFragment : Fragment(), BackPressable {
 
     private fun verifyInput(input: String): Int {
         // todo: Extract to usecase with logic in lists
-        return if (input.isNotEmpty() && input.length <= 8 && input.isDigitsOnly() && !input.startsWith('0')) {
+        return if (input.isNotEmpty() && input.length <= 8 && input.isDigitsOnly() && !input.startsWith(
+                '0'
+            )
+        ) {
             input.toInt()
         } else {
             INCORRECT_SERIES_ET_INPUT_CODE

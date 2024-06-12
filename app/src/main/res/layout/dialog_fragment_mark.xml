@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/menu_height"
+    android:background="@drawable/menu_background">
+
+    <GridLayout
+        android:id="@+id/gl_dialog_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/menu_height"
+        android:layout_gravity="center">
+
+        <ImageView style="@style/MarkStarFirstHalfLarge" />
+
+        <ImageView style="@style/MarkStarSecondHalfLarge" />
+
+        <ImageView style="@style/MarkStarFirstHalfLarge" />
+
+        <ImageView style="@style/MarkStarSecondHalfLarge" />
+
+        <ImageView style="@style/MarkStarFirstHalfLarge" />
+
+        <ImageView style="@style/MarkStarSecondHalfLarge" />
+
+        <ImageView style="@style/MarkStarFirstHalfLarge" />
+
+        <ImageView style="@style/MarkStarSecondHalfLarge" />
+
+        <ImageView style="@style/MarkStarFirstHalfLarge" />
+
+        <ImageView
+            style="@style/MarkStarSecondHalfLarge"
+            android:layout_marginEnd="0dp" />
+
+    </GridLayout>
+
+</FrameLayout>

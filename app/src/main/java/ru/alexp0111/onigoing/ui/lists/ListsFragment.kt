@@ -13,10 +13,9 @@ import androidx.viewpager2.widget.ViewPager2
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentListsBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
-import ru.alexp0111.onigoing.ui.lists.page.ListHeaderAdapter
 import ru.alexp0111.onigoing.ui.lists.page.Pages
 import ru.alexp0111.onigoing.ui.lists.page.SortableFragment
-import ru.alexp0111.onigoing.utils.ColorThemes
+import ru.alexp0111.onigoing.ui.lists.page.adapters.ListHeaderAdapter
 import javax.inject.Inject
 
 interface SortOrderHandler {

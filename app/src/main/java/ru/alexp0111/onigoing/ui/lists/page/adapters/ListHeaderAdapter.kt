@@ -1,9 +1,10 @@
-package ru.alexp0111.onigoing.ui.lists.page
+package ru.alexp0111.onigoing.ui.lists.page.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.alexp0111.onigoing.databinding.ItemListHeaderBinding
+import ru.alexp0111.onigoing.ui.lists.page.Pages
 
 class ListHeaderAdapter :
     RecyclerView.Adapter<ListHeaderAdapter.ListHeaderAdapterViewHolder>() {

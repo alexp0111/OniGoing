@@ -1,23 +1,21 @@
-package ru.alexp0111.onigoing.ui.lists.page
+package ru.alexp0111.onigoing.ui.lists.page.adapters
 
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.children
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.databinding.ItemListAnimeBinding
 import ru.alexp0111.onigoing.databinding.ItemListAnimeBottomBinding
 import ru.alexp0111.onigoing.ui.lists.SortingCharacteristics
 import ru.alexp0111.onigoing.ui.lists.SortingWay
+import ru.alexp0111.onigoing.ui.lists.page.utils.MarkPainter
 
 const val INCORRECT_SERIES_ET_INPUT_CODE = -1
 
@@ -36,9 +34,10 @@ class ListPageAdapter(
     private val onMinusClicked: (UserWatchingAnime) -> Unit,
     private val onPlusClicked: (UserWatchingAnime) -> Unit,
     private val onSeriesChanged: (UserWatchingAnime, Int) -> Unit,
-    private val onMarkSelected: (UserWatchingAnime, Int) -> Unit,
+    private val onMarkSelected: (UserWatchingAnime) -> Unit,
 ) : RecyclerView.Adapter<ListPageBaseViewHolder>() {
 
+    private val markPainter = MarkPainter(fragmentActivity)
     private val list: MutableList<UserWatchingAnime> = mutableListOf()
     private var sortingCharacteristics = SortingCharacteristics.MARK
     private var sortingWay = SortingWay.ASC
@@ -70,13 +69,16 @@ class ListPageAdapter(
             }
 
             binding.apply {
-                root.setOnClickListener { onItemClicked.invoke(item) }
+                txtAnimeTitle.setOnClickListener { onItemClicked.invoke(item) }
+                ivAnimePreview.setOnClickListener { onItemClicked.invoke(item) }
                 ivMinus.setOnClickListener { onMinusClicked.invoke(item) }
                 ivPlus.setOnClickListener { onPlusClicked.invoke(item) }
-                glMark.children.apply {
-                    forEachIndexed { index, view ->
-                        paintView(view, resolveColor(index, item))
-                        setUpListener(view, index, item)
+                glMark.apply {
+                    children.forEachIndexed { index, view ->
+                        markPainter.paintStarIfNecessary(view, item, index)
+                    }
+                    setOnClickListener {
+                        onMarkSelected.invoke(item)
                     }
                 }
             }
@@ -85,7 +87,10 @@ class ListPageAdapter(
 
     private fun notifySeriesChanged(item: UserWatchingAnime, input: String): Boolean {
         // todo: Extract to usecase with logic in lists (+ remove magic number)
-        return if (input.isNotEmpty() && input.length <= 8 && input.isDigitsOnly() && !input.startsWith('0')) {
+        return if (input.isNotEmpty() && input.length <= 8 && input.isDigitsOnly() && !input.startsWith(
+                '0'
+            )
+        ) {
             onSeriesChanged.invoke(item, input.toInt())
             true
         } else {
@@ -121,46 +126,20 @@ class ListPageAdapter(
             }
 
             binding.apply {
-                root.setOnClickListener { onItemClicked.invoke(item) }
+                txtAnimeTitle.setOnClickListener { onItemClicked.invoke(item) }
+                ivAnimePreview.setOnClickListener { onItemClicked.invoke(item) }
                 ivMinus.setOnClickListener { onMinusClicked.invoke(item) }
                 ivPlus.setOnClickListener { onPlusClicked.invoke(item) }
-                glMark.children.apply {
-                    forEachIndexed { index, view ->
-                        paintView(view, resolveColor(index, item))
-                        setUpListener(view, index, item)
+                glMark.apply {
+                    children.forEachIndexed { index, view ->
+                        markPainter.paintStarIfNecessary(view, item, index)
+                    }
+                    setOnClickListener {
+                        onMarkSelected.invoke(item)
                     }
                 }
             }
         }
-    }
-
-    private fun resolveColor(index: Int, item: UserWatchingAnime): StarColors {
-        return if (index + 1 <= item.mark) {
-            StarColors.MAIN_ACCENT
-        } else {
-            StarColors.WHITE
-        }
-    }
-
-    private fun setUpListener(view: View, viewIndex: Int, item: UserWatchingAnime) {
-        view.setOnClickListener {
-            onMarkSelected.invoke(item, viewIndex + 1)
-        }
-    }
-
-    private fun paintView(view: View, starColor: StarColors) {
-        val typedValue = TypedValue().apply {
-            fragmentActivity.theme.resolveAttribute(
-                R.attr.main_accent_color,
-                this,
-                true,
-            )
-        }
-        val color = when (starColor) {
-            StarColors.MAIN_ACCENT -> typedValue.data
-            StarColors.WHITE -> fragmentActivity.getColor(R.color.white)
-        }
-        (view as ImageView).setColorFilter(color)
     }
 
     // fixme: If we change state of anime, we can have bugs with it's type, if ir were first for example

@@ -15,12 +15,17 @@ import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.databinding.FragmentListPageBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.lists.SortOrderHandler
+import ru.alexp0111.onigoing.ui.lists.page.adapters.INCORRECT_SERIES_ET_INPUT_CODE
+import ru.alexp0111.onigoing.ui.lists.page.adapters.ListPageAdapter
+import ru.alexp0111.onigoing.ui.lists.page.mark.MarkDialogFragment
 import ru.alexp0111.onigoing.utils.snack
 import javax.inject.Inject
 
 interface SortableFragment {
     fun notifySortingFilterChanged()
 }
+
+private const val MARK_DIALOG_TAG = "mark_dialog_1"
 
 class ListPageFragment : Fragment(), SortableFragment {
 
@@ -37,13 +42,13 @@ class ListPageFragment : Fragment(), SortableFragment {
             val newCurrentSeries = item.currentSeries + 1
             viewModel.updateUsersAnime(item.copy(currentSeries = newCurrentSeries))
         }, { item, newAmountOfSeries ->
-           if (newAmountOfSeries != INCORRECT_SERIES_ET_INPUT_CODE) {
-               viewModel.updateUsersAnime(item.copy(currentSeries = newAmountOfSeries))
-           } else {
-               snack(requireContext().getString(R.string.incorrect_input))
-           }
-        },{ item, newMark ->
-            viewModel.updateUsersAnime(item.copy(mark = newMark))
+            if (newAmountOfSeries != INCORRECT_SERIES_ET_INPUT_CODE) {
+                viewModel.updateUsersAnime(item.copy(currentSeries = newAmountOfSeries))
+            } else {
+                snack(requireContext().getString(R.string.incorrect_input))
+            }
+        }, { item ->
+            MarkDialogFragment.newInstance(item).show(parentFragmentManager, MARK_DIALOG_TAG)
         })
     }
 

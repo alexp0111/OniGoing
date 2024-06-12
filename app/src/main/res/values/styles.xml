@@ -71,4 +71,14 @@
         <item name="android:src">@drawable/star_half</item>
         <item name="android:layout_marginEnd">@dimen/margin_half</item>
     </style>
+
+    <style name="MarkStarFirstHalfLarge" parent="MarkStarFirstHalf">
+        <item name="android:layout_width">24dp</item>
+    </style>
+
+    <style name="MarkStarSecondHalfLarge" parent="MarkStarSecondHalf">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_marginEnd">@dimen/margin_base</item>
+    </style>
+
 </resources>

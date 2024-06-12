@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import ru.alexp0111.onigoing.ui.anime.AnimeFragment
 import ru.alexp0111.onigoing.ui.lists.ListsFragment
 import ru.alexp0111.onigoing.ui.lists.page.ListPageFragment
+import ru.alexp0111.onigoing.ui.lists.page.mark.MarkDialogFragment
 import ru.alexp0111.onigoing.ui.lists.root.ListsRootFragment
 import ru.alexp0111.onigoing.ui.profile.ProfileFragment
 import ru.alexp0111.onigoing.ui.profile.login.LogInFragment
@@ -30,6 +31,8 @@ interface FragmentComponent {
     fun inject(fragment: ListPageFragment)
 
     fun inject(fragment: LogInFragment)
+
+    fun inject(fragment: MarkDialogFragment)
 
     companion object {
         fun from(fragment: Fragment) : FragmentComponent {
