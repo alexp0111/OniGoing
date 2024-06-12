@@ -31,8 +31,6 @@ enum class StarColors {
 class ListPageAdapter(
     private val fragmentActivity: FragmentActivity,
     private val onItemClicked: (UserWatchingAnime) -> Unit,
-    private val onMinusClicked: (UserWatchingAnime) -> Unit,
-    private val onPlusClicked: (UserWatchingAnime) -> Unit,
     private val onSeriesChanged: (UserWatchingAnime, Int) -> Unit,
     private val onMarkSelected: (UserWatchingAnime) -> Unit,
 ) : RecyclerView.Adapter<ListPageBaseViewHolder>() {
@@ -71,8 +69,8 @@ class ListPageAdapter(
             binding.apply {
                 txtAnimeTitle.setOnClickListener { onItemClicked.invoke(item) }
                 ivAnimePreview.setOnClickListener { onItemClicked.invoke(item) }
-                ivMinus.setOnClickListener { onMinusClicked.invoke(item) }
-                ivPlus.setOnClickListener { onPlusClicked.invoke(item) }
+                ivMinus.setOnClickListener { updateAmountOfSeriesByDelta(item, -1) }
+                ivPlus.setOnClickListener { updateAmountOfSeriesByDelta(item, 1) }
                 glMark.apply {
                     children.forEachIndexed { index, view ->
                         markPainter.paintStarIfNecessary(view, item, index)
@@ -83,6 +81,10 @@ class ListPageAdapter(
                 }
             }
         }
+    }
+
+    private fun updateAmountOfSeriesByDelta(item: UserWatchingAnime, delta: Int) {
+        onSeriesChanged.invoke(item, maxOf(item.currentSeries + delta, 0))
     }
 
     private fun notifySeriesChanged(item: UserWatchingAnime, input: String): Boolean {
@@ -128,8 +130,8 @@ class ListPageAdapter(
             binding.apply {
                 txtAnimeTitle.setOnClickListener { onItemClicked.invoke(item) }
                 ivAnimePreview.setOnClickListener { onItemClicked.invoke(item) }
-                ivMinus.setOnClickListener { onMinusClicked.invoke(item) }
-                ivPlus.setOnClickListener { onPlusClicked.invoke(item) }
+                ivMinus.setOnClickListener { updateAmountOfSeriesByDelta(item, -1) }
+                ivPlus.setOnClickListener { updateAmountOfSeriesByDelta(item, 1) }
                 glMark.apply {
                     children.forEachIndexed { index, view ->
                         markPainter.paintStarIfNecessary(view, item, index)
@@ -142,7 +144,7 @@ class ListPageAdapter(
         }
     }
 
-    // fixme: If we change state of anime, we can have bugs with it's type, if ir were first for example
+    // fixme: If we change state of anime, we can have bugs with it's type, if it were first for example
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListPageBaseViewHolder {
         return if (viewType == list.lastIndex) {

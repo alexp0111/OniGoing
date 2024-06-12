@@ -5,11 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.databinding.FragmentListPageBinding
@@ -18,6 +14,7 @@ import ru.alexp0111.onigoing.ui.lists.SortOrderHandler
 import ru.alexp0111.onigoing.ui.lists.page.adapters.INCORRECT_SERIES_ET_INPUT_CODE
 import ru.alexp0111.onigoing.ui.lists.page.adapters.ListPageAdapter
 import ru.alexp0111.onigoing.ui.lists.page.mark.MarkDialogFragment
+import ru.alexp0111.onigoing.ui.utils.subscribe
 import ru.alexp0111.onigoing.utils.snack
 import javax.inject.Inject
 
@@ -32,34 +29,29 @@ class ListPageFragment : Fragment(), SortableFragment {
     @Inject
     lateinit var viewModel: ListPageViewModel
 
+    private lateinit var binding: FragmentListPageBinding
+
     private val listsAdapter by lazy {
         ListPageAdapter(requireActivity(), { item ->
             viewModel.openAnimeWithId(item.id)
-        }, { item ->
-            val newCurrentSeries = maxOf(item.currentSeries - 1, 0)
-            viewModel.updateUsersAnime(item.copy(currentSeries = newCurrentSeries))
-        }, { item ->
-            val newCurrentSeries = item.currentSeries + 1
-            viewModel.updateUsersAnime(item.copy(currentSeries = newCurrentSeries))
         }, { item, newAmountOfSeries ->
-            if (newAmountOfSeries != INCORRECT_SERIES_ET_INPUT_CODE) {
-                viewModel.updateUsersAnime(item.copy(currentSeries = newAmountOfSeries))
-            } else {
-                snack(requireContext().getString(R.string.incorrect_input))
-            }
+            handleIncomingAmountOfSeries(item, newAmountOfSeries)
         }, { item ->
             MarkDialogFragment.newInstance(item).show(parentFragmentManager, MARK_DIALOG_TAG)
         })
     }
 
-    private lateinit var binding: FragmentListPageBinding
+    private fun handleIncomingAmountOfSeries(item: UserWatchingAnime, newAmountOfSeries: Int) {
+        if (newAmountOfSeries == INCORRECT_SERIES_ET_INPUT_CODE) {
+            return snack(requireContext().getString(R.string.incorrect_input))
+        }
+        viewModel.updateUsersAnime(item.copy(currentSeries = newAmountOfSeries))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         injectSelf()
         viewModel.loadUserListForState(
-            arguments?.getInt(
-                Pages.PAGE_TAG,
-                Pages.ACTUAL.ordinal,
-            ) ?: 0
+            arguments?.getInt(Pages.PAGE_TAG, Pages.ACTUAL.ordinal) ?: 0
         )
         super.onCreate(savedInstanceState)
     }
@@ -97,15 +89,9 @@ class ListPageFragment : Fragment(), SortableFragment {
         )
     }
 
-    private fun subscribeUI() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.state.collect { state: UiState ->
-                        handleState(state)
-                    }
-                }
-            }
+    private fun subscribeUI() = subscribe {
+        viewModel.state.collect { state: UiState ->
+            handleState(state)
         }
     }
 

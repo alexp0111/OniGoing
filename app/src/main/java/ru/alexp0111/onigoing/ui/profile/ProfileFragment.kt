@@ -6,14 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.github.mikephil.charting.data.PieData
-import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentProfileBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
+import ru.alexp0111.onigoing.ui.utils.subscribe
 import javax.inject.Inject
 
 
@@ -50,15 +47,9 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun subscribeUI() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.state.collect { state: UiState ->
-                        handleState(state)
-                    }
-                }
-            }
+    private fun subscribeUI() = subscribe {
+        viewModel.state.collect { state: UiState ->
+            handleState(state)
         }
     }
 

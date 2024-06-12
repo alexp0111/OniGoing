@@ -5,16 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.children
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
-import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.databinding.DialogFragmentMarkBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.ui.lists.page.utils.MarkPainter
+import ru.alexp0111.onigoing.ui.utils.subscribe
 import javax.inject.Inject
 
 private const val MARK_ITEM_INFO_TAG = "MARK_ITEM_INFO_TAG"
@@ -70,15 +67,9 @@ class MarkDialogFragment : BottomSheetDialogFragment() {
         subscribeUI()
     }
 
-    private fun subscribeUI() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.state.collect { state: UiState ->
-                        handleState(state)
-                    }
-                }
-            }
+    private fun subscribeUI() = subscribe {
+        viewModel.state.collect { state: UiState ->
+            handleState(state)
         }
     }
 

@@ -33,10 +33,7 @@ class ListPageViewModel @Inject constructor(
             }
             userWatchingAnimeRepository.getAllAnimeWithStatus(state).collect { incomingResult ->
                 _uiState.update {
-                    it.copy(
-                        listOfTitles = incomingResult,
-                        isLoading = false,
-                    )
+                    it.copy(listOfTitles = incomingResult, isLoading = false)
                 }
             }
         }

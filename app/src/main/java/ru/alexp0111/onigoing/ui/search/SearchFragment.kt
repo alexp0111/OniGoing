@@ -10,14 +10,11 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentSearchBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
+import ru.alexp0111.onigoing.ui.utils.subscribe
 import javax.inject.Inject
 
 private const val KEY_SEARCH_TEXT = "search_text"
@@ -99,19 +96,13 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun subscribeUI() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.state.collect { state: UiState ->
-                        searchAnimeAdapter.updateList(state.listOfResults)
-                        binding.apply {
-                            if (state.shouldClearFocus) etSearch.clearFocus()
-                            handleSearchBarIcon(state)
-                            handleResponseInfoMessage(state)
-                        }
-                    }
-                }
+    private fun subscribeUI() = subscribe {
+        viewModel.state.collect { state: UiState ->
+            searchAnimeAdapter.updateList(state.listOfResults)
+            binding.apply {
+                if (state.shouldClearFocus) etSearch.clearFocus()
+                handleSearchBarIcon(state)
+                handleResponseInfoMessage(state)
             }
         }
     }

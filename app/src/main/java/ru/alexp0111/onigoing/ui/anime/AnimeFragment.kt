@@ -9,12 +9,8 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.launch
 import net.nightwhistler.htmlspanner.HtmlSpanner
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentAnimeBinding
@@ -23,6 +19,7 @@ import ru.alexp0111.onigoing.navigation.routers.SearchRouter
 import ru.alexp0111.onigoing.ui.base.BackPressable
 import ru.alexp0111.onigoing.ui.lists.page.Pages
 import ru.alexp0111.onigoing.ui.lists.page.adapters.INCORRECT_SERIES_ET_INPUT_CODE
+import ru.alexp0111.onigoing.ui.utils.subscribe
 import ru.alexp0111.onigoing.utils.snack
 import javax.inject.Inject
 
@@ -140,16 +137,10 @@ class AnimeFragment : Fragment(), BackPressable {
         }
     }
 
-    private fun subscribeUI() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    animeViewModel.state.collect { state: UiState ->
-                        Log.d(TAG, state.animeTitle)
-                        handleState(state)
-                    }
-                }
-            }
+    private fun subscribeUI() = subscribe {
+        animeViewModel.state.collect { state: UiState ->
+            Log.d(TAG, state.animeTitle)
+            handleState(state)
         }
     }
 
