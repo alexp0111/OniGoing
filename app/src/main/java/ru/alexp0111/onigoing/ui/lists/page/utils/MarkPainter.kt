@@ -39,4 +39,19 @@ class MarkPainter(
         (view as ImageView).setColorFilter(color)
     }
 
+    fun getMarkAsResource(item: UserWatchingAnime): Int {
+        return when (item.mark) {
+            1 -> R.drawable.stars_h
+            2 -> R.drawable.stars_1
+            3 -> R.drawable.stars_1h
+            4 -> R.drawable.stars_2
+            5 -> R.drawable.stars_2h
+            6 -> R.drawable.stars_3
+            7 -> R.drawable.stars_3h
+            8 -> R.drawable.stars_4
+            9 -> R.drawable.stars_4h
+            10 -> R.drawable.stars_5
+            else -> R.drawable.stars_empty
+        }
+    }
 }

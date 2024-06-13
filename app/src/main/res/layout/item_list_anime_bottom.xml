@@ -34,50 +34,40 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/txt_anime_title"
+                style="@style/TextLarge"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="36dp"
                 android:layout_marginStart="@dimen/item_list_top_height"
                 android:layout_marginTop="@dimen/margin_base"
                 android:layout_marginEnd="@dimen/margin_base"
-                android:orientation="vertical">
+                android:ellipsize="end"
+                android:maxLines="1" />
 
-                <TextView
-                    android:id="@+id/txt_anime_title"
-                    style="@style/TextLarge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1" />
+            <ImageView
+                android:id="@+id/iv_mark_background"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_list_star_size"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/item_list_top_height"
+                android:layout_marginBottom="@dimen/margin_base"
+                android:scaleType="fitStart"
+                android:src="@drawable/stars_5" />
 
-                <GridLayout
-                    android:id="@+id/gl_mark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/item_list_star_size"
-                    android:layout_marginTop="@dimen/margin_half">
-
-                    <ImageView style="@style/MarkStarFirstHalf" />
-                    <ImageView style="@style/MarkStarSecondHalf" />
-
-                    <ImageView style="@style/MarkStarFirstHalf" />
-                    <ImageView style="@style/MarkStarSecondHalf" />
-
-                    <ImageView style="@style/MarkStarFirstHalf" />
-                    <ImageView style="@style/MarkStarSecondHalf" />
-
-                    <ImageView style="@style/MarkStarFirstHalf" />
-                    <ImageView style="@style/MarkStarSecondHalf" />
-
-                    <ImageView style="@style/MarkStarFirstHalf" />
-                    <ImageView style="@style/MarkStarSecondHalf" />
-
-                </GridLayout>
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/iv_mark_foreground"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/item_list_star_size"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="@dimen/item_list_top_height"
+                android:layout_marginBottom="@dimen/margin_base"
+                android:scaleType="fitStart"
+                app:tint="?main_accent_color" />
 
         </FrameLayout>
 
-        <ImageView
+        <View
             android:id="@+id/line_1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/custom_divider_height"
@@ -94,36 +84,28 @@
 
             <ImageView
                 android:id="@+id/iv_minus"
-                android:layout_gravity="center_vertical|start"
                 android:layout_width="@dimen/item_list_button_width"
                 android:layout_height="@dimen/element_base_size"
+                android:layout_gravity="center_vertical|start"
                 android:padding="@dimen/button_inner_padding_more"
                 android:src="@drawable/minus"
                 app:tint="?main_accent_color" />
 
-            <FrameLayout
-                android:id="@+id/cv_current_episode"
-                android:layout_gravity="center"
+            <TextView
+                android:id="@+id/tv_current_episode"
+                style="@style/TextSmall"
                 android:layout_width="@dimen/item_list_et_width"
                 android:layout_height="@dimen/element_base_size"
-                android:background="@drawable/bg_rounded">
-
-                <EditText
-                    android:id="@+id/et_current_episode"
-                    style="@style/BaseEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:inputType="numberDecimal" />
-
-            </FrameLayout>
+                android:layout_gravity="center"
+                android:background="@drawable/bg_rounded"
+                android:gravity="center" />
 
             <ImageView
                 android:id="@+id/iv_plus"
                 android:layout_width="@dimen/item_list_button_width"
                 android:layout_height="@dimen/element_base_size"
-                android:padding="@dimen/button_inner_padding_more"
                 android:layout_gravity="center_vertical|end"
+                android:padding="@dimen/button_inner_padding_more"
                 android:src="@drawable/plus"
                 app:tint="?main_accent_color" />
 

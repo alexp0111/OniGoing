@@ -3,9 +3,7 @@ package ru.alexp0111.onigoing.ui.lists.page.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import androidx.core.net.toUri
-import androidx.core.view.children
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -15,7 +13,6 @@ import ru.alexp0111.onigoing.databinding.ItemListAnimeBottomBinding
 import ru.alexp0111.onigoing.ui.lists.SortingCharacteristics
 import ru.alexp0111.onigoing.ui.lists.SortingWay
 import ru.alexp0111.onigoing.ui.lists.page.utils.MarkPainter
-import ru.alexp0111.onigoing.ui.utils.SeriesInputVerifier
 
 abstract class ListPageBaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     abstract fun bind(item: UserWatchingAnime)
@@ -44,38 +41,21 @@ class ListPageAdapter(
         override fun bind(item: UserWatchingAnime) {
             binding.apply {
                 txtAnimeTitle.text = item.title
-                etCurrentEpisode.setText(item.currentSeries.toString())
+                tvCurrentEpisode.text = item.currentSeries.toString()
+                ivMarkForeground.setImageResource(markPainter.getMarkAsResource(item))
 
                 Glide.with(fragmentActivity)
                     .load(item.imageUriString.toUri())
                     .into(ivAnimePreview)
             }
 
-            binding.etCurrentEpisode.apply {
-                setOnEditorActionListener { _, act, _ ->
-                    if (act != EditorInfo.IME_ACTION_DONE) return@setOnEditorActionListener false
-                    clearFocus()
-                    val isCorrectInput = processAmountOfSeriesInput(item, text.toString())
-                    if (!isCorrectInput) {
-                        setText(item.currentSeries.toString())
-                    }
-                    return@setOnEditorActionListener false
-                }
-            }
-
             binding.apply {
                 txtAnimeTitle.setOnClickListener { onItemClicked.invoke(item) }
                 ivAnimePreview.setOnClickListener { onItemClicked.invoke(item) }
+                tvCurrentEpisode.setOnClickListener { onItemClicked.invoke(item) }
                 ivMinus.setOnClickListener { updateAmountOfSeriesByDelta(item, -1) }
                 ivPlus.setOnClickListener { updateAmountOfSeriesByDelta(item, 1) }
-                glMark.apply {
-                    children.forEachIndexed { index, view ->
-                        markPainter.paintStarIfNecessary(view, item, index)
-                    }
-                    setOnClickListener {
-                        onMarkSelected.invoke(item)
-                    }
-                }
+                ivMarkForeground.setOnClickListener { onMarkSelected.invoke(item) }
             }
         }
     }
@@ -86,46 +66,23 @@ class ListPageAdapter(
         override fun bind(item: UserWatchingAnime) {
             binding.apply {
                 txtAnimeTitle.text = item.title
-                etCurrentEpisode.setText(item.currentSeries.toString())
+                tvCurrentEpisode.text = item.currentSeries.toString()
+                ivMarkForeground.setImageResource(markPainter.getMarkAsResource(item))
 
                 Glide.with(fragmentActivity)
                     .load(item.imageUriString.toUri())
                     .into(ivAnimePreview)
             }
 
-            binding.etCurrentEpisode.apply {
-                setOnEditorActionListener { _, act, _ ->
-                    if (act != EditorInfo.IME_ACTION_DONE) return@setOnEditorActionListener false
-                    clearFocus()
-                    val isCorrectInput = processAmountOfSeriesInput(item, text.toString())
-                    if (!isCorrectInput) {
-                        setText(item.currentSeries.toString())
-                    }
-                    return@setOnEditorActionListener false
-                }
-            }
-
             binding.apply {
                 txtAnimeTitle.setOnClickListener { onItemClicked.invoke(item) }
                 ivAnimePreview.setOnClickListener { onItemClicked.invoke(item) }
+                tvCurrentEpisode.setOnClickListener { onItemClicked.invoke(item) }
                 ivMinus.setOnClickListener { updateAmountOfSeriesByDelta(item, -1) }
                 ivPlus.setOnClickListener { updateAmountOfSeriesByDelta(item, 1) }
-                glMark.apply {
-                    children.forEachIndexed { index, view ->
-                        markPainter.paintStarIfNecessary(view, item, index)
-                    }
-                    setOnClickListener {
-                        onMarkSelected.invoke(item)
-                    }
-                }
+                ivMarkForeground.setOnClickListener { onMarkSelected.invoke(item) }
             }
         }
-    }
-
-    private fun processAmountOfSeriesInput(item: UserWatchingAnime, input: String): Boolean {
-        val newAmountOfSeries = SeriesInputVerifier.verifiedInput(input)
-        onSeriesChanged.invoke(item, newAmountOfSeries)
-        return newAmountOfSeries != SeriesInputVerifier.INCORRECT_SERIES_ET_INPUT_CODE
     }
 
     private fun updateAmountOfSeriesByDelta(item: UserWatchingAnime, delta: Int) {
@@ -170,7 +127,7 @@ class ListPageAdapter(
     fun sortList(
         incomingList: List<UserWatchingAnime>? = null,
         sortingCharacteristics: SortingCharacteristics,
-        sortingWay: SortingWay
+        sortingWay: SortingWay,
     ) {
         if (incomingList != null) {
             list.apply {
