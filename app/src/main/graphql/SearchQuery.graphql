@@ -16,11 +16,16 @@ query Search(
             coverImage {
                 extraLarge
             }
+            status
             title {
                 english
+                native
             }
             episodes
             averageScore
+            nextAiringEpisode {
+                episode
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ data class AnimeMedia(
         id = query.id,
         coverImage = query.coverImage?.extraLarge,
         thumbnail = query.coverImage?.medium,
-        title = query.title?.english,
+        title = query.title?.english ?: query.title?.native,
         episodes = query.episodes,
         status = query.status,
         averageScore = query.averageScore,

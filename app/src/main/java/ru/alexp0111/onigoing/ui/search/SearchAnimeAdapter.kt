@@ -12,6 +12,7 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.anilist.data.Search
+import ru.alexp0111.onigoing.anilist.type.MediaStatus
 import ru.alexp0111.onigoing.databinding.ItemAnimeSearchBinding
 import ru.alexp0111.onigoing.utils.SharedPreferenceController
 
@@ -33,16 +34,8 @@ class SearchAnimeAdapter @AssistedInject constructor(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Search) {
             binding.apply {
-                txtTitleName.text = item.title ?: "No data"
-                txtNumOfSeries.text = if (item.episodes == null) {
-                    "Ongoing"
-                } else {
-                    activity.resources.getQuantityString(
-                        R.plurals.plural_episodes,
-                        item.episodes,
-                        item.episodes
-                    )
-                }
+                txtTitleName.text = item.title ?: activity.resources.getString(R.string.no_info)
+                txtNumOfSeries.text = resolveAmountOfSeries(item)
                 item.averageScore?.let {
                     ivStar.isVisible = true
                     txtMark.text = it.toString()
@@ -57,6 +50,27 @@ class SearchAnimeAdapter @AssistedInject constructor(
                 onItemClicked.invoke(item)
             }
         }
+    }
+
+    private fun resolveAmountOfSeries(item: Search): String {
+        if (item.episodes != null) {
+            return activity.resources.getQuantityString(
+                R.plurals.plural_episodes,
+                item.episodes,
+                item.episodes,
+            )
+        }
+
+        val episodeBeforeAiring = (item.nextAiringEpisode ?: 0) - 1
+        if (item.status == MediaStatus.RELEASING && episodeBeforeAiring >= 0) {
+            return activity.resources.getQuantityString(
+                R.plurals.plural_episodes,
+                episodeBeforeAiring,
+                episodeBeforeAiring,
+            )
+        }
+
+        return activity.resources.getString(R.string.no_info)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchAnimeViewHolder {

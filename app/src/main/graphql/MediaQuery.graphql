@@ -15,6 +15,7 @@ query AnimeMedia(
             }
             title {
                 english
+                native
             }
             episodes
             status
