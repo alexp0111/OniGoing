@@ -28,6 +28,10 @@
     <string name="sorted_by_mark">Sorted by mark</string>
     <string name="restart_app_for_theme_snack_bar">Please, restart the app to apply new theme</string>
     <string name="incorrect_input">Incorrect input</string>
+    <string name="soon">Soon</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="paused">Paused</string>
+    <string name="no_info">No info</string>
 
     <plurals name="plural_episodes">
         <item quantity="zero">%1$d episodes</item>

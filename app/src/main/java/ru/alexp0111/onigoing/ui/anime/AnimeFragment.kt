@@ -12,6 +12,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import net.nightwhistler.htmlspanner.HtmlSpanner
 import ru.alexp0111.onigoing.R
+import ru.alexp0111.onigoing.anilist.type.MediaStatus
 import ru.alexp0111.onigoing.databinding.FragmentAnimeBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
 import ru.alexp0111.onigoing.navigation.routers.SearchRouter
@@ -28,8 +29,6 @@ private const val ROUTER_TAG = "ROUTER_TAG_KEY"
 
 // todo: 1. loading
 //       2. Few images in preview
-//       3. Normal episodes & airingTime check
-//       4. Current episode logic
 
 class AnimeFragment : Fragment(), BackPressable {
 
@@ -130,31 +129,66 @@ class AnimeFragment : Fragment(), BackPressable {
     }
 
     private fun handleState(state: UiState) {
+        displaySimpleData(state)
+        resolveAmountOfSeries(state)
+        resolveTimeToNewEpisode(state)
+        setUsersInfo(state)
+    }
+
+    private fun displaySimpleData(state: UiState) {
         binding.apply {
             txtTitleName.text = state.animeTitle
             txtMark.text = (state.averageScore ?: "?").toString()
-            txtTimeToNewEpisode.text = (state.timeToNewEpisode ?: getString(R.string.done))
+            state.description?.let { txtDescription.text = HtmlSpanner().fromHtml(it) }
+            if (state.animeImages.isNotEmpty()) {
+                Glide.with(requireActivity()).load(state.animeImages.first()).into(ivAnimePreview)
+            }
+        }
+    }
 
+    private fun setUsersInfo(state: UiState) {
+        binding.apply {
             state.userWatchingAnime?.let {
                 vpStatus.post {
                     vpStatus.setCurrentItem(it.watchingState, true)
                 }
             }
             etCurrentEpisode.setText((state.userWatchingAnime?.currentSeries ?: 0).toString())
-
-            if (state.amountOfSeries == null) {
-                txtAmountOfSeries.text = getString(R.string.ongoing)
-                txtAmountOfSeriesPostfix.isVisible = false
-            } else {
-                txtAmountOfSeries.text = state.amountOfSeries.toString()
-                txtAmountOfSeriesPostfix.isVisible = true
-            }
-
-            state.description?.let { txtDescription.text = HtmlSpanner().fromHtml(it) }
-            if (state.animeImages.isNotEmpty()) {
-                Glide.with(requireActivity()).load(state.animeImages.first()).into(ivAnimePreview)
-            }
         }
+    }
+
+    private fun resolveTimeToNewEpisode(state: UiState) {
+        if (state.timeToNewEpisode != null) {
+            binding.txtTimeToNewEpisode.text = state.timeToNewEpisode
+            return
+        }
+        binding.txtTimeToNewEpisode.text = getString(
+            when (state.status) {
+                MediaStatus.FINISHED -> R.string.done
+                MediaStatus.NOT_YET_RELEASED -> R.string.soon
+                MediaStatus.CANCELLED -> R.string.cancelled
+                MediaStatus.HIATUS -> R.string.paused
+                else -> R.string.no_info
+            }
+        )
+    }
+
+    private fun resolveAmountOfSeries(state: UiState) {
+        if (state.amountOfSeries != null) {
+            binding.txtAmountOfSeries.text = state.amountOfSeries.toString()
+            binding.txtAmountOfSeriesPostfix.isVisible = true
+            return
+        }
+
+        val episodeBeforeAiring = (state.nextAiringEpisode ?: 0) - 1
+        if (state.status == MediaStatus.RELEASING && episodeBeforeAiring >= 0) {
+            binding.txtAmountOfSeries.text = episodeBeforeAiring.toString()
+            binding.txtAmountOfSeriesPostfix.isVisible = true
+            return
+        }
+
+        binding.txtAmountOfSeries.text = getString(R.string.no_info)
+        binding.txtAmountOfSeriesPostfix.isVisible = false
     }
 
     override fun onBackPressed(): Boolean {

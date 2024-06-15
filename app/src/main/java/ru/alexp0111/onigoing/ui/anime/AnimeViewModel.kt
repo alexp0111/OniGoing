@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.anilist.api.AnilistRepository
 import ru.alexp0111.onigoing.anilist.data.AnimeMedia
+import ru.alexp0111.onigoing.anilist.type.MediaStatus
 import ru.alexp0111.onigoing.database.user_watching_anime.UserWatchingAnimeRepository
 import ru.alexp0111.onigoing.database.user_watching_anime.data.UserWatchingAnime
 import ru.alexp0111.onigoing.navigation.routers.ListsRouter
@@ -69,7 +70,9 @@ class AnimeViewModel @AssistedInject constructor(
                 animeImages = listOf(result.coverImage?.toUri() ?: Uri.EMPTY),
                 thumbnail = result.thumbnail?.toUri() ?: Uri.EMPTY,
                 amountOfSeries = result.episodes,
+                status = result.status,
                 averageScore = result.averageScore,
+                nextAiringEpisode = result.nextAiringEpisode,
                 timeToNewEpisode = result.nextAiringEpisodeSchedule,
                 description = result.description,
                 isLoading = false,
@@ -162,7 +165,9 @@ data class UiState(
     var animeImages: List<Uri> = emptyList(),
     var thumbnail: Uri = Uri.EMPTY,
     var amountOfSeries: Int? = null,
+    var status: MediaStatus? = null,
     var averageScore: Int? = null,
+    var nextAiringEpisode: Int? = null,
     var timeToNewEpisode: String? = null,
     var description: String? = null,
     var userWatchingAnime: UserWatchingAnime? = null,

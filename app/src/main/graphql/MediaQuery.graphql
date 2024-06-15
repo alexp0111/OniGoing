@@ -17,12 +17,14 @@ query AnimeMedia(
                 english
             }
             episodes
+            status
             averageScore
             description(
                 asHtml: true
             )
             nextAiringEpisode {
                 timeUntilAiring
+                episode
             }
         }
     }

@@ -1,6 +1,7 @@
 package ru.alexp0111.onigoing.anilist.data
 
 import ru.alexp0111.onigoing.anilist.AnimeMediaQuery
+import ru.alexp0111.onigoing.anilist.type.MediaStatus
 import ru.alexp0111.onigoing.utils.asFormattedTimeString
 
 data class AnimeMedia(
@@ -9,6 +10,8 @@ data class AnimeMedia(
     val thumbnail: String?,
     val title: String?,
     val episodes: Int?,
+    val status: MediaStatus?,
+    val nextAiringEpisode: Int?,
     val averageScore: Int?,
     val description: String?,
     val nextAiringEpisodeSchedule: String?,
@@ -20,8 +23,10 @@ data class AnimeMedia(
         thumbnail = query.coverImage?.medium,
         title = query.title?.english,
         episodes = query.episodes,
+        status = query.status,
         averageScore = query.averageScore,
         description = query.description,
+        nextAiringEpisode = query.nextAiringEpisode?.episode,
         nextAiringEpisodeSchedule = query.nextAiringEpisode?.timeUntilAiring?.toLong()
             ?.asFormattedTimeString()
     )
