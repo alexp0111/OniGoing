@@ -54,9 +54,14 @@ class ListsFragment : Fragment(), SortOrderHandler {
     private val headerViewPagerCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
-            binding.apply {
-                vpHeaders.setCurrentItem(Pages.from(position).ordinal, true)
-            }
+            binding.vpHeaders.setCurrentItem(Pages.from(position).ordinal, true)
+        }
+    }
+
+    private val pagesViewPagerCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            binding.vpLists.setCurrentItem(Pages.from(position).ordinal, true)
         }
     }
 
@@ -112,6 +117,7 @@ class ListsFragment : Fragment(), SortOrderHandler {
             vpHeaders.setCurrentItem(Pages.ACTUAL.ordinal, false)
 
             vpLists.registerOnPageChangeCallback(headerViewPagerCallback)
+            vpHeaders.registerOnPageChangeCallback(pagesViewPagerCallback)
 
             spinnerSortingOrder.adapter = spinnerAdapter
             spinnerSortingOrder.onItemSelectedListener = spinnerItemSelectedListener
