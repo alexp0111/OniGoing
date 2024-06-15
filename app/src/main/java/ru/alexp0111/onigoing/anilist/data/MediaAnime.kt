@@ -6,6 +6,7 @@ import ru.alexp0111.onigoing.utils.asFormattedTimeString
 data class AnimeMedia(
     val id: Int,
     val coverImage: String?,
+    val thumbnail: String?,
     val title: String?,
     val episodes: Int?,
     val averageScore: Int?,
@@ -16,6 +17,7 @@ data class AnimeMedia(
     internal constructor(query: AnimeMediaQuery.Medium) : this(
         id = query.id,
         coverImage = query.coverImage?.extraLarge,
+        thumbnail = query.coverImage?.medium,
         title = query.title?.english,
         episodes = query.episodes,
         averageScore = query.averageScore,

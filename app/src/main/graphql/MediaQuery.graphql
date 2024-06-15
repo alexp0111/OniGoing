@@ -11,6 +11,7 @@ query AnimeMedia(
             id
             coverImage {
                 extraLarge
+                medium
             }
             title {
                 english

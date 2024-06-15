@@ -67,6 +67,7 @@ class AnimeViewModel @AssistedInject constructor(
             it.copy(
                 animeTitle = result.title ?: "",
                 animeImages = listOf(result.coverImage?.toUri() ?: Uri.EMPTY),
+                thumbnail = result.thumbnail?.toUri() ?: Uri.EMPTY,
                 amountOfSeries = result.episodes,
                 averageScore = result.averageScore,
                 timeToNewEpisode = result.nextAiringEpisodeSchedule,
@@ -131,15 +132,10 @@ class AnimeViewModel @AssistedInject constructor(
     }
 
     private fun makeNewUserWatchingAnimeItem(animeId: Int): UserWatchingAnime {
-        val imageUri = if (state.value.animeImages.isNotEmpty()) {
-            state.value.animeImages.first().toString()
-        } else {
-            Uri.EMPTY.toString()
-        }
         return UserWatchingAnime(
             id = animeId,
             title = state.value.animeTitle,
-            imageUriString = imageUri,
+            imageUriString = state.value.thumbnail.toString(),
             mark = 0,
             currentSeries = 0,
             watchingState = Pages.NOT_IN_LIST.ordinal,
@@ -164,6 +160,7 @@ class AnimeViewModel @AssistedInject constructor(
 data class UiState(
     var animeTitle: String = "",
     var animeImages: List<Uri> = emptyList(),
+    var thumbnail: Uri = Uri.EMPTY,
     var amountOfSeries: Int? = null,
     var averageScore: Int? = null,
     var timeToNewEpisode: String? = null,
