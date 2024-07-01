@@ -18,6 +18,8 @@ interface MenuConfigurator {
     fun updateMenuStateIfNeeded()
 }
 
+const val IS_RECREATED = "IS_RECREATED"
+
 class MainActivity : AppCompatActivity(), MenuConfigurator {
 
     private lateinit var binding: ActivityMainBinding
@@ -76,6 +78,8 @@ class MainActivity : AppCompatActivity(), MenuConfigurator {
 
     override fun updateMenuStateIfNeeded() {
         collectOnLifecycle(viewModel.loggedIn) { loggedIn ->
+            val isRecreated = intent.getBooleanExtra(IS_RECREATED, false)
+            if (isRecreated) return@collectOnLifecycle
             binding.navigationView.apply {
                 menu.findItem(R.id.menu_item_lists).isVisible = loggedIn
                 menu.findItem(R.id.menu_item_search).isVisible = loggedIn

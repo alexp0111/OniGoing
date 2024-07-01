@@ -32,6 +32,7 @@
     <string name="cancelled">Cancelled</string>
     <string name="paused">Paused</string>
     <string name="no_info">No info</string>
+    <string name="release">release</string>
 
     <plurals name="plural_episodes">
         <item quantity="zero">%1$d episodes</item>

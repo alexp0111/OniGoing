@@ -28,7 +28,6 @@ private const val ANIME_ID_KEY = "ANIME_ID_KEY"
 private const val ROUTER_TAG = "ROUTER_TAG_KEY"
 
 // todo: 1. loading
-//       2. Few images in preview
 
 class AnimeFragment : Fragment(), BackPressable {
 
@@ -131,6 +130,7 @@ class AnimeFragment : Fragment(), BackPressable {
 
     private fun handleState(state: UiState) {
         displaySimpleData(state)
+        resolveReleaseDate(state)
         resolveAmountOfSeries(state)
         resolveTimeToNewEpisode(state)
         setUsersInfo(state)
@@ -147,31 +147,21 @@ class AnimeFragment : Fragment(), BackPressable {
         }
     }
 
-    private fun setUsersInfo(state: UiState) {
-        binding.apply {
-            state.userWatchingAnime?.let {
-                vpStatus.post {
-                    vpStatus.setCurrentItem(it.watchingState, true)
-                }
+    private fun resolveReleaseDate(state: UiState) {
+        binding.txtReleaseDate.text = if (state.seasonYear != null) {
+            if (state.season != null) {
+                "${state.seasonYear} (${
+                    state.season
+                        .toString()
+                        .lowercase()
+                        .replaceFirstChar { it.uppercase() }
+                })"
+            } else {
+                state.seasonYear.toString()
             }
-            etCurrentEpisode.setText((state.userWatchingAnime?.currentSeries ?: 0).toString())
+        } else {
+            "?"
         }
-    }
-
-    private fun resolveTimeToNewEpisode(state: UiState) {
-        if (state.timeToNewEpisode != null) {
-            binding.txtTimeToNewEpisode.text = state.timeToNewEpisode
-            return
-        }
-        binding.txtTimeToNewEpisode.text = getString(
-            when (state.status) {
-                MediaStatus.FINISHED -> R.string.done
-                MediaStatus.NOT_YET_RELEASED -> R.string.soon
-                MediaStatus.CANCELLED -> R.string.cancelled
-                MediaStatus.HIATUS -> R.string.paused
-                else -> R.string.no_info
-            }
-        )
     }
 
     private fun resolveAmountOfSeries(state: UiState) {
@@ -190,6 +180,33 @@ class AnimeFragment : Fragment(), BackPressable {
 
         binding.txtAmountOfSeries.text = getString(R.string.no_info)
         binding.txtAmountOfSeriesPostfix.isVisible = false
+    }
+
+    private fun resolveTimeToNewEpisode(state: UiState) {
+        if (state.timeToNewEpisode != null) {
+            binding.txtTimeToNewEpisode.text = state.timeToNewEpisode
+            return
+        }
+        binding.txtTimeToNewEpisode.text = getString(
+            when (state.status) {
+                MediaStatus.FINISHED -> R.string.done
+                MediaStatus.NOT_YET_RELEASED -> R.string.soon
+                MediaStatus.CANCELLED -> R.string.cancelled
+                MediaStatus.HIATUS -> R.string.paused
+                else -> R.string.no_info
+            }
+        )
+    }
+
+    private fun setUsersInfo(state: UiState) {
+        binding.apply {
+            state.userWatchingAnime?.let {
+                vpStatus.post {
+                    vpStatus.setCurrentItem(it.watchingState, true)
+                }
+            }
+            etCurrentEpisode.setText((state.userWatchingAnime?.currentSeries ?: 0).toString())
+        }
     }
 
     override fun onBackPressed(): Boolean {

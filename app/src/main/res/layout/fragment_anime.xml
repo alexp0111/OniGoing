@@ -39,11 +39,11 @@
             android:layout_marginHorizontal="@dimen/margin_base"
             android:layout_weight="1"
             android:ellipsize="marquee"
-            android:gravity="center"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:scrollHorizontally="true"
+            android:gravity="center"
             android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
             android:singleLine="true" />
 
         <com.google.android.material.card.MaterialCardView
@@ -307,6 +307,50 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_release_date"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="@dimen/margin_base"
+                android:backgroundTint="@color/dark"
+                app:cardCornerRadius="@dimen/base_card_corner_radius"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_mark"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingVertical="@dimen/margin_half">
+
+                    <TextView
+                        android:id="@+id/txt_release_date"
+                        style="@style/TextLarge"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="@dimen/margin_half"
+                        android:layout_weight="2"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/txt_release_postfix"
+                        style="@style/TextSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/release"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
             <ImageView
                 android:id="@+id/iv_custom_divider_2"
                 android:layout_width="match_parent"
@@ -317,7 +361,7 @@
                 android:src="@drawable/wave_decorator"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cv_to_new_episode" />
+                app:layout_constraintTop_toBottomOf="@id/cv_release_date" />
 
             <LinearLayout
                 android:layout_width="match_parent"

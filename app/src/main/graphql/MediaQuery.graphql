@@ -19,6 +19,8 @@ query AnimeMedia(
             }
             episodes
             status
+            season
+            seasonYear
             averageScore
             description(
                 asHtml: true

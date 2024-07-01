@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import ru.alexp0111.onigoing.databinding.FragmentSettingsBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
+import ru.alexp0111.onigoing.ui.IS_RECREATED
 import ru.alexp0111.onigoing.ui.base.BackPressable
 import ru.alexp0111.onigoing.utils.ColorThemes
 import javax.inject.Inject
@@ -46,21 +47,24 @@ class SettingsFragment : Fragment(), BackPressable {
             }
 
             cvThemeGreen.setOnClickListener {
-                updateThemeValue(ColorThemes.GREEN)
-                requireActivity().recreate()
+                updateThemeValue(ColorThemes.GREEN).also { recreate() }
             }
             cvThemeOrange.setOnClickListener {
-                updateThemeValue(ColorThemes.ORANGE)
-                requireActivity().recreate()
+                updateThemeValue(ColorThemes.ORANGE).also { recreate() }
             }
             cvThemeBlue.setOnClickListener {
-                updateThemeValue(ColorThemes.BLUE)
-                requireActivity().recreate()
+                updateThemeValue(ColorThemes.BLUE).also { recreate() }
             }
             cvThemeRed.setOnClickListener {
-                updateThemeValue(ColorThemes.RED)
-                requireActivity().recreate()
+                updateThemeValue(ColorThemes.RED).also { recreate() }
             }
+        }
+    }
+
+    private fun recreate() {
+        requireActivity().apply {
+            intent.putExtra(IS_RECREATED, true)
+            recreate()
         }
     }
 
