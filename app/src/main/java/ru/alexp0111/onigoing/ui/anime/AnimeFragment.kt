@@ -76,6 +76,7 @@ class AnimeFragment : Fragment(), BackPressable {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAnimeBinding.inflate(inflater, container, false)
+        binding.txtTitleName.isSelected = true
         binding.vpStatus.apply {
             adapter = WatchingStatusAdapter()
             setCurrentItem(Pages.NOT_IN_LIST.ordinal, false)
