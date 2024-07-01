@@ -97,7 +97,10 @@ class AnimeViewModel @AssistedInject constructor(
     }
 
     fun updateStatusForAnime(animeId: Int, status: Int) {
-        updateAnimeField(animeId, status = status)
+        val amountOfSeries = if (status == Pages.VIEWED.ordinal && state.value.amountOfSeries != null) {
+            state.value.amountOfSeries
+        } else null
+        updateAnimeField(animeId, amountOfSeries = amountOfSeries, status = status)
     }
 
     private fun updateAnimeField(animeId: Int, amountOfSeries: Int? = null, status: Int? = null) {
