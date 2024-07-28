@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.launch
 import net.nightwhistler.htmlspanner.HtmlSpanner
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.anilist.type.MediaStatus
@@ -41,7 +42,7 @@ class AnimeFragment : Fragment(), BackPressable {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             val animeId = arguments?.getInt(ANIME_ID_KEY) ?: return
-            if (animeViewModel.state.value.isUserDBResponseSuccess) {
+            if (animeViewModel.userState.value.isUserDBResponseSuccess) {
                 animeViewModel.updateStatusForAnime(
                     animeId = animeId,
                     status = Pages.from(position).ordinal,
@@ -122,9 +123,16 @@ class AnimeFragment : Fragment(), BackPressable {
     }
 
     private fun subscribeUI() = subscribe {
-        animeViewModel.state.collect { state: UiState ->
-            Log.d(TAG, state.animeTitle)
-            handleState(state)
+        launch {
+            animeViewModel.state.collect { state: UiState ->
+                Log.d(TAG, state.animeTitle)
+                handleState(state)
+            }
+        }
+        launch {
+            animeViewModel.userState.collect {state: UiUserState ->
+                setUsersInfo(state)
+            }
         }
     }
 
@@ -133,7 +141,6 @@ class AnimeFragment : Fragment(), BackPressable {
         resolveReleaseDate(state)
         resolveAmountOfSeries(state)
         resolveTimeToNewEpisode(state)
-        setUsersInfo(state)
     }
 
     private fun displaySimpleData(state: UiState) {
@@ -198,7 +205,7 @@ class AnimeFragment : Fragment(), BackPressable {
         )
     }
 
-    private fun setUsersInfo(state: UiState) {
+    private fun setUsersInfo(state: UiUserState) {
         binding.apply {
             state.userWatchingAnime?.let {
                 vpStatus.post {

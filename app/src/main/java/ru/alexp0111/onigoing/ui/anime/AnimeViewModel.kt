@@ -45,6 +45,10 @@ class AnimeViewModel @AssistedInject constructor(
     val state: StateFlow<UiState>
         get() = _uiState.asStateFlow()
 
+    private val _uiUserState = MutableStateFlow(UiUserState())
+    val userState: StateFlow<UiUserState>
+        get() = _uiUserState.asStateFlow()
+
     fun loadInfoById(animeId: Int) {
         loadJob?.cancel()
         loadJob = viewModelScope.launch(Dispatchers.IO) {
@@ -85,7 +89,7 @@ class AnimeViewModel @AssistedInject constructor(
     }
 
     fun updateCurrentSeriesForAnimeByDelta(animeId: Int, deltaSeries: Int) {
-        state.value.userWatchingAnime?.let {
+        userState.value.userWatchingAnime?.let {
             val newAmountOfSeries = maxOf(it.currentSeries + deltaSeries, 0)
             return updateCurrentSeriesForAnime(animeId, newAmountOfSeries)
         }
@@ -105,7 +109,7 @@ class AnimeViewModel @AssistedInject constructor(
 
     private fun updateAnimeField(animeId: Int, amountOfSeries: Int? = null, status: Int? = null) {
         viewModelScope.launch(Dispatchers.IO) {
-            state.value.userWatchingAnime?.let {
+            userState.value.userWatchingAnime?.let {
                 userWatchingAnimeRepository.updateAnimeState(
                     it.copy(
                         watchingState = status ?: it.watchingState,
@@ -131,7 +135,7 @@ class AnimeViewModel @AssistedInject constructor(
     fun getUserStateByAnimeId(animeId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val storedAnime = userWatchingAnimeRepository.getAnimeByID(animeId)
-            _uiState.update {
+            _uiUserState.update {
                 it.copy(
                     isUserDBResponseSuccess = true,
                     userWatchingAnime = storedAnime,
@@ -153,7 +157,7 @@ class AnimeViewModel @AssistedInject constructor(
     }
 
     fun getUserCurrentSeriesAsString(): String {
-        return (state.value.userWatchingAnime?.currentSeries ?: 0).toString()
+        return (userState.value.userWatchingAnime?.currentSeries ?: 0).toString()
     }
 
     fun onBackPressed() {
@@ -178,8 +182,11 @@ data class UiState(
     var nextAiringEpisode: Int? = null,
     var timeToNewEpisode: String? = null,
     var description: String? = null,
-    var userWatchingAnime: UserWatchingAnime? = null,
     var isLoading: Boolean = false,
     var isResponseSuccess: Boolean = false,
+)
+
+data class UiUserState(
+    var userWatchingAnime: UserWatchingAnime? = null,
     var isUserDBResponseSuccess: Boolean = false,
 )
