@@ -60,6 +60,9 @@ dependencies {
     implementation(localDeps.dagger)
     kapt(localDeps.daggerCompiler)
 
+    /** Paging3 */
+    implementation(localDeps.paging)
+
     /** Glide */
     implementation(localDeps.glide)
 

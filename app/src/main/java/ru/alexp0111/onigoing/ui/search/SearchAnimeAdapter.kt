@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import dagger.assisted.Assisted
@@ -25,9 +27,7 @@ class SearchAnimeAdapter @AssistedInject constructor(
     @Assisted private val activity: FragmentActivity,
     @Assisted private val onItemClicked: (Search) -> Unit,
     private val sharedPreferenceController: SharedPreferenceController,
-) : RecyclerView.Adapter<SearchAnimeAdapter.SearchAnimeViewHolder>() {
-
-    private var list: MutableList<Search> = mutableListOf()
+) : PagingDataAdapter<Search, SearchAnimeAdapter.SearchAnimeViewHolder>(SearchListDiffCallback()) {
 
     inner class SearchAnimeViewHolder(
         private val binding: ItemAnimeSearchBinding,
@@ -79,17 +79,42 @@ class SearchAnimeAdapter @AssistedInject constructor(
         return SearchAnimeViewHolder(itemView)
     }
 
-    override fun getItemCount(): Int {
-        return list.size
+    override fun onBindViewHolder(
+        holder: SearchAnimeViewHolder,
+        position: Int,
+    ) {
+        val item = getItem(position)
+        item?.let { holder.bind(it) }
     }
 
-    override fun onBindViewHolder(holder: SearchAnimeViewHolder, position: Int) {
-        val item = list[position]
-        holder.bind(item)
+    override fun onBindViewHolder(
+        holder: SearchAnimeViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            val newItem = payloads[0] as Search
+            holder.bind(newItem)
+        }
     }
 
-    fun updateList(listOfResults: List<Search>) {
-        list = listOfResults.toMutableList()
-        notifyDataSetChanged()
+    class SearchListDiffCallback : DiffUtil.ItemCallback<Search>() {
+        override fun areItemsTheSame(oldItem: Search, newItem: Search): Boolean {
+            return false // todo: is not good solution
+        }
+
+        override fun areContentsTheSame(oldItem: Search, newItem: Search): Boolean {
+            return oldItem == newItem
+        }
+
+        override fun getChangePayload(oldItem: Search, newItem: Search): Any? {
+            if (oldItem != newItem) {
+                return newItem
+            }
+
+            return super.getChangePayload(oldItem, newItem)
+        }
     }
 }

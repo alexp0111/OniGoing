@@ -28,6 +28,8 @@ dependencyResolutionManagement {
             library("dagger", "com.google.dagger:dagger:2.51")
             library("daggerCompiler", "com.google.dagger:dagger-compiler:2.51")
 
+            library("paging", "androidx.paging:paging-runtime-ktx:3.3.1")
+
             library("glide", "com.github.bumptech.glide:glide:3.7.0")
             library("gson", "com.google.code.gson:gson:2.10.1")
             library("apollo", "com.apollographql.apollo3:apollo-runtime:3.8.3")

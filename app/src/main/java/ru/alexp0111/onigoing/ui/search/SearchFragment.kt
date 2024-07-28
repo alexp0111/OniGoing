@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.launch
 import ru.alexp0111.onigoing.R
 import ru.alexp0111.onigoing.databinding.FragmentSearchBinding
 import ru.alexp0111.onigoing.di.components.FragmentComponent
@@ -75,12 +76,14 @@ class SearchFragment : Fragment() {
         subscribeUI()
         binding.apply {
             ivSearchClear.setOnClickListener {
+                searchAnimeAdapter.refresh()
                 viewModel.resetToDefaults()
                 etSearch.text.clear()
                 etSearch.clearFocus()
                 hideKeyboard(it)
             }
             ivRefresh.setOnClickListener {
+                searchAnimeAdapter.refresh()
                 viewModel.fetchResultsByString(etSearch.text.toString())
             }
 
@@ -98,7 +101,9 @@ class SearchFragment : Fragment() {
 
     private fun subscribeUI() = subscribe {
         viewModel.state.collect { state: UiState ->
-            searchAnimeAdapter.updateList(state.listOfResults)
+            launch {
+                searchAnimeAdapter.submitData(state.pagedList)
+            }
             binding.apply {
                 if (state.shouldClearFocus) etSearch.clearFocus()
                 handleSearchBarIcon(state)
@@ -112,6 +117,7 @@ class SearchFragment : Fragment() {
         binding.etSearch.apply {
             addTextChangedListener {
                 if (it.isNullOrEmpty()) {
+                    searchAnimeAdapter.refresh()
                     viewModel.resetToDefaults()
                 } else {
                     viewModel.fetchResultsByString(it.toString())

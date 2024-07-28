@@ -17,6 +17,7 @@ class AnilistRepository @Inject constructor(
     fun fetchSearch(
         type: MediaType,
         perPage: Int,
+        position: Int,
         search: String?
     ): Flow<Result<List<Search>>> {
         return apolloClient
@@ -24,6 +25,7 @@ class AnilistRepository @Inject constructor(
                 SearchQuery(
                     type = Optional.presentIfNotNull(type),
                     perPage = Optional.presentIfNotNull(perPage),
+                    position = Optional.presentIfNotNull(position),
                     search = Optional.presentIfNotNull(search)
                 )
             )

@@ -2,6 +2,8 @@ package ru.alexp0111.onigoing.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -10,23 +12,24 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import ru.alexp0111.onigoing.anilist.api.AnilistRepository
+import ru.alexp0111.onigoing.anilist.api.SearchAnimePagingRepository
 import ru.alexp0111.onigoing.anilist.data.Search
 import ru.alexp0111.onigoing.anilist.type.MediaType
 import ru.alexp0111.onigoing.navigation.routers.SearchRouter
 import javax.inject.Inject
 
 private const val INTER_FETCH_DELAY = 1000L
-private const val RESULTS_PER_PAGE = 20
+
+// todo: Handle errors of fetch
 
 class SearchViewModel @Inject constructor(
     private val router: SearchRouter,
-    private val repository: AnilistRepository,
+    private val pagingRepository: SearchAnimePagingRepository,
 ) : ViewModel() {
 
     private var searchJob: Job? = null
 
-    private val _uiState = MutableStateFlow(UiState(emptyList()))
+    private val _uiState = MutableStateFlow(UiState())
     val state: StateFlow<UiState>
         get() = _uiState.asStateFlow()
 
@@ -45,40 +48,20 @@ class SearchViewModel @Inject constructor(
                 )
             }
             delay(INTER_FETCH_DELAY)
-            repository.fetchSearch(
+            pagingRepository.fetchSearch(
                 MediaType.ANIME,
-                RESULTS_PER_PAGE,
                 name,
-            ).collect { incomingResults ->
-                when {
-                    incomingResults.isFailure -> {
-                        _uiState.update {
-                            it.copy(
-                                listOfResults = emptyList(),
-                                isEmptyResult = false,
-                                isLoading = false,
-                                isContainErrors = true,
-                                isDefaultEditTextState = false,
-                                isClearEditTextState = false,
-                                shouldClearFocus = true
-                            )
-                        }
-                    }
-
-                    incomingResults.isSuccess -> {
-                        val results = incomingResults.getOrThrow()
-                        _uiState.update {
-                            it.copy(
-                                listOfResults = results,
-                                isEmptyResult = results.isEmpty(),
-                                isLoading = false,
-                                isContainErrors = false,
-                                isClearEditTextState = true,
-                                isDefaultEditTextState = false,
-                                shouldClearFocus = true,
-                            )
-                        }
-                    }
+            ).cachedIn(viewModelScope).collect { incomingResults ->
+                _uiState.update {
+                    it.copy(
+                        pagedList = incomingResults,
+                        isEmptyResult = false, // todo: check
+                        isLoading = false,
+                        isContainErrors = false,
+                        isClearEditTextState = true,
+                        isDefaultEditTextState = false,
+                        shouldClearFocus = true,
+                    )
                 }
             }
         }
@@ -104,7 +87,7 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun resetList() {
-        _uiState.update { it.copy(listOfResults = emptyList()) }
+        _uiState.update { it.copy(pagedList = PagingData.empty()) }
     }
 
     fun updateFocusValue(isFocus: Boolean) {
@@ -117,7 +100,7 @@ class SearchViewModel @Inject constructor(
 }
 
 data class UiState(
-    val listOfResults: List<Search>,
+    var pagedList: PagingData<Search> = PagingData.empty(),
     var isDefaultEditTextState: Boolean = true,
     var isClearEditTextState: Boolean = false,
     var isEmptyResult: Boolean = false,

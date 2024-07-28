@@ -1,10 +1,11 @@
 query Search(
     $type: MediaType,
     $perPage: Int,
+    $position: Int,
     $search: String
 ) {
     page: Page (
-        page: 0,
+        page: $position,
         perPage: $perPage
     ) {
         media(
